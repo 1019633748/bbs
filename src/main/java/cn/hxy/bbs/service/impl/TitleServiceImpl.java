@@ -24,5 +24,13 @@ public class TitleServiceImpl implements TitleService {
 	public List<Title> getAll(int id) {
 		return titleMapper.getAll(id);
 	}
+	@Override
+	public List<Title> getTitleBySectionName(String name) {
+		return titleMapper.getTitleBySectionName(name);
+	}
+	@Override
+	public int getTitleIdByName(String name) {
+		return titleMapper.getTitleIdByName(name);
+	}
 
 }

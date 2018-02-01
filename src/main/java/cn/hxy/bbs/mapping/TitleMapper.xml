@@ -26,6 +26,15 @@
   <select id="getTitleNameById" resultType="java.lang.String" parameterType="java.lang.Integer">
   	select name from t_title where id=#{id,jdbcType=INTEGER};
   </select>
+  <select id="getTitleBySectionName" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select 
+   <include refid="Base_Column_List" />
+   from t_title 
+  where section_id = (select id from t_section where section_name = #{name,jdbcType=VARCHAR})
+  </select>
+  <select id="getTitleIdByName" resultType="java.lang.Integer" parameterType="java.lang.String">
+  select id from t_title where name = #{name,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_title
     where id = #{id,jdbcType=INTEGER}

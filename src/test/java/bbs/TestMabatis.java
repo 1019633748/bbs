@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cn.hxy.bbs.mapper.ContentMapper;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
@@ -25,12 +26,14 @@ public class TestMabatis {
 	private TitleServiceImpl t;
 	@Autowired
 	private ImageServiceImpl i;
+	@Autowired
+	private ContentMapper cm;
 	@Test
 	public void test1() {
 		//System.out.println(h.getSections());
 		//System.out.println(u.getUserByID(1));
 		//System.out.println(c.getContentById(1));
-		//System.out.println(c.getContent(1));
+		//System.out.println(c.getContent(1,1,5));
 		//System.out.println(t.getTitleById(1));
 		//System.out.println(c.getAllUp(1));
 		/*Up up = new Up();
@@ -39,6 +42,10 @@ public class TestMabatis {
 		//System.out.println(c.getRecordFromUp(up));
 		//System.out.println(c.getAllUpAfterClick(up));
 		//System.out.println(c.getTotalContentByTitleId(1));
-		System.out.println(i.getContentImageByContentId(6));
+		//System.out.println(i.getContentImageByContentId(6));
+		//System.out.println(u.getUserByID(1));
+		//System.out.println(u.getAllContentByUserId(2));
+		//System.out.println(h.getSectionByName("≤‚ ‘"));
+		System.out.println(t.getTitleBySectionName("≤‚ ‘"));
 	}
 }

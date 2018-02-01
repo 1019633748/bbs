@@ -7,17 +7,21 @@
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, sex, email, phone, create_date, update_date
+    id, name, sex, email, phone, sign, create_date, update_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_user
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getUserIdByName" resultType="java.lang.Integer" parameterType="java.lang.String">
+  select id from t_user where name = #{name,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_user

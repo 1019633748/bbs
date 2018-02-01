@@ -10,6 +10,7 @@
 	<context:component-scan base-package="cn.hxy.bbs" />
 	<mvc:resources mapping="/js/*" location="/js/"></mvc:resources>
 	<mvc:resources mapping="/image/content/*" location="/image/content/"></mvc:resources>
+	<mvc:resources mapping="/image/avatar/*" location="/image/avatar/"></mvc:resources>
 	<!-- 这两个类用来启动基于Spring MVC的注解功能，将控制器与方法映射加入到容器中 -->
 	<!-- <beans:bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />

@@ -19,5 +19,9 @@ public interface TitleMapper {
 
     int updateByPrimaryKey(Title record);
     
+    int getTitleIdByName(String name);
+    
     List<Title> getAll(int id);
+    
+    List<Title> getTitleBySectionName(String name);
 }

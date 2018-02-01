@@ -12,6 +12,8 @@ public interface SectionMapper {
     int insertSelective(Section record);
     
     Section selectByPrimaryKey(Integer id);
+    
+    Section getSectionByName(String name);
 
     int updateByPrimaryKeySelective(Section record);
 

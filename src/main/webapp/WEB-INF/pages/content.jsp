@@ -10,8 +10,11 @@
 	src="${pageContext.request.contextPath }/js/jquery-3.2.1.min.js"></script>
 <title>content</title>
 <style type="text/css">
+body{
+}
+
 p {
-	width: 70%
+	width: 70%;
 }
 
 .click-up, .click-down ,.prefix-suffix,#pageNum{
@@ -43,7 +46,40 @@ font-size:20px;
 
 .content-image{
 max-width:500px;
-max-weight:500px; 
+max-height:500px; 
+}
+.avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+position:absolute;
+margin-left:30px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer
+}
+.author-name{
+margin-left:10px
+}
+.by{
+margin-left:70px
+}
+.content-buttom{
+height:50px;
+line-height:50px;
+position:relative;
+margin-left:30%
+}
+
+hr{
+width:70%;
+margin-left:0
+}
+
+#page-div{
+height:60px;
+line-height:60px;
+margin-left:20px;
 }
 </style>
 </head>
@@ -62,15 +98,18 @@ max-weight:500px;
 		
 		
 		<p>&emsp;&emsp;${obj.content }</p>
+		<div class="content-buttom">
 		<span hidden>${obj.id }</span>
 		<span class="click-up" onselectstart="return false">👍</span>
 		<span class="up-down">${obj.up }</span>
 		&emsp;
 		<span class="click-down" onselectstart="return false">👎</span>
-		<span class="up-down">${obj.down }</span>&emsp;by:${obj.authorName }&emsp;<fmt:formatDate
+		<span class="up-down">${obj.down }</span>&emsp;<img class="avatar" src="/bbs/image/avatar/${obj.uri }">&emsp;<span class="by">by:</span><span class="author-name">${obj.authorName }</span>&emsp;<fmt:formatDate
 			value="${obj.createDate}" pattern="yyyy-MM-dd" />
+			</div>
+			<hr>
 	</c:forEach>
-	<div>
+	<div id="page-div">
 		<input id="first-page" class="first-or-last" type="button" value="<"><input id="prev" class="prev-or-next" type="button" value="<<">&emsp;<span id="pageNum">${pageNum }</span>&emsp;<input
 			id="next" class="prev-or-next" type="button" value=">>"><input id="last-page" class="first-or-last" type="button" value=">">
 	</div>
@@ -174,7 +213,15 @@ max-weight:500px;
 										down.html(data)
 									})
 						})
+						
+						
+						$('.avatar').click(function(){
+							var name=$(this).next().next().html();
+							window.open("/bbs/content/get/user/"+name)
+						})
 
+						
+						
 			})
 </script>
 </html>

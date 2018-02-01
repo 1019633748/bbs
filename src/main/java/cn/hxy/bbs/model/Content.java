@@ -3,6 +3,8 @@ package cn.hxy.bbs.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Content {
     private Integer id;
 
@@ -13,7 +15,8 @@ public class Content {
     private Integer up;
 
     private Integer down;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时") 
     private Date createDate;
 
     private String content;
@@ -21,8 +24,39 @@ public class Content {
     private String authorName;
     
     List <String> uris;
+    
+    private String uri ;
+    
+    private String title;
+    
+    private String section;
+    
+    
+    public String getSection() {
+		return section;
+	}
 
-    public Integer getId() {
+	public void setSection(String section) {
+		this.section = section;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	public Integer getId() {
         return id;
     }
 

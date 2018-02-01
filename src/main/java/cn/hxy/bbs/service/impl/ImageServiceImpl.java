@@ -17,4 +17,9 @@ public class ImageServiceImpl implements ImageService {
 		return imageMapper.getContentImageByContentId(id);
 	}
 
+	@Override
+	public String getAvatarByUserId(int id) {
+		return imageMapper.getAvatarByUserId(id);
+	}
+
 }

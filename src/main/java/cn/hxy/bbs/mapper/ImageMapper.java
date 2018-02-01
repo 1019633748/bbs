@@ -10,4 +10,6 @@ public interface ImageMapper {
     int insertSelective(Image record);
     
     List<String> getContentImageByContentId(int id);
+    
+    String getAvatarByUserId(int id);
 }

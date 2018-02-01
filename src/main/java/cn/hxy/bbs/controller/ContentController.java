@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.hxy.bbs.model.Down;
 import cn.hxy.bbs.model.Up;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
+import cn.hxy.bbs.service.impl.ImageServiceImpl;
 import cn.hxy.bbs.service.impl.TitleServiceImpl;
+import cn.hxy.bbs.service.impl.UserServiceImpl;
 
 @Controller
 @RequestMapping("/content")
@@ -22,8 +24,12 @@ public class ContentController {
 	private ContentServiceImpl contentService;
 	@Autowired
 	private TitleServiceImpl titleService;
-	
+	@Autowired
+	private UserServiceImpl userService;
 
+	@Autowired
+	private ImageServiceImpl imageService;
+	
 	@GetMapping("/get/content/{id}/{pageNum}")
 	public String getContent(@PathVariable("id") int id,
 			@PathVariable("pageNum") int pageNum,@RequestParam(value="pageSize",defaultValue="5") int pageSize,Model model) {
@@ -45,4 +51,13 @@ public class ContentController {
 	public String down(Down down) {
 		return contentService.getAllDownAfterClick(down) + "";
 	}
+	
+	@GetMapping("/get/user/{name}")
+	public String toUserInfoPage(@PathVariable("name")String name,Model model){
+		int id = userService.getUserIdByName(name);
+		model.addAttribute("user", userService.getUserByID(id));
+		model.addAttribute("uri", imageService.getAvatarByUserId(id));
+		return "user_info";
+	}
+	
 }

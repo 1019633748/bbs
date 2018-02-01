@@ -1,5 +1,7 @@
 package cn.hxy.bbs.mapper;
 
+import java.util.Set;
+
 import cn.hxy.bbs.model.User;
 
 public interface UserMapper {
@@ -14,4 +16,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    int getUserIdByName(String name);
+    
+    Set<String> getRolesByUsername(String username);
 }

@@ -14,6 +14,8 @@ public interface ContentMapper {
 	Content selectByPrimaryKey(Integer id);
 
 	List<Content> selectByTitleId(Integer id);
+	
+	List<Content> getAllByUserId(int id);
 
 	int updateByPrimaryKeySelective(Content record);
 

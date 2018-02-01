@@ -39,4 +39,11 @@ public class SectionServiceImpl implements SectionService {
 		return section;
 	}
 
+	@Override
+	public Section getSection(String name) {
+		Section section = sectionMapper.getSectionByName(name);
+		section.setTitles(titleMapper.getAll(section.getId()));
+		return section;
+	}
+
 }

@@ -7,8 +7,10 @@
 		<result column="title_id" property="titleId" jdbcType="INTEGER" />
 		<result column="up" property="up" jdbcType="INTEGER" />
 		<result column="down" property="down" jdbcType="INTEGER" />
-		<result column="create_date" property="createDate" jdbcType="DATE" />
+		<result column="create_date" property="createDate" />
 		<result column="name" property="authorName" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="section" property="section" jdbcType="VARCHAR" />
 	</resultMap>
 	<resultMap id="ResultMapWithBLOBs" type="cn.hxy.bbs.model.Content"
 		extends="BaseResultMap">
@@ -23,6 +25,22 @@
 	<select id="getTotalContentByTitleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
 	select count(title_id) from t_content
 	where title_id = #{id,jdbcType=INTEGER} 
+	</select>
+	<select id="getAllByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	SELECT
+	c.id,
+	c.content,
+	c.create_date,
+	t.name title,
+	s.section_name section
+	FROM (t_content c),(t_title t),(t_section s)
+	WHERE c.author_id = #{id,jdbcType=INTEGER} 
+	AND
+	c.title_id = t.id
+	AND 
+	t.section_id = s.id
+	order by create_date desc
+
 	</select>
 	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
 		parameterType="java.lang.Integer">

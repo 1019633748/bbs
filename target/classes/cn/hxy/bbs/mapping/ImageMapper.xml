@@ -12,6 +12,11 @@
   select uri from t_image
   where content_id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getAvatarByUserId" resultType="java.lang.String" parameterType="java.lang.Integer">
+  select uri from t_image
+  where user_id = #{id,jdbcType=INTEGER}
+  and content_id is null
+  </select>
   <insert id="insert" parameterType="cn.hxy.bbs.model.Image" >
     insert into t_image (user_id, content_id, uri, 
       status, create_date)

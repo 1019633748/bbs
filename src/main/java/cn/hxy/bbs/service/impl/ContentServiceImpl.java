@@ -35,6 +35,7 @@ public class ContentServiceImpl implements ContentService {
 		List<Content> list = contentMapper.selectByTitleId(id);
 		for(Content content:list){
 			content.setUris(imageMapper.getContentImageByContentId(content.getId()));
+			content.setUri(imageMapper.getAvatarByUserId(content.getAuthorId()));
 		}
 		return list;
 	}

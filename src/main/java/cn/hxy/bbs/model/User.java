@@ -16,8 +16,19 @@ public class User {
     private Date createDate;
 
     private Date updateDate;
+    
+    private String sign;
+ 
+    
+	public String getSign() {
+		return sign;
+	}
 
-    public Integer getId() {
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	public Integer getId() {
         return id;
     }
 
