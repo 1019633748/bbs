@@ -91,6 +91,26 @@ float:right
 width:70%;
 margin-left:0
 }
+
+#info-div{
+font-size:16px;
+width:300px;
+margin:20px auto;
+}
+#attention-div{
+width:100px;
+margin:0 auto;
+font-size:12px;
+}
+#attention-span,#fans-span{
+cursor:pointer
+}
+#fans-span:hover{
+text-decoration: underline
+}
+#attention-span:hover{
+text-decoration: underline
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${user.name }的主页</title>
@@ -99,12 +119,21 @@ margin-left:0
 	<div id="avatar-div">
 		<img id="avatar" src="/bbs/image/avatar/${uri }">
 	</div>
+	
+	<div id="attention-div">
+	关&emsp;注:<span id="attention-span">&nbsp;${attention }</span>
+	<br>被关注:<span id="fans-span">&nbsp;${fans }</span>
+	</div>
+	
+	<div id="info-div">
 	用户名：${user.name }
 	<br> 性&emsp;别：${user.sex }
 	<br> 邮&emsp;箱：${user.email }
 	<br> 电&emsp;话：${user.phone }
 	<br> 签&emsp;名：${user.sign }
 	<br>
+	</div>
+	<hr>
 	<div id="contents-div"><br>该用户的回复:</div>
 	<div id="title-div"><br>该用户的话题:</div>
 	<span id="more-content-span">查看更多回复</span>
