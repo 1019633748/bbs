@@ -1,5 +1,8 @@
 package cn.hxy.bbs.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import cn.hxy.bbs.model.Friend;
 
 public interface FriendMapper {
@@ -10,4 +13,11 @@ public interface FriendMapper {
     int getAttention(int id);
     
     int getFans(int id);
+    
+    
+    List <Integer> getAttentionIdList(int id);
+    
+   // List<Map <String,String>> getAttentionIdList(int id);
+    
+    List <Integer> getFansIdList(int id);
 }

@@ -214,7 +214,7 @@ margin-left:20px;
 									})
 						})
 						
-						
+						//点击头像跳转
 						$('.avatar').click(function(){
 							var name=$(this).next().next().html();
 							window.open("/bbs/content/get/user/"+name)

@@ -23,6 +23,9 @@
   <select id="getUserIdByName" resultType="java.lang.Integer" parameterType="java.lang.String">
   select id from t_user where name = #{name,jdbcType=VARCHAR}
   </select>
+  <select id="getUsernameById" resultType="java.lang.String" parameterType="java.lang.Integer">
+  select name from t_user where id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_user
     where id = #{id,jdbcType=INTEGER}

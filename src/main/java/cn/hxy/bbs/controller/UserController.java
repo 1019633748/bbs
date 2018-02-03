@@ -1,6 +1,7 @@
 package cn.hxy.bbs.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,4 +72,18 @@ public class UserController {
 		model.addAttribute("pageNum", 1);
 		return"content";
 	}
+	
+	@PostMapping("/get/attention/{id}")
+	@ResponseBody
+	public Map<String,String> getAttention(@PathVariable("id")int id,Model model){
+		return friendService.getAttentionIdList(id);
+    }
+	
+	@PostMapping("/get/fans/{id}")
+	@ResponseBody
+	public Map<String,String> getfans(@PathVariable("id")int id,Model model){
+		return friendService.getFansIdList(id);
+    }
+	
+	
 }

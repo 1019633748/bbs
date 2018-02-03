@@ -111,6 +111,48 @@ text-decoration: underline
 #attention-span:hover{
 text-decoration: underline
 }
+
+#attention-list-div{
+width: 30%;
+border:1px solid #000;
+position:absolute;
+top:0;
+right:0;
+display:none
+}
+
+#fans-list-div{
+width: 30%;
+border:1px solid #000;
+position:absolute;
+top:0;
+left:0;
+display:none
+}
+
+.name-uri{
+position:relative;
+}
+
+.attention-uri{
+max-height:30px;
+max-width:30px;
+border-radius:50%;
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+}
+
+.attention-name-span{
+margin-left:30px
+}
+
+.name-uri:hover{
+cursor:pointer;
+border-top:1px #000 solid;
+border-bottom:1px #000 solid;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${user.name }的主页</title>
@@ -169,7 +211,10 @@ text-decoration: underline
 					$('#contents-div').append("<hr class='content-hr'>")
 				}
 				$('#contents-div').append("<p>. . .</p>")
-				document.getElementById("more-content-span").scrollIntoView();
+				if($('.content-div').length>3){
+					document.getElementById("more-content-span").scrollIntoView();
+				}
+				
 			})
 		}
 		
@@ -190,8 +235,50 @@ text-decoration: underline
 		$('body').on('click','.title-span',function(){
 			window.open('/bbs/user/get/content/'+$(this).html())
 		}) 
+<%--关注列表--%>
+		$('#attention-span').click(function(){
+			if($('#attention-list-div').length<=0){
+				$('body').append("<div id='attention-list-div'>关注列表:</div>")	
+				$.post('/bbs/user/get/attention/'+userId,function(data){
+					for(var name in data){
+						$('#attention-list-div').append("<div class='name-uri'>"+"<img class='attention-uri' src='/bbs/image/avatar/"+data[name]+"'>"+"<span class='attention-name-span'>"+":"+name+"</span>"+"</div>")
+					}
+				})
+				$('#attention-list-div').slideDown(200)
+			}else{
+				$('#attention-list-div').slideUp(200)
+				setTimeout("$('#attention-list-div').remove()",200)
+				
+			}
+			
+		})
 		
-	
+		<%--被关注列表--%>
+		$('#fans-span').click(function(){
+			if($('#fans-list-div').length<=0){
+				$('body').append("<div id='fans-list-div'>被关注列表:</div>")
+				$.post('/bbs/user/get/fans/'+userId,function(data){
+					for(var name in data){
+						$('#fans-list-div').append("<div class='name-uri'>"+"<img class='attention-uri' src='/bbs/image/avatar/"+data[name]+"'>"+"<span class='attention-name-span'>"+":"+name+"</span>"+"</div>")
+					}
+				})
+				$('#fans-list-div').slideDown(200)
+			}else{
+				$('#fans-list-div').remove()
+				setTimeout("$('#fans-list-div').remove()",200)
+			}
+			
+		})
+		
+		//点击头像跳转
+						$('body').on('click','.name-uri',function(){
+							var name=$(this).children().last().html().substring(1);
+							window.open("/bbs/content/get/user/"+name)
+						})
+
+		
+		
+	//----------------------
 	})
 	
 	</script>

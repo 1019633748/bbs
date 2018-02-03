@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.hxy.bbs.mapper.ContentMapper;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
+import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
 import cn.hxy.bbs.service.impl.TitleServiceImpl;
@@ -28,6 +29,10 @@ public class TestMabatis {
 	private ImageServiceImpl i;
 	@Autowired
 	private ContentMapper cm;
+	@Autowired
+	private FriendServiceImpl f;
+	
+	
 	@Test
 	public void test1() {
 		//System.out.println(h.getSections());
@@ -46,6 +51,8 @@ public class TestMabatis {
 		//System.out.println(u.getUserByID(1));
 		//System.out.println(u.getAllContentByUserId(2));
 		//System.out.println(h.getSectionByName("≤‚ ‘"));
-		System.out.println(t.getTitleBySectionName("≤‚ ‘"));
+		//System.out.println(t.getTitleBySectionName("≤‚ ‘"));
+		//System.out.println(f.getAttentionIdList(2));
+		System.out.println(f.getFansIdList(2));
 	}
 }

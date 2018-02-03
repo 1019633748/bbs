@@ -1,37 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.hxy.bbs.mapper.FriendMapper" >
-  <resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Friend" >
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="friend_id" property="friendId" jdbcType="INTEGER" />
-  </resultMap>
- <select id="getAttention" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-	select count(user_id) from t_friend where user_id = #{id,jdbcType=INTEGER}
- </select>
- <select id="getFans" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-select count(friend_id) from t_friend where friend_id = #{id,jdbcType=INTEGER}
- </select>
-  <insert id="insert" parameterType="cn.hxy.bbs.model.Friend" >
-    insert into t_friend (user_id, friend_id)
-    values (#{userId,jdbcType=INTEGER}, #{friendId,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.hxy.bbs.model.Friend" >
-    insert into t_friend
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="friendId != null" >
-        friend_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="friendId != null" >
-        #{friendId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+<mapper namespace="cn.hxy.bbs.mapper.FriendMapper">
+	<resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Friend">
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="friend_id" property="friendId" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="getAttention" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select count(user_id) from t_friend where user_id =
+		#{id,jdbcType=INTEGER}
+	</select>
+	<select id="getFans" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select count(friend_id) from t_friend where friend_id =
+		#{id,jdbcType=INTEGER}
+	</select>
+	 <select id="getAttentionIdList" resultType="java.lang.Integer" parameterType="java.lang.Integer"> 
+		select friend_id from t_friend where user_id = #{id,jdbcType=INTEGER} </select>
+	<!-- <select id="getAttentionIdList" parameterType="java.lang.Integer"
+		resultType="map">
+		SELECT t_user.name as name,t_image.uri FROM
+		t_friend,t_user,t_image WHERE t_friend.user_id = #{id,jdbcType=INTEGER} AND t_user.id =
+		t_friend.`friend_id` AND t_image.`user_id`=t_friend.`friend_id` AND
+		t_image.`content_id` IS NULL
+	</select> -->
+	<select id="getFansIdList" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select user_id from t_friend where friend_id = #{id,jdbcType=INTEGER}
+	</select>
+	<insert id="insert" parameterType="cn.hxy.bbs.model.Friend">
+		insert into t_friend (user_id,
+		friend_id)
+		values (#{userId,jdbcType=INTEGER},
+		#{friendId,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.Friend">
+		insert into t_friend
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="friendId != null">
+				friend_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="friendId != null">
+				#{friendId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
 </mapper>

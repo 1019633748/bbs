@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.hxy.bbs.model.Down;
 import cn.hxy.bbs.model.Up;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
+import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
 import cn.hxy.bbs.service.impl.TitleServiceImpl;
 import cn.hxy.bbs.service.impl.UserServiceImpl;
@@ -29,6 +30,9 @@ public class ContentController {
 
 	@Autowired
 	private ImageServiceImpl imageService;
+	
+	@Autowired
+	private FriendServiceImpl friendService;
 	
 	@GetMapping("/get/content/{id}/{pageNum}")
 	public String getContent(@PathVariable("id") int id,
@@ -57,6 +61,8 @@ public class ContentController {
 		int id = userService.getUserIdByName(name);
 		model.addAttribute("user", userService.getUserByID(id));
 		model.addAttribute("uri", imageService.getAvatarByUserId(id));
+		model.addAttribute("attention", friendService.getAttentionByUserId(id));
+		model.addAttribute("fans", friendService.getFansByUserId(id));
 		return "user_info";
 	}
 	

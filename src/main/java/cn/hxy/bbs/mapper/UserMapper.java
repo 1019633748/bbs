@@ -19,5 +19,7 @@ public interface UserMapper {
     
     int getUserIdByName(String name);
     
+    String getUsernameById(int id);
+    
     Set<String> getRolesByUsername(String username);
 }
