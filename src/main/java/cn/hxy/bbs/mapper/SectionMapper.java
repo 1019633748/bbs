@@ -20,4 +20,6 @@ public interface SectionMapper {
     int updateByPrimaryKey(Section record);
     
     List<Section> getSections();
+    
+    String getNameById(int id);
 }

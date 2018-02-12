@@ -2,6 +2,8 @@ package cn.hxy.bbs.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Title {
     private Integer id;
 
@@ -9,13 +11,17 @@ public class Title {
 
     private String author;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时")
     private Date createDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时")
     private Date updateDate;
 
     private Integer sectionId;
     
     private String firstFloor;
+    
+    private String sectionName;
 
     public Integer getId() {
         return id;
@@ -77,6 +83,14 @@ public class Title {
 	public String toString() {
 		return "Title [id=" + id + ", name=" + name + ", author=" + author + ", createDate=" + createDate
 				+ ", updateDate=" + updateDate + ", sectionId=" + sectionId + ", firstFloor=" + firstFloor + "]";
+	}
+
+	public String getSectionName() {
+		return sectionName;
+	}
+
+	public void setSectionName(String sectionName) {
+		this.sectionName = sectionName;
 	}
 
 	

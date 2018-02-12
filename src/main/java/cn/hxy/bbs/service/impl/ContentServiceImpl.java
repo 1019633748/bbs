@@ -85,5 +85,10 @@ public class ContentServiceImpl implements ContentService {
 		return contentMapper.getTotalContentByTitleId(id);
 	}
 
+	@Override
+	public List<Content> getAllContentByUserId(int id,int pageNum,int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		return contentMapper.getAllByUserId(id);
+	}
 
 }

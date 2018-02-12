@@ -1,7 +1,6 @@
 package cn.hxy.bbs.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import cn.hxy.bbs.model.Friend;
 

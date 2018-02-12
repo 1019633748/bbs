@@ -24,4 +24,6 @@ public interface TitleMapper {
     List<Title> getAll(int id);
     
     List<Title> getTitleBySectionName(String name);
+    
+    List <Title> getTitlesByUserId(int id);
 }

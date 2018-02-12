@@ -20,4 +20,6 @@ public interface ContentService {
 	int getAllDownAfterClick(Down down);
 	
 	int getTotalContentByTitleId(int id	);
+
+	List<Content> getAllContentByUserId(int id, int pageNum, int pageSize);
 }

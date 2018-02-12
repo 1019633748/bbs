@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+
 import cn.hxy.bbs.model.Content;
+import cn.hxy.bbs.model.Title;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
 import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
@@ -55,7 +58,7 @@ public class UserController {
 	@ResponseBody
 	public List<Content> getContentByUserId(@PathVariable("userId") int id, @PathVariable("pageNum") int pageNum,
 			@PathVariable("pageSize") int pageSize) {
-		return userService.getAllContentByUserId(id, pageNum, pageSize);
+		return contentService.getAllContentByUserId(id, pageNum, pageSize);
 	}
 	
 	@GetMapping("/get/titles/{sectionName}")
@@ -85,5 +88,11 @@ public class UserController {
 		return friendService.getFansIdList(id);
     }
 	
+	@PostMapping("get/titles/{id}/{pageNum}")
+	@ResponseBody
+	public List<Title> getTitlesById(@PathVariable("id")int id,@PathVariable("pageNum") int pageNum,Model model){
+		PageHelper.startPage(pageNum,3);
+		return titleService.getTitlesByUserId(id);
+	}
 	
 }

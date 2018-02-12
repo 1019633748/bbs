@@ -40,6 +40,10 @@
 	<select id="getSectionByName" resultMap="BaseResultMap" parameterType="java.lang.String">
 	select * from t_section where section_name = #{name,jdbcType=VARCHAR}
 	</select>
+	<select id="getNameById" resultType="java.lang.String" parameterType="java.lang.Integer">
+	select section_name from t_section
+	where id = #{id,jdbcType=INTEGER}
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
 		t_section
