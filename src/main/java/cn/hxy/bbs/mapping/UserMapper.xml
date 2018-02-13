@@ -8,12 +8,21 @@
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="sign" property="sign" jdbcType="VARCHAR" />
+     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, sex, email, phone, sign, create_date, update_date
+    id, name, sex, email, phone, sign, create_date, update_date ,password
   </sql>
+  <select id="doUserLogin" resultMap="BaseResultMap">
+  select 
+  <include refid="Base_Column_List" />
+  from t_user 
+  where name = #{name}
+  and
+  password = #{password}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -62,6 +71,9 @@
       <if test="updateDate != null" >
         update_date,
       </if>
+      <if test="password != null" >
+        password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -85,6 +97,9 @@
       <if test="updateDate != null" >
         #{updateDate,jdbcType=DATE},
       </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.hxy.bbs.model.User" >
@@ -102,6 +117,9 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+       <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=DATE},
       </if>
@@ -117,6 +135,7 @@
       sex = #{sex,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
+       password = #{password,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},
       update_date = #{updateDate,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}

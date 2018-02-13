@@ -221,13 +221,12 @@ cursor:pointer
 						//点击头像跳转
 						$('.avatar').click(function(){
 							var name=$(this).next().next().html();
-							window.open("/bbs/content/get/user/"+name)
+							window.open("/bbs/user/get/users/"+name)
 						})
 						
 						//点击名字跳转
 						$('.author-name').click(function(){
 							var name=$(this).html();
-							alert(name)
 							window.open("/bbs/user/get/users/"+name)
 						})
 						

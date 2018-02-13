@@ -2,6 +2,8 @@ package cn.hxy.bbs.mapper;
 
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.hxy.bbs.model.User;
 
 public interface UserMapper {
@@ -12,6 +14,8 @@ public interface UserMapper {
     int insertSelective(User record);
 
     User selectByPrimaryKey(Integer id);
+    
+    User doUserLogin(@Param("name") String name,@Param("password") String password);
 
     int updateByPrimaryKeySelective(User record);
 

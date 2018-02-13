@@ -18,6 +18,8 @@ public class User {
     private Date updateDate;
     
     private String sign;
+    
+    private String password;
  
     
 	public String getSign() {
@@ -84,10 +86,20 @@ public class User {
         this.updateDate = updateDate;
     }
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", sex=" + sex + ", email=" + email + ", phone=" + phone
-				+ ", createDate=" + createDate + ", updateDate=" + updateDate + "]";
+				+ ", createDate=" + createDate + ", updateDate=" + updateDate + ", sign=" + sign + ", password="
+				+ password + "]";
 	}
     
+	
 }

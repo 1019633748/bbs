@@ -16,4 +16,5 @@ public interface UserService {
 	
 	int getUserIdByName(String name);
 	
+	User doUserLogin(String name,String password);
 }

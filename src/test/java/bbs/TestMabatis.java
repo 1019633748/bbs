@@ -53,6 +53,7 @@ public class TestMabatis {
 		//System.out.println(h.getSectionByName("≤‚ ‘"));
 		//System.out.println(t.getTitleBySectionName("≤‚ ‘"));
 		//System.out.println(f.getAttentionIdList(2));
-		System.out.println(f.getFansIdList(2));
+		//System.out.println(f.getFansIdList(2));
+		System.out.println(u.doUserLogin("alice", "yuigahama"));
 	}
 }

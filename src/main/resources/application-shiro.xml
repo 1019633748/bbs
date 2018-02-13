@@ -9,21 +9,22 @@
                         http://www.springframework.org/schema/mvc    
                         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<!-- <bean id="userRealm" class="cn.hxy.bbs.realm.UserRealm" />
+	<bean id="userRealm" class="cn.hxy.bbs.realm.UserRealm" />
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="userRealm" />
 	</bean>
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="securityManager" ref="security" />
-		身份认证失败，则跳转到登录页面的配置
+		<property name="securityManager" ref="securityManager" />
+		<!-- 身份认证失败，则跳转到登录页面的配置 -->
 		<property name="loginUrl" value="/login.jsp" />
-		权限认证失败，则跳转到指定页面
+		<!-- 权限认证失败，则跳转到指定页面 -->
 		<property name="unauthorizedUrl" value="/unauthorized.jsp" />
-		Shiro连接约束配置,即过滤链的定义
+		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
+				/user/get/user/**=roles[mylove]
 				/login=anon
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
@@ -31,15 +32,15 @@
 			</value>
 		</property>
 	</bean>
-	保证实现了Shiro内部lifecycle函数的bean执行
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 
-	开启Shiro注解
+	<!-- 开启Shiro注解 -->
 	<bean
 		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		depends-on="lifecycleBeanPostProcessor" />
 	<bean
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
-	</bean> -->
+	</bean>
 </beans>
