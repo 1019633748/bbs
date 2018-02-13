@@ -81,6 +81,10 @@ height:60px;
 line-height:60px;
 margin-left:20px;
 }
+.author-name{
+cursor:pointer
+}
+
 </style>
 </head>
 <body>
@@ -219,7 +223,13 @@ margin-left:20px;
 							var name=$(this).next().next().html();
 							window.open("/bbs/content/get/user/"+name)
 						})
-
+						
+						//点击名字跳转
+						$('.author-name').click(function(){
+							var name=$(this).html();
+							alert(name)
+							window.open("/bbs/user/get/users/"+name)
+						})
 						
 						
 			})

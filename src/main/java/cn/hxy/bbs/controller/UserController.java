@@ -95,4 +95,14 @@ public class UserController {
 		return titleService.getTitlesByUserId(id);
 	}
 	
+	@GetMapping("/get/users/{name}")
+	public String toUserInfoPage(@PathVariable("name")String name,Model model){
+		int id = userService.getUserIdByName(name);
+		model.addAttribute("user", userService.getUserByID(id));
+		model.addAttribute("uri", imageService.getAvatarByUserId(id));
+		model.addAttribute("attention", friendService.getAttentionByUserId(id));
+		model.addAttribute("fans", friendService.getFansByUserId(id));
+		return "user_info";
+	}
+	
 }

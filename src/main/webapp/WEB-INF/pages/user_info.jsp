@@ -173,6 +173,7 @@ border-top:1px #000 solid;
 border-bottom:1px #000 solid;
 }
 
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${user.name }的主页</title>
@@ -305,7 +306,7 @@ border-bottom:1px #000 solid;
 		//点击头像跳转
 						$('body').on('click','.name-uri',function(){
 							var name=$(this).children().last().html().substring(1);
-							window.open("/bbs/content/get/user/"+name)
+							window.open("/bbs/user/get/users/"+name)
 						})
 
 		
