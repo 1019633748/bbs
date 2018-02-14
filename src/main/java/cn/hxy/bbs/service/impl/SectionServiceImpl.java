@@ -23,10 +23,10 @@ public class SectionServiceImpl implements SectionService {
 	@Override
 	public List<Section> getSections(int pageNum,int pageSize) {
 		// TODO Auto-generated method stub
-		PageHelper.startPage(1, 2);
+		PageHelper.startPage(pageNum, pageSize);
 		List<Section> list = sectionMapper.getSections();
 		for(Section section : list){
-			PageHelper.startPage(1, 2);
+			PageHelper.startPage(1, 5);
 			section.setTitles(titleMapper.getAll(section.getId()));
 		}
 		return list;

@@ -24,8 +24,9 @@
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
-				/user/get/user/**=roles[mylove]
 				/login=anon
+				/home/get/home=anon
+				/user/get/user/**=authc
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
 				/user/teacher*/**=perms["user:create"]

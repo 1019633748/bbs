@@ -8,11 +8,10 @@
 <title>section</title>
 </head>
 <body>
-success
-<br>
-${successMsg }
-<br>
-${name }
-<br>
+<form action="login/login" method="post">
+<input type="text" name="name"><br>
+<input type="text" name="password">
+<br><input type="submit">
+</form>
 </body>
 </html>
