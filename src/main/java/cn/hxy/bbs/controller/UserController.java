@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import com.github.pagehelper.PageHelper;
 import cn.hxy.bbs.model.Content;
 import cn.hxy.bbs.model.Title;
 import cn.hxy.bbs.model.User;
+import cn.hxy.bbs.realm.UserRealm;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
 import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
@@ -140,11 +142,8 @@ public class UserController {
 	}
 	
 	@PostMapping("post/avatar")
-	@ResponseBody
-	public String uploadAvatar(MultipartFile avatar,HttpServletRequest request) throws IllegalStateException, IOException{
-		System.out.println(avatar.getOriginalFilename());
-		String avatarName=UUID.randomUUID()+avatar.getOriginalFilename();
-		avatar.transferTo(new File("D:\\tool\\apache-tomcat-8.0.38\\webapps\\images\\avatar"+File.separator+avatarName ));
-		return"";
+	public String uploadAvatar(MultipartFile avatar,HttpSession session) throws IllegalStateException, IOException{
+		userService.uploadAvatar(avatar, session);
+		return"user_info";
 	}
 }

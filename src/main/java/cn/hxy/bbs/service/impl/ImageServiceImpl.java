@@ -22,4 +22,9 @@ public class ImageServiceImpl implements ImageService {
 		return imageMapper.getAvatarByUserId(id);
 	}
 
+	@Override
+	public void updateAvatar(int id, String uri) {
+		imageMapper.updateAvatar(id, uri);
+	}
+
 }

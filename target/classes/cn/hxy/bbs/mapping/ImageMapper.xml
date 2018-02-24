@@ -23,6 +23,7 @@
     values (#{userId,jdbcType=INTEGER}, #{contentId,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP})
   </insert>
+
   <insert id="insertSelective" parameterType="cn.hxy.bbs.model.Image" >
     insert into t_image
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -60,4 +61,8 @@
       </if>
     </trim>
   </insert>
+  
+  <update id="updateAvatar">
+  update t_image set uri = #{uri} where user_id = #{userId}
+  </update>
 </mapper>

@@ -8,9 +8,13 @@ $(document).ready(function(){
 		var id = $('#idd').html()
 		var uri = '/bbs/home/get/avatar/'+id
 		$.post(uri,function(data){
-			$('#username-span').before("<img id='avatar' src='/bbs/image/avatar/"+data+"'>")
+			$('#username-span').before("<img id='avatar' src='/images/avatar/"+data+"'>")
 		})
 		$('#login-logout').html("退出")
 		$('#login-logout').prop('href','/bbs/login/logout')
 	}
+	
+	$('body').on('click','#avatar',function(){
+		window.open("/bbs/user/get/user/"+$('#idd').html())
+	})
 })

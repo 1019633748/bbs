@@ -109,7 +109,7 @@ cursor:pointer
 	<c:forEach items="${content }" var="obj">
 	
 		<c:forEach items="${obj.uris }" var="uri">
-		<img class="content-image" src="/bbs/image/content/${uri }">
+		<img class="content-image" src="/images/content/${uri }">
 		</c:forEach>
 		
 		
@@ -120,7 +120,7 @@ cursor:pointer
 		<span class="up-down">${obj.up }</span>
 		&emsp;
 		<span class="click-down" onselectstart="return false">👎</span>
-		<span class="up-down">${obj.down }</span>&emsp;<img class="avatar" src="/bbs/image/avatar/${obj.uri }">&emsp;<span class="by">by:</span><span class="author-name">${obj.authorName }</span>&emsp;<fmt:formatDate
+		<span class="up-down">${obj.down }</span>&emsp;<img class="avatar" src="/images/avatar/${obj.uri }">&emsp;<span class="by">by:</span><span class="author-name">${obj.authorName }</span>&emsp;<fmt:formatDate
 			value="${obj.createDate}" pattern="yyyy-MM-dd" />
 			</div>
 			<hr>

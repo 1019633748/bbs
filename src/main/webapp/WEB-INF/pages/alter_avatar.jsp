@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Standalone demo</title>
+  <title>头像上传</title>
   <link href="/bbs/css/cropper-demo.css" rel="stylesheet" />
   <link href="/bbs/css/cropper.css" rel="stylesheet"/>
   <script type="text/javascript" src="/bbs/js/cropper.js"></script>
@@ -37,15 +37,14 @@
       </div>
       <p>Small</p>
     </div>
-    <img id="upload-img" name="avatar" src="">
-    <canvas id="destination-canvas">
+    <canvas hidden id="destination-canvas">
   </div>
 
   <input type="hidden" name="x" value="{{cropContext.left}}"/>
   <input type="hidden" name="y" value="{{cropContext.top}}"/>
   <input type="hidden" name="w" value="{{cropContext.width}}"/>
   <input type="hidden" name="h" value="{{cropContext.height}}"/>
-  <input type="button" value="yes" onclick="upload()">
+  <input type="button" value="上传" onclick="upload()">
 </form>
 <script>
   var cropper = new Cropper({
@@ -88,18 +87,22 @@
 	  canvas.height=canvas.width=200;
 	  ctx.drawImage(image,sx,sy,size,size,0,0,200,200)
 	  var src = canvas.toDataURL();
-	  var uploadImage = document.getElementById('upload-img');
-	  uploadImage.src = src;
-	  /* var uploadFile = convertBase64UrlToBlob(src);
+	  var filename = document.getElementById('cropper-input').files[0].name
+	  var index1 = filename.lastIndexOf('.');
+	  var index2 = filename.length;
+	  filename = filename.substring(index1,index2);
+	  var uploadFile = convertBase64UrlToBlob(src);
 	  var formData = new FormData();
-
-	  // JavaScript file-like 对象
-	  formData.append("avatar", uploadFile,'abc.png');
-
+	  formData.append("avatar", uploadFile,filename);
 	  var request = new XMLHttpRequest();
 	  request.open("POST", "/bbs/user/post/avatar");
-	  request.send(formData); */
-	  
+	  request.send(formData);
+	  request.onreadystatechange = function(){
+		    //若响应完成且请求成功
+		    if(request.readyState === 4 && request.status === 200){
+		        alert("上传成功")
+		    }
+	  }
   }
   
   function convertBase64UrlToBlob(urlData){

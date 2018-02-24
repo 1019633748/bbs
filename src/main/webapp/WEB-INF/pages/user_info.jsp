@@ -188,7 +188,7 @@ margin-top:-20px;
 </head>
 <body>
 	<div id="avatar-div">
-		<img id="avatar" src="/bbs/image/avatar/${uri }">
+		<img id="avatar" src="/images/avatar/${uri }">
 	</div>
 	
 
@@ -283,7 +283,7 @@ margin-top:-20px;
 				$('body').append("<div id='attention-list-div'>关注列表:</div>")	
 				$.post('/bbs/user/get/attention/'+userId,function(data){
 					for(var name in data){
-						$('#attention-list-div').append("<div class='name-uri'>"+"<img class='attention-uri' src='/bbs/image/avatar/"+data[name]+"'>"+"<span class='attention-name-span'>"+":"+name+"</span>"+"</div>")
+						$('#attention-list-div').append("<div class='name-uri'>"+"<img class='attention-uri' src='/images/avatar/"+data[name]+"'>"+"<span class='attention-name-span'>"+":"+name+"</span>"+"</div>")
 					}
 				})
 				$('#attention-list-div').slideDown(200)
@@ -301,7 +301,7 @@ margin-top:-20px;
 				$('body').append("<div id='fans-list-div'>被关注列表:</div>")
 				$.post('/bbs/user/get/fans/'+userId,function(data){
 					for(var name in data){
-						$('#fans-list-div').append("<div class='name-uri'>"+"<img class='attention-uri' src='/bbs/image/avatar/"+data[name]+"'>"+"<span class='attention-name-span'>"+":"+name+"</span>"+"</div>")
+						$('#fans-list-div').append("<div class='name-uri'>"+"<img class='attention-uri' src='/images/avatar/"+data[name]+"'>"+"<span class='attention-name-span'>"+":"+name+"</span>"+"</div>")
 					}
 				})
 				$('#fans-list-div').slideDown(200)

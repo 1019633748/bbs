@@ -1,7 +1,12 @@
 package cn.hxy.bbs.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.hxy.bbs.model.Content;
 import cn.hxy.bbs.model.User;
@@ -21,4 +26,6 @@ public interface UserService {
 	Boolean verifyUsername(String username);
 	
 	int addUser(User user);
+	
+	void uploadAvatar(MultipartFile avatar,HttpSession session)throws IllegalStateException, IOException;
 }
