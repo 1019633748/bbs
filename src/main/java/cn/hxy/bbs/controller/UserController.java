@@ -1,7 +1,13 @@
 package cn.hxy.bbs.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 
 import cn.hxy.bbs.model.Content;
 import cn.hxy.bbs.model.Title;
+import cn.hxy.bbs.model.User;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
 import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
@@ -105,4 +113,38 @@ public class UserController {
 		return "user_info";
 	}
 	
+	@GetMapping("register")
+	public String toRegisterPage(){
+		return "register";
+	}
+	
+	@PostMapping(value="verify/{username}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String verifyUsername(@PathVariable("username")String username){
+		if(userService.verifyUsername(username)){
+			return "该用户名已存在";
+		}
+		return "可以使用";
+	}
+	
+	@PostMapping("post/user")
+	@ResponseBody
+	public String register(User user){
+		userService.addUser(user);
+		return "";
+	}
+	
+	@GetMapping("get/avatar")
+	public String toAlterAvatarPage(){
+		return"alter_avatar";
+	}
+	
+	@PostMapping("post/avatar")
+	@ResponseBody
+	public String uploadAvatar(MultipartFile avatar,HttpServletRequest request) throws IllegalStateException, IOException{
+		System.out.println(avatar.getOriginalFilename());
+		String avatarName=UUID.randomUUID()+avatar.getOriginalFilename();
+		avatar.transferTo(new File("D:\\tool\\apache-tomcat-8.0.38\\webapps\\images\\avatar"+File.separator+avatarName ));
+		return"";
+	}
 }

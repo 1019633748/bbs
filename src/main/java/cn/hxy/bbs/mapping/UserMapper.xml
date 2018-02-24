@@ -1,143 +1,150 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.hxy.bbs.mapper.UserMapper" >
-  <resultMap id="BaseResultMap" type="cn.hxy.bbs.model.User" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="sign" property="sign" jdbcType="VARCHAR" />
-     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="update_date" property="updateDate" jdbcType="DATE" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, sex, email, phone, sign, create_date, update_date ,password
-  </sql>
-  <select id="doUserLogin" resultMap="BaseResultMap">
-  select 
-  <include refid="Base_Column_List" />
-  from t_user 
-  where name = #{name}
-  and
-  password = #{password}
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="getUserIdByName" resultType="java.lang.Integer" parameterType="java.lang.String">
-  select id from t_user where name = #{name,jdbcType=VARCHAR}
-  </select>
-  <select id="getUsernameById" resultType="java.lang.String" parameterType="java.lang.Integer">
-  select name from t_user where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.hxy.bbs.model.User" >
-    insert into t_user (id, name, sex, 
-      email, phone, create_date, 
-      update_date)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
-      #{updateDate,jdbcType=DATE})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.hxy.bbs.model.User" >
-    insert into t_user
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="sex != null" >
-        sex,
-      </if>
-      <if test="email != null" >
-        email,
-      </if>
-      <if test="phone != null" >
-        phone,
-      </if>
-      <if test="createDate != null" >
-        create_date,
-      </if>
-      <if test="updateDate != null" >
-        update_date,
-      </if>
-      <if test="password != null" >
-        password,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null" >
-        #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=DATE},
-      </if>
-      <if test="updateDate != null" >
-        #{updateDate,jdbcType=DATE},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.hxy.bbs.model.User" >
-    update t_user
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null" >
-        sex = #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-       <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=DATE},
-      </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=DATE},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.hxy.bbs.model.User" >
-    update t_user
-    set name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-       password = #{password,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
-      update_date = #{updateDate,jdbcType=DATE}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="cn.hxy.bbs.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="cn.hxy.bbs.model.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="sign" property="sign" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="DATE" />
+		<result column="update_date" property="updateDate" jdbcType="DATE" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, sex, email, phone, sign, create_date, update_date ,password
+	</sql>
+	<select id="doUserLogin" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where name = #{name}
+		and
+		password = #{password}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="getUserIdByName" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select id from t_user where name = #{name,jdbcType=VARCHAR}
+	</select>
+	<select id="getUsernameById" resultType="java.lang.String"
+		parameterType="java.lang.Integer">
+		select name from t_user where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="verifyUsername" parameterType="java.lang.String" resultType="java.lang.Boolean">
+	select count(name) from t_user where name = #{username}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.hxy.bbs.model.User">
+		insert into t_user (id, name, sex,
+		email, phone)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=DATE},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=DATE},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hxy.bbs.model.User">
+		update t_user
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=DATE},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=DATE},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hxy.bbs.model.User">
+		update t_user
+		set name = #{name,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=DATE},
+		update_date = #{updateDate,jdbcType=DATE}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

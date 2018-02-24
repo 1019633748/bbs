@@ -13,5 +13,7 @@
 <input type="text" name="password">
 <br><input type="submit">
 </form>
+<br>
+<a href="user/register">注册</a>
 </body>
 </html>

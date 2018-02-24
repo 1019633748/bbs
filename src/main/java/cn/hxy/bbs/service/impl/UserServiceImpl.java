@@ -47,6 +47,16 @@ public class UserServiceImpl implements UserService {
 	public User doUserLogin(String name, String password) {
 		return userMapper.doUserLogin(name, password);
 	}
+
+	@Override
+	public Boolean verifyUsername(String username) {
+		return userMapper.verifyUsername(username);
+	}
+
+	@Override
+	public int addUser(User user) {
+		return userMapper.insert(user);
+	}
 	
 	
 }

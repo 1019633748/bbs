@@ -25,5 +25,7 @@ public interface UserMapper {
     
     String getUsernameById(int id);
     
+    Boolean verifyUsername(String username);
+    
     Set<String> getRolesByUsername(String username);
 }

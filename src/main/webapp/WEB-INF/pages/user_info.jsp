@@ -174,6 +174,14 @@ border-bottom:1px #000 solid;
 }
 
 
+#panel{
+border: solid 1px black;
+width:400px;
+height:400px;
+z-index: 1;
+margin-top:-20px;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${user.name }的主页</title>
@@ -183,6 +191,7 @@ border-bottom:1px #000 solid;
 		<img id="avatar" src="/bbs/image/avatar/${uri }">
 	</div>
 	
+
 	<div id="attention-div">
 	关&emsp;注:<span id="attention-span">&nbsp;${attention }</span>
 	<br>被关注:<span id="fans-span">&nbsp;${fans }</span>
@@ -339,12 +348,13 @@ border-bottom:1px #000 solid;
 		}
 	
 	
+	//alter avatar
 	
+		$('#avatar').click(function(){
+			window.open("/bbs/user/get/avatar")
+		})
 	
-	
-	
-	
-	
+		
 	
 	
 	
