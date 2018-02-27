@@ -3,6 +3,7 @@ package cn.hxy.bbs.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.hxy.bbs.model.Image;
 
@@ -16,4 +17,6 @@ public interface ImageMapper {
     String getAvatarByUserId(int id);
     
     void updateAvatar(@Param("userId")int id,@Param("uri")String uri);
+    
+    void uploadContentImg(@Param("userId")int id,@Param("uri")String uri);
 }

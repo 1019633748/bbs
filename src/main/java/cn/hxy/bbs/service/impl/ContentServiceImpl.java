@@ -1,9 +1,13 @@
 package cn.hxy.bbs.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 
@@ -13,6 +17,7 @@ import cn.hxy.bbs.mapper.ImageMapper;
 import cn.hxy.bbs.mapper.UpMapper;
 import cn.hxy.bbs.model.Content;
 import cn.hxy.bbs.model.Down;
+import cn.hxy.bbs.model.Image;
 import cn.hxy.bbs.model.Up;
 import cn.hxy.bbs.service.ContentService;
 @Service
@@ -28,6 +33,7 @@ public class ContentServiceImpl implements ContentService {
 	
 	@Autowired
 	private ImageMapper imageMapper;
+	
 	
 	@Override
 	public List<Content> getContent(int id,int pageNum,int pageSize) {
@@ -89,6 +95,22 @@ public class ContentServiceImpl implements ContentService {
 	public List<Content> getAllContentByUserId(int id,int pageNum,int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		return contentMapper.getAllByUserId(id);
+	}
+
+	@Override
+	public void uploadContentImg(MultipartFile img, int contentId,int userId) throws IllegalStateException, IOException {
+		String imgName=UUID.randomUUID()+img.getOriginalFilename();
+		img.transferTo(new File("D:\\tool\\apache-tomcat-8.0.38\\webapps\\images\\content"+File.separator+imgName));
+		Image image = new Image();
+		image.setContentId(contentId);
+		image.setUserId(userId);
+		image.setUri(imgName);
+		imageMapper.insert(image);
+	}
+
+	@Override
+	public int addContent(Content content) {
+		return contentMapper.insert(content);
 	}
 
 }

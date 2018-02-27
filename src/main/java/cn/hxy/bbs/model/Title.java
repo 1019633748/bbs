@@ -1,75 +1,80 @@
 package cn.hxy.bbs.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Title {
-    private Integer id;
+	private Integer id;
 
-    private String name;
+	private String name;
 
-    private String author;
+	private String author;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时")
-    private Date createDate;
-    
-    @JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时")
-    private Date updateDate;
+	@JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时")
+	private Date createDate;
 
-    private Integer sectionId;
-    
-    private String firstFloor;
-    
-    private String sectionName;
+	@JsonFormat(timezone = "GMT+8", pattern = "yy年M月d日H时")
+	private Date updateDate;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer sectionId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String firstFloor;
 
-    public String getName() {
-        return name;
-    }
+	private String sectionName;
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	List<String> uris;
 
-    public String getAuthor() {
-        return author;
-    }
+	private String uri;
 
-    public void setAuthor(String author) {
-        this.author = author == null ? null : author.trim();
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public String getAuthor() {
+		return author;
+	}
 
-    public Integer getSectionId() {
-        return sectionId;
-    }
+	public void setAuthor(String author) {
+		this.author = author == null ? null : author.trim();
+	}
 
-    public void setSectionId(Integer sectionId) {
-        this.sectionId = sectionId;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public Integer getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(Integer sectionId) {
+		this.sectionId = sectionId;
+	}
 
 	public String getFirstFloor() {
 		return firstFloor;
@@ -77,6 +82,15 @@ public class Title {
 
 	public void setFirstFloor(String firstFloor) {
 		this.firstFloor = firstFloor;
+	}
+
+	
+	public List<String> getUris() {
+		return uris;
+	}
+
+	public void setUris(List<String> uris) {
+		this.uris = uris;
 	}
 
 	@Override
@@ -93,6 +107,12 @@ public class Title {
 		this.sectionName = sectionName;
 	}
 
-	
-    
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
 }

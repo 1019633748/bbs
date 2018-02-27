@@ -27,6 +27,7 @@
 				/login=anon
 				/home/get/home=anon
 				/user/get/user/**=authc
+				/user/get/users/**=authc
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
 				/user/teacher*/**=perms["user:create"]

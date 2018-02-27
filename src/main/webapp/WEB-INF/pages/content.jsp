@@ -87,6 +87,29 @@ margin-left:20px;
 cursor:pointer
 }
 
+.nof{
+margin-right:100px
+}
+
+#first-floor-bottom{
+height:50px;
+line-height:50px;
+position:relative;
+margin-left:30%
+}
+
+.reply-span{
+margin-left:50px;
+cursor:pointer
+}
+
+.reply-div{
+width:70%;
+height:200px;
+border:1px solid black;
+display:none
+}
+
 </style>
 </head>
 <body>
@@ -100,29 +123,47 @@ cursor:pointer
 <a href="/bbs/login/logout">fuck</a>
 </div>
 </header>
+<span id="currentUserId" hidden>${bbs.id }</span>
 	<h3>${title.name }</h3>
 	<h4>${title.firstFloor }</h4>
-	<h5>
-		楼主:${title.author }&emsp;
-		<fmt:formatDate value="${title.createDate}" pattern="yyyy-MM-dd" />
-	</h5>
+	<div id="first-floor-bottom">
+		1&nbsp;#&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 楼主:<img class="avatar" src="/images/avatar/${title.uri }"><span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span><span>${title.author }</span>&emsp;
+		<fmt:formatDate value="${title.createDate}" pattern="yyyy-MM-dd" /> <span class="reply-span" onselectstart="return false;">回复</span>
+	</div>
+	<div class="reply-div">
+	<form action="/bbs/content/post/content" method="post" enctype="multipart/form-data">
+		<input hidden type="text" name="titleId" value="${title.id }">
+		<input hidden type="text" name="authorId" value="${bbs.id }">
+		<input name="contentImg" type="file">
+		<textarea name="content" rows="10" cols="160" maxlength="10" placeholder="请输入内容"></textarea>
+		<input type="submit" value="提交">
+	</form>
+	</div>
+	<br>
+	<br>
+	<hr>
+	<br>
 	<c:forEach items="${content }" var="obj">
 	
 		<c:forEach items="${obj.uris }" var="uri">
 		<img class="content-image" src="/images/content/${uri }">
+		<br>
 		</c:forEach>
 		
 		
 		<p>&emsp;&emsp;${obj.content }</p>
 		<div class="content-buttom">
+		<span class="num-of-floors"></span>
+		<span class="nof">#</span>
 		<span hidden>${obj.id }</span>
 		<span class="click-up" onselectstart="return false">👍</span>
 		<span class="up-down">${obj.up }</span>
 		&emsp;
 		<span class="click-down" onselectstart="return false">👎</span>
 		<span class="up-down">${obj.down }</span>&emsp;<img class="avatar" src="/images/avatar/${obj.uri }">&emsp;<span class="by">by:</span><span class="author-name">${obj.authorName }</span>&emsp;<fmt:formatDate
-			value="${obj.createDate}" pattern="yyyy-MM-dd" />
+			value="${obj.createDate}" pattern="yyyy-MM-dd" /><span class="reply-span" onselectstart="return false;">回复</span>
 			</div>
+			<div class="reply-div"></div>
 			<hr>
 	</c:forEach>
 	<div id="page-div">
@@ -133,6 +174,7 @@ cursor:pointer
 <script type="text/javascript">
 	$(document).ready(
 			function() {
+				var currentUserId = $('#currentUserId').html()
 				var pageSize = 5
 				var total = ${totalPageSize}
 				var totalPage = Math.ceil(total/pageSize)
@@ -145,17 +187,25 @@ cursor:pointer
 					console.log($(e.target).prop('id'))
 				}) */
 				
+				$('.num-of-floors').each(function(index){
+					if(pageNum==1){
+						$(this).html(index+2)
+					}else{
+						$(this).html(pageNum*5+index-3);
+					}
+				})
+				
 				//当前页前缀、后缀
 				for(var i=0;i<prefix;i++){
 					if(pageNum-i>1){
 						var prefixPage = pageNum-i-1
-						$('#pageNum').before("<span class='prefix-suffix'>"+prefixPage+"</span>")
+						$('#pageNum').siblings().first().next().next().before("<span class='prefix-suffix'>"+prefixPage+"</span>")
 					}
 				}
 				for(var i=0;i<suffix;i++){
 					if(pageNum+i<totalPage){
 						var suffixPage = pageNum+i+1
-						$('#pageNum').after("<span class='prefix-suffix'>"+suffixPage+"</span>")
+						$('#pageNum').siblings().last().prev().prev().after("<span class='prefix-suffix'>"+suffixPage+"</span>")
 					}
 				}
 				
@@ -207,10 +257,14 @@ cursor:pointer
 				//顶
 				$('.click-up').click(
 						function() {
+							if(currentUserId==''){
+								alert("请登录")
+								return false
+							}
 							var up = $(this).next()
 							userId = 1;
 							contentId = $(this).prev().html()
-							$.post('/bbs/content/put/up', 'userId=' + userId
+							$.post('/bbs/content/put/up', 'userId=' + currentUserId
 									+ '&contentId=' + contentId,
 									function(data) {
 										up.html(data)
@@ -220,10 +274,14 @@ cursor:pointer
 				//踩
 				$('.click-down').click(
 						function() {
+							if(currentUserId==''){
+								alert("请登录")
+								return false
+							}
 							var down = $(this).next()
 							userId = 1;
 							contentId = $(this).prev().prev().prev().html()
-							$.post('/bbs/content/put/down', 'userId=' + userId
+							$.post('/bbs/content/put/down', 'userId=' + currentUserId
 									+ '&contentId=' + contentId,
 									function(data) {
 										down.html(data)
@@ -241,6 +299,25 @@ cursor:pointer
 							var name=$(this).html();
 							window.open("/bbs/user/get/users/"+name)
 						})
+						
+					
+					$('.reply-span').click(function(){
+						/* if($(this).next().prop('class')!="reply-div"){
+						$(this).after("<div class='reply-div'></div>")
+						}else{
+							$(this).next().remove()
+						} */
+						if(currentUserId==''){
+							alert("请登录")
+							return false
+						}
+						
+						if($(this).parent().next().css('display')=="none"){
+							$(this).parent().next().show()		
+						}else{
+							$(this).parent().next().hide()
+						}
+					})
 						
 						
 			})

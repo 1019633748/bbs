@@ -18,10 +18,8 @@
   and content_id is null
   </select>
   <insert id="insert" parameterType="cn.hxy.bbs.model.Image" >
-    insert into t_image (user_id, content_id, uri, 
-      status, create_date)
-    values (#{userId,jdbcType=INTEGER}, #{contentId,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP})
+    insert into t_image (user_id, content_id, uri )
+    values (#{userId,jdbcType=INTEGER}, #{contentId,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="cn.hxy.bbs.model.Image" >
@@ -62,6 +60,8 @@
     </trim>
   </insert>
   
+  <insert id="uploadContentImg"></insert>
+ 
   <update id="updateAvatar">
   update t_image set uri = #{uri} where user_id = #{userId}
   </update>

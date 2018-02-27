@@ -15,6 +15,10 @@ public class TitleServiceImpl implements TitleService {
 	private TitleMapper titleMapper;
 	@Autowired
 	private SectionServiceImpl sectionService;
+	@Autowired
+	private UserServiceImpl userService;
+	@Autowired
+	private ImageServiceImpl iamgeService;
 
 	@Override
 	public String getTitleNameById(int id) {
@@ -23,7 +27,9 @@ public class TitleServiceImpl implements TitleService {
 
 	@Override
 	public Title getTitleById(int id) {
-		return titleMapper.selectByPrimaryKey(id);
+		Title title = titleMapper.selectByPrimaryKey(id);
+		title.setUri(iamgeService.getAvatarByUserId(userService.getUserIdByName(title.getAuthor())));
+		return title;
 	}
 
 	@Override

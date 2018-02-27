@@ -75,6 +75,8 @@ public class UserServiceImpl implements UserService {
 		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
 		imageService.updateAvatar(user.getId(), avatarName);
 	}
+
+	
 	
 	
 }

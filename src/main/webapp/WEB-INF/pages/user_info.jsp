@@ -187,6 +187,7 @@ margin-top:-20px;
 <title>${user.name }的主页</title>
 </head>
 <body>
+	<span id="currentUserId" hidden>${bbs.id }</span>
 	<div id="avatar-div">
 		<img id="avatar" src="/images/avatar/${uri }">
 	</div>
@@ -213,6 +214,7 @@ margin-top:-20px;
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
+		var currentUserId = $('#currentUserId').html()
 		var userId = ${user.id}
 		var contentPageNum=1;
 		var titlePageNum=1;
@@ -229,21 +231,23 @@ margin-top:-20px;
 		function getContent(userId,contentPageNum,pageSize){
 			tempContentUri=uri.concat("content/").concat(userId+"/").concat(contentPageNum+"/").concat(pageSize)
 			$.post(tempContentUri,function(data){
-				if(lastContentId==data[data.length-1].id){
-					$('#more-content-span').html('没有更多了')
-					return false;
-				}else{
-					lastContentId = data[data.length-1].id
+				if(data!=''){
+					if(lastContentId==data[data.length-1].id){
+						$('#more-content-span').html('没有更多了')
+						return false;
+					}else{
+						lastContentId = data[data.length-1].id
+					}
+					
+					for(var i=0;i<data.length;i++){
+						tempTime = Date.now()
+						//sleep(100);
+						$('#contents-div').append("<div class='content-div' title='点击跳转'>"+data[i].content+"</div>")
+						$('#contents-div').append("<div class='content-bottom'>于"+data[i].createDate+"在<span class='section-span' title='点击跳转'>"+data[i].section+"</span>版块的<span class='title-span' title='点击跳转'>"+data[i].title+"</span>话题中回复</div>")					
+						$('#contents-div').append("<hr class='content-hr'>")
+					}
+					$('#contents-div').append("<p>. . .</p>")
 				}
-				
-				for(var i=0;i<data.length;i++){
-					tempTime = Date.now()
-					//sleep(100);
-					$('#contents-div').append("<div class='content-div' title='点击跳转'>"+data[i].content+"</div>")
-					$('#contents-div').append("<div class='content-bottom'>于"+data[i].createDate+"在<span class='section-span' title='点击跳转'>"+data[i].section+"</span>版块的<span class='title-span' title='点击跳转'>"+data[i].title+"</span>话题中回复</div>")					
-					$('#contents-div').append("<hr class='content-hr'>")
-				}
-				$('#contents-div').append("<p>. . .</p>")
 				if($('.content-div').length>3){
 					document.getElementById("more-content-span").scrollIntoView();
 				}
@@ -325,21 +329,23 @@ margin-top:-20px;
 		function getTitle(userId,titlePageNum,pageSize){
 			tempTitleUri=uri.concat("titles/").concat(userId+"/").concat(titlePageNum+"/")
 			$.post(tempTitleUri,function(data){
-				if(lastTitleId==data[data.length-1].id){
-					$('#more-title-span').html('没有更多了')
-					return false;
-				}else{
-					lastTitleId = data[data.length-1].id
+				if(data!=''){
+					if(lastTitleId==data[data.length-1].id){
+						$('#more-title-span').html('没有更多了')
+						return false;
+					}else{
+						lastTitleId = data[data.length-1].id
+					}
+					
+					for(var i=0;i<data.length;i++){
+						tempTime = Date.now()
+						//sleep(100);
+						$('#titles-div').append("<div class='title-div' title='点击跳转'>"+data[i].name+"</div>")
+						$('#titles-div').append("<div class='title-bottom'>于"+data[i].createDate+"在<span class='section-span' title='点击跳转'>"+data[i].sectionName+"</span>版块中提出")					
+						$('#titles-div').append("<hr class='title-hr'>")
+					}
+					$('#titles-div').append("<p>. . .</p>")
 				}
-				
-				for(var i=0;i<data.length;i++){
-					tempTime = Date.now()
-					//sleep(100);
-					$('#titles-div').append("<div class='title-div' title='点击跳转'>"+data[i].name+"</div>")
-					$('#titles-div').append("<div class='title-bottom'>于"+data[i].createDate+"在<span class='section-span' title='点击跳转'>"+data[i].sectionName+"</span>版块中提出")					
-					$('#titles-div').append("<hr class='title-hr'>")
-				}
-				$('#titles-div').append("<p>. . .</p>")
 				if($('.title-div').length>3){
 					document.getElementById("more-title-span").scrollIntoView();
 				}
@@ -349,9 +355,16 @@ margin-top:-20px;
 	
 	
 	//alter avatar
-	
+		
+		$('#avatar').mouseover(function(){
+			if(currentUserId == userId)
+			$(this).prop('title','点击更改头象')
+		})
+		
 		$('#avatar').click(function(){
+			if(currentUserId == userId){
 			window.open("/bbs/user/get/avatar")
+			}
 		})
 	
 		

@@ -144,6 +144,6 @@ public class UserController {
 	@PostMapping("post/avatar")
 	public String uploadAvatar(MultipartFile avatar,HttpSession session) throws IllegalStateException, IOException{
 		userService.uploadAvatar(avatar, session);
-		return"user_info";
+		return"";
 	}
 }

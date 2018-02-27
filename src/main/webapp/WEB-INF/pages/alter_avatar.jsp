@@ -86,14 +86,14 @@
 	  var sy = sourceConfig.top;
 	  canvas.height=canvas.width=200;
 	  ctx.drawImage(image,sx,sy,size,size,0,0,200,200)
-	  var src = canvas.toDataURL();
-	  var filename = document.getElementById('cropper-input').files[0].name
+	  var src = canvas.toDataURL();//canvas转base64
+	  var filename = document.getElementById('cropper-input').files[0].name//获取文件名
 	  var index1 = filename.lastIndexOf('.');
 	  var index2 = filename.length;
-	  filename = filename.substring(index1,index2);
-	  var uploadFile = convertBase64UrlToBlob(src);
+	  filename = filename.substring(index1,index2);//获取后缀名
+	  var uploadFile = convertBase64UrlToBlob(src);//base64转blob
 	  var formData = new FormData();
-	  formData.append("avatar", uploadFile,filename);
+	  formData.append("avatar", uploadFile,filename);//后台的file名，需要上传的文件，后缀名
 	  var request = new XMLHttpRequest();
 	  request.open("POST", "/bbs/user/post/avatar");
 	  request.send(formData);

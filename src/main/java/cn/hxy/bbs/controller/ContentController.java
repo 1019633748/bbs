@@ -1,5 +1,9 @@
 package cn.hxy.bbs.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import cn.hxy.bbs.model.Content;
 import cn.hxy.bbs.model.Down;
 import cn.hxy.bbs.model.Up;
+import cn.hxy.bbs.model.User;
+import cn.hxy.bbs.realm.UserRealm;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
 import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
@@ -66,4 +74,16 @@ public class ContentController {
 		return "user_info";
 	}
 	
+	@PostMapping("post/content")
+	public String postContent(Content content,@RequestParam("contentImg") MultipartFile contentImg,HttpSession session,Model model) throws IllegalStateException, IOException{
+		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
+		contentService.addContent(content);
+		if(contentImg.getSize()>0)
+		contentService.uploadContentImg(contentImg,content.getId() , user.getId());
+		model.addAttribute("title", titleService.getTitleById(content.getTitleId()));
+		model.addAttribute("content", contentService.getContent(content.getTitleId(),contentService.getTotalContentByTitleId(content.getTitleId()),5));
+		model.addAttribute("totalPageSize", contentService.getTotalContentByTitleId(content.getTitleId()));
+		model.addAttribute("pageNum", (int) Math.ceil(contentService.getTotalContentByTitleId(content.getTitleId())/5.0));
+		return"content";
+	}
 }
