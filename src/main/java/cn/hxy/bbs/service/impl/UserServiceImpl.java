@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private ImageServiceImpl imageService;
+	
+	@Autowired
+	private FriendServiceImpl friendService;
 	
 	@Override
 	public User getUserByID(int id) {
@@ -65,6 +69,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int addUser(User user) {
+		String password = new SimpleHash("MD5",user.getPassword(),user.getName(),2).toHex();
+		user.setPassword(password);
 		return userMapper.insert(user);
 	}
 
@@ -74,6 +80,11 @@ public class UserServiceImpl implements UserService {
 		avatar.transferTo(new File("D:\\tool\\apache-tomcat-8.0.38\\webapps\\images\\avatar"+File.separator+avatarName));
 		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
 		imageService.updateAvatar(user.getId(), avatarName);
+	}
+
+
+	public boolean isAttention(int userId, int targetId) {
+		return friendService.isAttention(userId, targetId);
 	}
 
 	

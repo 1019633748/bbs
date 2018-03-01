@@ -28,4 +28,6 @@ public interface UserService {
 	int addUser(User user);
 	
 	void uploadAvatar(MultipartFile avatar,HttpSession session)throws IllegalStateException, IOException;
+	
+	
 }

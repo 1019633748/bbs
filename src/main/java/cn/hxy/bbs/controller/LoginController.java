@@ -10,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,13 @@ public class LoginController {
 	
 	@GetMapping("get/login")
 	public String toLoginPage(){
+		  Subject subject = SecurityUtils.getSubject();  
+		    if (subject != null) {  
+		        try{  
+		            subject.logout();  
+		        }catch(Exception ex){  
+		        }  
+		    }  
 		return "redirect:/login.jsp";
 	}
 	
@@ -51,7 +59,9 @@ public class LoginController {
 		return shiroLogin(name, password);
 	}
 	private String shiroLogin(String name,String password){
-		UsernamePasswordToken token = new UsernamePasswordToken(name,password.toCharArray(),null);
+		String passwordMD5 = new SimpleHash("MD5",password,name,2).toHex();
+		//System.out.println(passwordMD5);
+		UsernamePasswordToken token = new UsernamePasswordToken(name,passwordMD5.toCharArray(),null);
 		token.setRememberMe(true);
 		try {  
 	        SecurityUtils.getSubject().login(token);  

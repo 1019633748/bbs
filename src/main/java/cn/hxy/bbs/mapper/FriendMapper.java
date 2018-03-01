@@ -2,6 +2,8 @@ package cn.hxy.bbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.hxy.bbs.model.Friend;
 
 public interface FriendMapper {
@@ -19,4 +21,8 @@ public interface FriendMapper {
    // List<Map <String,String>> getAttentionIdList(int id);
     
     List <Integer> getFansIdList(int id);
+    
+    boolean isAttention(@Param("userId")int userId, @Param("targetId")int targetId);
+    
+    int removeAttention(@Param("userId")int userId,@Param("friendId")int friendId);
 }

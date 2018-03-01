@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import cn.hxy.bbs.mapper.FriendMapper;
 import cn.hxy.bbs.mapper.ImageMapper;
 import cn.hxy.bbs.mapper.UserMapper;
+import cn.hxy.bbs.model.Friend;
 import cn.hxy.bbs.service.FriendService;
 
 @Service
@@ -53,6 +54,24 @@ public class FriendServiceImpl implements FriendService {
 			userMap.put(userMapper.getUsernameById(fansId),imageMapper.getAvatarByUserId(fansId));
 		}
 		return userMap;
+	}
+
+	@Override
+	public boolean isAttention(int userId, int targetId) {
+		return friendMapper.isAttention(userId, targetId);
+	}
+
+	@Override
+	public int addAttention(int userId, int friendId) {
+		Friend friend = new Friend();
+		friend.setUserId(userId);
+		friend.setFriendId(friendId);
+		return friendMapper.insert(friend);
+	}
+
+	@Override
+	public int removeAttention(int userId, int friendId) {
+		return friendMapper.removeAttention(userId, friendId);
 	}
 
 }

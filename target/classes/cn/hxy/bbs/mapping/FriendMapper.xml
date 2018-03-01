@@ -28,6 +28,11 @@
 		parameterType="java.lang.Integer">
 		select user_id from t_friend where friend_id = #{id,jdbcType=INTEGER}
 	</select>
+	
+	<select id="isAttention" resultType="java.lang.Boolean">
+	   select count(user_id)from t_friend where #{userId} = user_id and #{targetId} = friend_id
+	</select>
+	
 	<insert id="insert" parameterType="cn.hxy.bbs.model.Friend">
 		insert into t_friend (user_id,
 		friend_id)
@@ -53,4 +58,8 @@
 			</if>
 		</trim>
 	</insert>
+	
+	<delete id="removeAttention">
+	delete from t_friend where user_id = #{userId} and friend_id = #{friendId}
+	</delete>
 </mapper>

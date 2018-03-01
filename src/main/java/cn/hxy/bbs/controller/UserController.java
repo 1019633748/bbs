@@ -1,15 +1,12 @@
 package cn.hxy.bbs.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,14 +53,45 @@ public class UserController {
 	private FriendServiceImpl friendService;
 
 	@GetMapping("/get/user/{id}")
-	public String getUserInfo(@PathVariable("id") int id, Model model) {
+	public String getUserInfo(@PathVariable("id") int id, Model model,HttpSession session) {
 		model.addAttribute("user", userService.getUserByID(id));
 		model.addAttribute("uri", imageService.getAvatarByUserId(id));
 		model.addAttribute("attention", friendService.getAttentionByUserId(id));
 		model.addAttribute("fans", friendService.getFansByUserId(id));
+		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
+		model.addAttribute("isAttention",userService.isAttention(user.getId(),id ));
 		return "user_info";
 	}
 
+	@GetMapping("/get/users/{name}")
+	public String toUserInfoPage(@PathVariable("name")String name,Model model,HttpSession session){
+		int id = userService.getUserIdByName(name);
+		model.addAttribute("user", userService.getUserByID(id));
+		model.addAttribute("uri", imageService.getAvatarByUserId(id));
+		model.addAttribute("attention", friendService.getAttentionByUserId(id));
+		model.addAttribute("fans", friendService.getFansByUserId(id));
+		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
+		model.addAttribute("isAttention",userService.isAttention(user.getId(),id ));
+		return "user_info";
+	}
+	
+	@PostMapping("post/friend/{id}")
+	@ResponseBody
+	public String addAttention(@PathVariable("id")int id,HttpSession session){
+		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
+		friendService.addAttention(user.getId(), id);
+		return "SUC";
+	}
+	
+	@PostMapping("delete/friend/{id}")
+	@ResponseBody
+	public String removeAttention(@PathVariable("id")int id,HttpSession session){
+		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
+		friendService.removeAttention(user.getId(), id);
+		return "SUC";
+	}
+	
+	
 	@PostMapping("/get/content/{userId}/{pageNum}/{pageSize}")
 	@ResponseBody
 	public List<Content> getContentByUserId(@PathVariable("userId") int id, @PathVariable("pageNum") int pageNum,
@@ -105,15 +133,7 @@ public class UserController {
 		return titleService.getTitlesByUserId(id);
 	}
 	
-	@GetMapping("/get/users/{name}")
-	public String toUserInfoPage(@PathVariable("name")String name,Model model){
-		int id = userService.getUserIdByName(name);
-		model.addAttribute("user", userService.getUserByID(id));
-		model.addAttribute("uri", imageService.getAvatarByUserId(id));
-		model.addAttribute("attention", friendService.getAttentionByUserId(id));
-		model.addAttribute("fans", friendService.getFansByUserId(id));
-		return "user_info";
-	}
+	
 	
 	@GetMapping("register")
 	public String toRegisterPage(){

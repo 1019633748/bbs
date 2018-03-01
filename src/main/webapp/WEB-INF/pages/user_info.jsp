@@ -118,7 +118,7 @@ width:300px;
 margin:20px auto;
 }
 #attention-div{
-width:100px;
+width:150px;
 margin:0 auto;
 font-size:12px;
 }
@@ -192,11 +192,15 @@ margin-top:-20px;
 		<img id="avatar" src="/images/avatar/${uri }">
 	</div>
 	
-
+	
 	<div id="attention-div">
-	关&emsp;注:<span id="attention-span">&nbsp;${attention }</span>
+	关&emsp;注:<span id="attention-span">&nbsp;${attention }</span> <c:choose>
+	<c:when test="${user.id != bbs.id && !isAttention}"><button id="attention-btn">点击关注</button></c:when>
+	<c:when test= "${user.id != bbs.id }"><button id="remove-attention-btn">取消关注</button></c:when>
+	</c:choose>
 	<br>被关注:<span id="fans-span">&nbsp;${fans }</span>
 	</div>
+	
 	
 	<div id="info-div">
 	用户名：${user.name }
@@ -368,8 +372,23 @@ margin-top:-20px;
 		})
 	
 		
+	//attention
 	
+		$('#attention-btn').click(function(){
+			$.post('/bbs/user/post/friend/'+userId,function(data){
+				if(data=="SUC")
+				window.location.reload()
+			})
+		})
 	
+	//remove attention
+	
+		$('#remove-attention-btn').click(function(){
+			$.post('/bbs/user/delete/friend/'+userId,function(data){
+				if(data=="SUC")
+				window.location.reload()
+			})
+		})
 	
 	
 	
