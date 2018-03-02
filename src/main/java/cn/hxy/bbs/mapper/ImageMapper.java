@@ -18,4 +18,6 @@ public interface ImageMapper {
     void updateAvatar(@Param("userId")int id,@Param("uri")String uri);
     
     void uploadContentImg(@Param("userId")int id,@Param("uri")String uri);
+    
+    void addAvatar(@Param("userId")int userId,@Param("uri")String uri);
 }

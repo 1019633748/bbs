@@ -99,6 +99,8 @@
 	  request.send(formData);
 	  request.onreadystatechange = function(){
 		    //若响应完成且请求成功
+		    console.log(request.readyState)
+		    console.log(request.status)
 		    if(request.readyState === 4 && request.status === 200){
 		        alert("上传成功")
 		    }

@@ -15,7 +15,7 @@ import cn.hxy.bbs.service.impl.TitleServiceImpl;
 import cn.hxy.bbs.service.impl.UserServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-mybatis.xml" })
+@ContextConfiguration(locations = { "classpath:application-mybatis.xml","classpath:application-mail.xml" })
 public class TestMabatis {
 	@Autowired
 	public SectionServiceImpl h;
@@ -54,6 +54,7 @@ public class TestMabatis {
 		//System.out.println(t.getTitleBySectionName("≤‚ ‘"));
 		//System.out.println(f.getAttentionIdList(2));
 		//System.out.println(f.getFansIdList(2));
-		System.out.println(u.doUserLogin("alice", "yuigahama"));
+		//System.out.println(u.doUserLogin("alice", "yuigahama"));
+		u.modifyPassword("1019633748@qq.co", null);
 	}
 }

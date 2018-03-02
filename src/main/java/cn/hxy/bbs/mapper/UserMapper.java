@@ -28,4 +28,10 @@ public interface UserMapper {
     Boolean verifyUsername(String username);
     
     Set<String> getRolesByUsername(String username);
+    
+    String getEmailByNameOrEmail(@Param("nameOrEmail")String nameOrEmail);
+    
+    String getNameByEmail(@Param("email")String email);
+    
+    void updatePassword(@Param("name")String name,@Param("password")String password); 
 }

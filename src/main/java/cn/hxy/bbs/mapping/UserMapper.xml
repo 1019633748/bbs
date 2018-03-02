@@ -43,16 +43,24 @@
 	select count(name) from t_user where name = #{username}
 	</select>
 
+	<select id="getEmailByNameOrEmail" resultType="java.lang.String">
+	select email from t_user where name = #{nameOrEmail} or email = #{nameOrEmail} 
+	</select>
+
+	<select id="getNameByEmail" resultType="java.lang.String">
+	select name from t_user where email = #{email}
+	</select>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from t_user
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="cn.hxy.bbs.model.User">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="cn.hxy.bbs.model.User">
 		insert into t_user (id, name, sex,
-		email, phone)
+		email, phone,password)
 		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
 		#{sex,jdbcType=VARCHAR},
-		#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+		#{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.User">
 		insert into t_user
@@ -71,6 +79,9 @@
 			</if>
 			<if test="phone != null">
 				phone,
+			</if>
+			<if test="sign != null">
+				sign,
 			</if>
 			<if test="createDate != null">
 				create_date,
@@ -98,6 +109,9 @@
 			<if test="phone != null">
 				#{phone,jdbcType=VARCHAR},
 			</if>
+				<if test="sign != null">
+				#{sign,jdbcType=VARCHAR},
+			</if>
 			<if test="createDate != null">
 				#{createDate,jdbcType=DATE},
 			</if>
@@ -124,14 +138,11 @@
 			<if test="phone != null">
 				phone = #{phone,jdbcType=VARCHAR},
 			</if>
+			<if test="sign != null">
+				sign = #{sign,jdbcType=VARCHAR},
+			</if>
 			<if test="password != null">
 				password = #{password,jdbcType=VARCHAR},
-			</if>
-			<if test="createDate != null">
-				create_date = #{createDate,jdbcType=DATE},
-			</if>
-			<if test="updateDate != null">
-				update_date = #{updateDate,jdbcType=DATE},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
@@ -146,5 +157,11 @@
 		create_date = #{createDate,jdbcType=DATE},
 		update_date = #{updateDate,jdbcType=DATE}
 		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updatePassword">
+	update t_user
+	set password = #{password}
+	where name = #{name}
 	</update>
 </mapper>

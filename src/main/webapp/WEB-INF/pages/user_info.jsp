@@ -114,7 +114,7 @@ margin-left:0
 
 #info-div{
 font-size:16px;
-width:300px;
+width:340px;
 margin:20px auto;
 }
 #attention-div{
@@ -182,6 +182,18 @@ z-index: 1;
 margin-top:-20px;
 }
 
+.user-info-input{
+border:none
+}
+
+#post-user-submit{
+display:none
+}
+
+#username-hint-span{
+font-size:5px
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${user.name }的主页</title>
@@ -203,11 +215,17 @@ margin-top:-20px;
 	
 	
 	<div id="info-div">
+	<c:if test="${user.id==bbs.id }"><button id="edit-btn">编辑信息</button></c:if>
+	<br>
+	<form action="/bbs/user/put/user" method="post">
+	<input hidden name="id" value="${user.id }">
 	用户名：${user.name }
-	<br> 性&emsp;别：${user.sex }
-	<br> 邮&emsp;箱：${user.email }
-	<br> 电&emsp;话：${user.phone }
-	<br> 签&emsp;名：${user.sign }
+	<br> 性&emsp;别：<input id="sex-input" name="sex" class = "user-info-input" type = "text" readonly value="${user.sex }">
+	<br> 邮&emsp;箱：<input class = "user-info-input" name="email" type = "text" readonly value="${user.email }">
+	<br> 电&emsp;话：<input class = "user-info-input" name="phone" type = "text" readonly value="${user.phone }">
+	<br> 签&emsp;名：<input class = "user-info-input" name="sign" type = "text" readonly value="${user.sign }">
+	<br><input id="post-user-submit" type="submit" value="提交"> 
+	</form>
 	<br>
 	</div>
 	<hr>
@@ -227,7 +245,7 @@ margin-top:-20px;
 		var lastContentId=0;
 		var lastTitleId=0;
 		var abc = 0;
-		
+		var oldUsername=$('#username-input').val()
 		getContent(userId,contentPageNum,pageSize);
 		getTitle(userId,titlePageNum,pageSize);
 
@@ -390,8 +408,23 @@ margin-top:-20px;
 			})
 		})
 	
+		//edit 
+		$('#edit-btn').click(function(){
+			$('.user-info-input').prop('readonly',false)
+			$('.user-info-input').css('border','1px black solid')
+			$('#post-user-submit').show()
+			var oldSex = $('#sex-input').val()
+			$('#sex-input').prop('type','radio')
+			$('#sex-input').val('男')
+			$('#sex-input').before("男")
+			$('#sex-input').after("<input name='sex' type='radio' value='女'>")
+			$('#sex-input').after("女")
+			$("input[type='radio'][value='"+oldSex+"']").prop("checked", "checked")
+			$(this).prop('disabled',true)
+		})
 	
 	
+		
 	
 	
 	

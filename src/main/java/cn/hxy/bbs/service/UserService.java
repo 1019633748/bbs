@@ -29,5 +29,13 @@ public interface UserService {
 	
 	void uploadAvatar(MultipartFile avatar,HttpSession session)throws IllegalStateException, IOException;
 	
+	void modifyUser(User user);
 	
+	String getCode(String nameOrEmail,HttpSession session);
+	
+	String verifyCode(String code,HttpSession session);
+	
+	String getNameByEmail(String email);
+	
+	String modifyPassword(String password,HttpSession session);
 }

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -162,8 +161,42 @@ public class UserController {
 	}
 	
 	@PostMapping("post/avatar")
+	@ResponseBody
 	public String uploadAvatar(MultipartFile avatar,HttpSession session) throws IllegalStateException, IOException{
 		userService.uploadAvatar(avatar, session);
-		return"";
+		return"SUC";
+	}
+	
+	@PostMapping("put/user")
+	public String  modifyUser(User user,Model model){
+		userService.modifyUser(user);
+		model.addAttribute("user", userService.getUserByID(user.getId()));
+		model.addAttribute("uri", imageService.getAvatarByUserId(user.getId()));
+		model.addAttribute("attention", friendService.getAttentionByUserId(user.getId()));
+		model.addAttribute("fans", friendService.getFansByUserId(user.getId()));
+		return "user_info";
+	}
+	
+	@GetMapping("get/password")
+	public String toFindPasswordPage(){
+		return "password";
+	}
+	
+	@PostMapping("post/nameoremail")
+	@ResponseBody
+	public String getCode(String nameOrEmail,HttpSession session){
+		return userService.getCode(nameOrEmail, session);
+	}
+	
+	@PostMapping("post/code")
+	@ResponseBody
+	public String verifyCode(String code,HttpSession session){
+		return userService.verifyCode(code, session);
+	}
+	
+	@PostMapping("post/password")
+	@ResponseBody
+	public String modityPassword(String password,HttpSession session){
+		return userService.modifyPassword(password, session);
 	}
 }

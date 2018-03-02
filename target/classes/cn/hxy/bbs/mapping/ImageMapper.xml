@@ -21,7 +21,13 @@
     insert into t_image (user_id, content_id, uri )
     values (#{userId,jdbcType=INTEGER}, #{contentId,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR})
   </insert>
-
+	
+	<insert id="addAvatar">
+	insert into t_image (user_id,uri) values (#{userId},#{uri})
+	</insert>
+	
+	
+	
   <insert id="insertSelective" parameterType="cn.hxy.bbs.model.Image" >
     insert into t_image
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -63,6 +69,6 @@
   <insert id="uploadContentImg"></insert>
  
   <update id="updateAvatar">
-  update t_image set uri = #{uri} where user_id = #{userId}
+  update t_image set uri = #{uri} where user_id = #{userId} and content_id is null
   </update>
 </mapper>
