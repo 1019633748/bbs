@@ -9,11 +9,11 @@
 </head>
 <body>
 <form action="login/login" method="post">
-<input type="text" name="name" value="1"><br>
-<input type="text" name="password" value="1">
+用户名：<input type="text" name="name" value="1"><br>
+密&emsp;码：<input type="text" name="password" value="1">
 <br><input type="submit" value="登录">
 </form>
 <br>
-<a href="user/register">注册</a>
+<a href="user/register">注册</a>丨<a href="/bbs/user/get/password">忘记密码</a>
 </body>
 </html>

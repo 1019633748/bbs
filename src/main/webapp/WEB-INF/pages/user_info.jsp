@@ -215,7 +215,7 @@ font-size:5px
 	
 	
 	<div id="info-div">
-	<c:if test="${user.id==bbs.id }"><button id="edit-btn">编辑信息</button></c:if>
+	<c:if test="${user.id==bbs.id }"><button id="edit-btn">编辑信息</button><br><a href="/bbs/user/get/password">修改密码</a></c:if>
 	<br>
 	<form action="/bbs/user/put/user" method="post">
 	<input hidden name="id" value="${user.id }">

@@ -2,6 +2,8 @@ package cn.hxy.bbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.hxy.bbs.model.Content;
 
 public interface ContentMapper {
@@ -16,6 +18,8 @@ public interface ContentMapper {
 	List<Content> selectByTitleId(Integer id);
 	
 	List<Content> getAllByUserId(int id);
+	
+	List<Content> findContentByName(@Param("name")String name);
 
 	int updateByPrimaryKeySelective(Content record);
 

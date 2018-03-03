@@ -16,6 +16,11 @@
 	<sql id="Base_Column_List">
 		id, section_name
 	</sql>
+	
+	<select id="findSectionByName" resultMap="BaseResultMap">
+	select * from t_section where section_name like "%"#{name}"%"
+	</select>
+	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		<!-- select

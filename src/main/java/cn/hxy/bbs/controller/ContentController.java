@@ -1,6 +1,7 @@
 package cn.hxy.bbs.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,12 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cn.hxy.bbs.model.Content;
 import cn.hxy.bbs.model.Down;
+import cn.hxy.bbs.model.Section;
+import cn.hxy.bbs.model.Title;
 import cn.hxy.bbs.model.Up;
 import cn.hxy.bbs.model.User;
 import cn.hxy.bbs.realm.UserRealm;
 import cn.hxy.bbs.service.impl.ContentServiceImpl;
 import cn.hxy.bbs.service.impl.FriendServiceImpl;
 import cn.hxy.bbs.service.impl.ImageServiceImpl;
+import cn.hxy.bbs.service.impl.SectionServiceImpl;
 import cn.hxy.bbs.service.impl.TitleServiceImpl;
 import cn.hxy.bbs.service.impl.UserServiceImpl;
 
@@ -41,6 +45,9 @@ public class ContentController {
 	
 	@Autowired
 	private FriendServiceImpl friendService;
+	
+	@Autowired
+	private SectionServiceImpl sectionService;
 	
 	@GetMapping("/get/content/{id}/{pageNum}")
 	public String getContent(@PathVariable("id") int id,
@@ -86,4 +93,27 @@ public class ContentController {
 		model.addAttribute("pageNum", (int) Math.ceil(contentService.getTotalContentByTitleId(content.getTitleId())/5.0));
 		return"content";
 	}
+	
+	@GetMapping("get/title")
+	public String toPostContentPage(){
+		return "post_title";
+	}
+	
+	@PostMapping("get/sections")
+	@ResponseBody
+	public List<Section> getSections(){
+		return sectionService.getSections();
+	}
+	
+	@PostMapping("post/title")
+	@ResponseBody
+	public String postTitle(Title title,HttpSession session){
+		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
+		title.setAuthor(user.getName());
+		title.setUserId(user.getId());
+		System.out.println(title);
+		titleService.insert(title);
+		return "";
+	}
+	
 }

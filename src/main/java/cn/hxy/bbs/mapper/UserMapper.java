@@ -1,5 +1,6 @@
 package cn.hxy.bbs.mapper;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
@@ -34,4 +35,6 @@ public interface UserMapper {
     String getNameByEmail(@Param("email")String email);
     
     void updatePassword(@Param("name")String name,@Param("password")String password); 
+    
+    List<User> findUserByName(@Param("name")String name);
 }

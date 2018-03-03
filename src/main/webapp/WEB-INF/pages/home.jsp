@@ -20,7 +20,7 @@
 <span id="username-span">${bbs.name }</span>
 <span id="idd" hidden>${bbs.id }</span>
 <a id="login-logout" href=""></a>
-<a href="/bbs/login/logout">fuck</a>
+<a href="/bbs/login/logout">logout</a>丨<a href="/bbs/content/get/title">发帖</a>丨<a href="/bbs/home/get/search">搜索</a>
 </div>
 </header>
 	<c:forEach items="${sections }" var="obj">

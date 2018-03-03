@@ -15,6 +15,11 @@
 	<sql id="Base_Column_List">
 		id, name, sex, email, phone, sign, create_date, update_date ,password
 	</sql>
+	
+	<select id="findUserByName" resultMap="BaseResultMap">
+  	select * from t_user where name like "%"#{name}"%"
+  	</select>
+	
 	<select id="doUserLogin" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

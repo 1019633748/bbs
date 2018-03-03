@@ -113,4 +113,9 @@ public class ContentServiceImpl implements ContentService {
 		return contentMapper.insert(content);
 	}
 
+	@Override
+	public List<Content> findContentByName(String name) {
+		return contentMapper.findContentByName(name);
+	}
+
 }

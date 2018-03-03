@@ -18,6 +18,14 @@
   where section_id = #{id,jdbcType=INTEGER}
   </select>
   
+  <select id="findTitleByName" resultMap="BaseResultMap">
+  	select * from t_title where name like "%"#{name}"%"
+  </select>
+  
+  <select id="getTitles" resultType="cn.hxy.bbs.model.Title">
+  select * from t_title
+  </select>
+  
   <select id="getTitlesByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
   select * from t_title 
   where user_id = #{id,jdbcType=INTEGER}
@@ -46,11 +54,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.hxy.bbs.model.Title" >
-    insert into t_title (id, name, author, 
-      create_date, update_date, section_id
+    insert into t_title (id, name, author, section_id ,user_id,first_floor
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=DATE}, #{updateDate,jdbcType=DATE}, #{sectionId,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},#{sectionId,jdbcType=INTEGER} ,#{userId},#{firstFloor}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.hxy.bbs.model.Title" >

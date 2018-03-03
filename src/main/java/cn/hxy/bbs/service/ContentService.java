@@ -28,6 +28,8 @@ public interface ContentService {
 
 	List<Content> getAllContentByUserId(int id, int pageNum, int pageSize);
 	
+	List<Content> findContentByName(String name);
+	
 	void uploadContentImg(MultipartFile img,int contentId,int userId)throws IllegalStateException, IOException;
 	
 	

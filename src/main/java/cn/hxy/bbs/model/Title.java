@@ -23,6 +23,8 @@ public class Title {
 	private String firstFloor;
 
 	private String sectionName;
+	
+	private int userId;
 
 	List<String> uris;
 
@@ -113,6 +115,14 @@ public class Title {
 
 	public void setUri(String uri) {
 		this.uri = uri;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

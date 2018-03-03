@@ -2,6 +2,8 @@ package cn.hxy.bbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.hxy.bbs.model.Section;
 
 public interface SectionMapper {
@@ -22,4 +24,6 @@ public interface SectionMapper {
     List<Section> getSections();
     
     String getNameById(int id);
+    
+    List<Section> findSectionByName(@Param("name") String name);
 }

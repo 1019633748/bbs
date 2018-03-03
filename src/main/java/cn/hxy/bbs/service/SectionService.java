@@ -12,4 +12,8 @@ public interface SectionService {
 	public Section getSection(String name);
 
 	String getSectionNameById(int id);
+	
+	public List<Section> getSections();
+	
+	List<Section> findSectionByName(String name);
 }

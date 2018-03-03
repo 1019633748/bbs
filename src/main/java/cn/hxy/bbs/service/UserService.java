@@ -19,6 +19,8 @@ public interface UserService {
 	
 	List<Content> getAllContentByUserId(int id,int pageNum,int pageSize);
 	
+	List<User> findUserByName(String name);
+	
 	int getUserIdByName(String name);
 	
 	User doUserLogin(String name,String password);

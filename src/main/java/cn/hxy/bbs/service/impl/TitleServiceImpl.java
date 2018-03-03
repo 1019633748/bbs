@@ -56,4 +56,19 @@ public class TitleServiceImpl implements TitleService {
 		return titles;
 	}
 
+	@Override
+	public List<Title> getTitles() {
+		return titleMapper.getTitles();
+	}
+
+	@Override
+	public int insert(Title title) {
+		return titleMapper.insert(title);
+	}
+
+	@Override
+	public List<Title> findTitleByname(String name) {
+		return titleMapper.findTitleByName(name);
+	}
+
 }

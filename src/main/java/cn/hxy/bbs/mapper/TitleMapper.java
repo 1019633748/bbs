@@ -2,6 +2,8 @@ package cn.hxy.bbs.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.hxy.bbs.model.Title;
 
 public interface TitleMapper {
@@ -26,4 +28,8 @@ public interface TitleMapper {
     List<Title> getTitleBySectionName(String name);
     
     List <Title> getTitlesByUserId(int id);
+    
+    List <Title> getTitles();
+    
+    List <Title> findTitleByName(@Param("name")String name);
 }

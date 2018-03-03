@@ -14,6 +14,13 @@ public interface TitleService {
 	List<Title> getTitleBySectionName(String name);
 	
 	List<Title> getTitlesByUserId(int id);
+	
+	List<Title> getTitles();
+	
+	List<Title> findTitleByname(String name);
 
 	int getTitleIdByName(String name);
+	
+	int insert(Title title);
+	
 }
