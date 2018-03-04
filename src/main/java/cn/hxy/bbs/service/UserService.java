@@ -21,6 +21,8 @@ public interface UserService {
 	
 	List<User> findUserByName(String name);
 	
+	List<User> getUsers();
+	
 	int getUserIdByName(String name);
 	
 	User doUserLogin(String name,String password);

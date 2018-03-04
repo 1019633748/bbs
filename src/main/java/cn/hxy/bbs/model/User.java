@@ -2,6 +2,8 @@ package cn.hxy.bbs.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class User {
     private Integer id;
 
@@ -12,9 +14,11 @@ public class User {
     private String email;
 
     private String phone;
-
+    
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss") 
     private Date createDate;
-
+    
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss") 
     private Date updateDate;
     
     private String sign;

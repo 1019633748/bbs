@@ -27,6 +27,10 @@
   	select * from t_content where content like "%"#{name}"%"
  	 </select>
 	
+	<select id="getContent" resultMap="BaseResultMap">
+	select * from t_content
+	</select>
+	
 	<select id="getTotalContentByTitleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
 	select count(title_id) from t_content
 	where title_id = #{id,jdbcType=INTEGER} 

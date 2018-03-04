@@ -9,8 +9,8 @@
 		<result column="phone" property="phone" jdbcType="VARCHAR" />
 		<result column="sign" property="sign" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="create_date" property="createDate" jdbcType="DATE" />
-		<result column="update_date" property="updateDate" jdbcType="DATE" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, name, sex, email, phone, sign, create_date, update_date ,password
@@ -18,6 +18,10 @@
 	
 	<select id="findUserByName" resultMap="BaseResultMap">
   	select * from t_user where name like "%"#{name}"%"
+  	</select>
+  	
+  	<select id="getUsers" resultMap="BaseResultMap">
+  	select * from t_user
   	</select>
 	
 	<select id="doUserLogin" resultMap="BaseResultMap">

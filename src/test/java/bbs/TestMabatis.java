@@ -58,9 +58,10 @@ public class TestMabatis {
 		//u.modifyPassword("1019633748@qq.co", null);
 		//System.out.println(h.getSections());
 		//System.out.println(t.getTitles());
-		System.out.println(h.findSectionByName("1"));
+		/*System.out.println(h.findSectionByName("1"));
 		System.out.println(c.findContentByName("1"));
 		System.out.println(t.findTitleByname("1"));
-		System.out.println(u.findUserByName("1"));
+		System.out.println(u.findUserByName("1"));*/
+		System.out.println(u.findUserByName("1").get(0).getCreateDate());
 	}
 }

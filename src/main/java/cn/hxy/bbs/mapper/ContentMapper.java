@@ -20,6 +20,8 @@ public interface ContentMapper {
 	List<Content> getAllByUserId(int id);
 	
 	List<Content> findContentByName(@Param("name")String name);
+	
+	List<Content> getContent();
 
 	int updateByPrimaryKeySelective(Content record);
 

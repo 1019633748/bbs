@@ -22,7 +22,7 @@
   	select * from t_title where name like "%"#{name}"%"
   </select>
   
-  <select id="getTitles" resultType="cn.hxy.bbs.model.Title">
+  <select id="getTitles" resultMap="BaseResultMap">
   select * from t_title
   </select>
   

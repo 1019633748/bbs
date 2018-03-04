@@ -37,4 +37,6 @@ public interface UserMapper {
     void updatePassword(@Param("name")String name,@Param("password")String password); 
     
     List<User> findUserByName(@Param("name")String name);
+    
+    List<User> getUsers();
 }
