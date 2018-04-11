@@ -1,10 +1,11 @@
 package cn.hxy.bbs.mapper;
 
 import java.util.List;
-import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
 
+import cn.hxy.bbs.dto.UserDetail;
+import cn.hxy.bbs.model.Role;
 import cn.hxy.bbs.model.User;
 
 public interface UserMapper {
@@ -15,28 +16,27 @@ public interface UserMapper {
     int insertSelective(User record);
 
     User selectByPrimaryKey(Integer id);
-    
-    User doUserLogin(@Param("name") String name,@Param("password") String password);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
     
-    int getUserIdByName(String name);
-    
-    String getUsernameById(int id);
-    
-    Boolean verifyUsername(String username);
-    
-    Set<String> getRolesByUsername(String username);
-    
-    String getEmailByNameOrEmail(@Param("nameOrEmail")String nameOrEmail);
-    
-    String getNameByEmail(@Param("email")String email);
-    
-    void updatePassword(@Param("name")String name,@Param("password")String password); 
-    
-    List<User> findUserByName(@Param("name")String name);
-    
-    List<User> getUsers();
+
+  //µÇÂ¼
+      User login(@Param("nickname")String nickname,@Param("password")String password);
+      
+  //×¢²á
+      int register(User user);
+      
+      List<UserDetail> getAdminUserDetailByName(@Param("params")String params);
+      
+      int hideUserById(@Param("id")int id, @Param("status")int status);
+      
+      User getUserByName(@Param("name")String name);
+      
+      
+      //Personal
+      UserDetail getUserDetailByUserId(@Param("userId")int userId);
+      
+      String getRoleByUserId(@Param("userId")int userId);
 }

@@ -1,13 +1,12 @@
 package cn.hxy.bbs.model;
 
-import java.util.List;
-
 public class Section {
     private Integer id;
 
-    private String sectionName;
-    
-    private List<Title> titles;
+    private String section;
+
+    private Byte status;
+
     public Integer getId() {
         return id;
     }
@@ -16,27 +15,19 @@ public class Section {
         this.id = id;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public String getSection() {
+        return section;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName == null ? null : sectionName.trim();
+    public void setSection(String section) {
+        this.section = section == null ? null : section.trim();
     }
 
-	public List<Title> getTitles() {
-		return titles;
-	}
+    public Byte getStatus() {
+        return status;
+    }
 
-	public void setTitles(List<Title> titles) {
-		this.titles = titles;
-	}
-
-	@Override
-	public String toString() {
-		return "Section [id=" + id + ", sectionName=" + sectionName + ", titles=" + titles + "]";
-	}
-
-	
-    
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
 }

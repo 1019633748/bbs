@@ -4,25 +4,19 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import cn.hxy.bbs.dto.UserDetail;
 import cn.hxy.bbs.model.Friend;
 
 public interface FriendMapper {
     int insert(Friend record);
 
     int insertSelective(Friend record);
+      
+    List<UserDetail> getFriendByUserId(@Param("userId")int userId);
     
-    int getAttention(int id);
+    List<UserDetail> getFansByUserId(@Param("userId")int userId);
     
-    int getFans(int id);
+    int isAttention(@Param("currentUserId")int currentUserId,@Param("targetUserId")int targetUserId);
     
-    
-    List <Integer> getAttentionIdList(int id);
-    
-   // List<Map <String,String>> getAttentionIdList(int id);
-    
-    List <Integer> getFansIdList(int id);
-    
-    boolean isAttention(@Param("userId")int userId, @Param("targetId")int targetId);
-    
-    int removeAttention(@Param("userId")int userId,@Param("friendId")int friendId);
+    int unfollow(@Param("currentUserId")int currentUserId,@Param("targetUserId")int targetUserId);
 }

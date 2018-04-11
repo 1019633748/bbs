@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import cn.hxy.bbs.dto.SectionSize;
 import cn.hxy.bbs.model.Section;
 
 public interface SectionMapper {
@@ -12,18 +13,28 @@ public interface SectionMapper {
     int insert(Section record);
 
     int insertSelective(Section record);
-    
+
     Section selectByPrimaryKey(Integer id);
-    
-    Section getSectionByName(String name);
 
     int updateByPrimaryKeySelective(Section record);
 
     int updateByPrimaryKey(Section record);
     
-    List<Section> getSections();
+    //获取版块集合
+    List<SectionSize> findAllSection();
     
-    String getNameById(int id);
+    List<SectionSize> findAllAdminSection();
     
-    List<Section> findSectionByName(@Param("name") String name);
+    List<SectionSize> getAdminSectionByParam(@Param("params")String param);
+    
+    //通过id进入某板块
+   // Section getSectionById(@Param("id") int id);
+    
+    Section getSectionByPostId(@Param("postId")int postId);
+    
+    int hideSectionById(@Param("id")int id,@Param("status")int status);
+    
+    Section getSectionByName(@Param("section") String section);
+    
+    int addSection(@Param("section")String section);
 }

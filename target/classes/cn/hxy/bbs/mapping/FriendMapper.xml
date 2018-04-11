@@ -5,39 +5,17 @@
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
 		<result column="friend_id" property="friendId" jdbcType="INTEGER" />
 	</resultMap>
-	<select id="getAttention" resultType="java.lang.Integer"
-		parameterType="java.lang.Integer">
-		select count(user_id) from t_friend where user_id =
-		#{id,jdbcType=INTEGER}
+
+	<select id="isAttention" resultType="int">
+		select count(*) from t_friend
+		where user_id=#{currentUserId}
+		and
+		friend_id = #{targetUserId}
 	</select>
-	<select id="getFans" resultType="java.lang.Integer"
-		parameterType="java.lang.Integer">
-		select count(friend_id) from t_friend where friend_id =
-		#{id,jdbcType=INTEGER}
-	</select>
-	 <select id="getAttentionIdList" resultType="java.lang.Integer" parameterType="java.lang.Integer"> 
-		select friend_id from t_friend where user_id = #{id,jdbcType=INTEGER} </select>
-	<!-- <select id="getAttentionIdList" parameterType="java.lang.Integer"
-		resultType="map">
-		SELECT t_user.name as name,t_image.uri FROM
-		t_friend,t_user,t_image WHERE t_friend.user_id = #{id,jdbcType=INTEGER} AND t_user.id =
-		t_friend.`friend_id` AND t_image.`user_id`=t_friend.`friend_id` AND
-		t_image.`content_id` IS NULL
-	</select> -->
-	<select id="getFansIdList" resultType="java.lang.Integer"
-		parameterType="java.lang.Integer">
-		select user_id from t_friend where friend_id = #{id,jdbcType=INTEGER}
-	</select>
-	
-	<select id="isAttention" resultType="java.lang.Boolean">
-	   select count(user_id)from t_friend where #{userId} = user_id and #{targetId} = friend_id
-	</select>
-	
+
 	<insert id="insert" parameterType="cn.hxy.bbs.model.Friend">
-		insert into t_friend (user_id,
-		friend_id)
-		values (#{userId,jdbcType=INTEGER},
-		#{friendId,jdbcType=INTEGER})
+		insert into t_friend (user_id, friend_id)
+		values (#{userId,jdbcType=INTEGER}, #{friendId,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.Friend">
 		insert into t_friend
@@ -58,8 +36,10 @@
 			</if>
 		</trim>
 	</insert>
-	
-	<delete id="removeAttention">
-	delete from t_friend where user_id = #{userId} and friend_id = #{friendId}
+	<delete id="unfollow">
+	 delete from t_friend
+	 where user_id=#{currentUserId}
+		and
+		friend_id = #{targetUserId} 
 	</delete>
 </mapper>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hxy.bbs.mapper.PostMapper">
+	<resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Post">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="post" property="post" jdbcType="CHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="section_id" property="sectionId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, post, create_date, status, section_id, user_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_post
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getPostDetailBySectionId" resultType="cn.hxy.bbs.dto.PostDetail">
+		select
+		p.id id,
+		p.post post,
+		p.user_id userId,
+		p.create_date createDate,
+		u.nickname
+		author,
+		count(r.post_id) replyAmount,
+		max(r.create_date) lastReply
+		from
+		t_post p,t_user u,t_reply r
+		where
+		p.section_id =
+		#{sectionId,jdbcType=INTEGER}
+		and
+		p.status = 0
+		and
+		p.user_id = u.id
+		and
+		p.id = r.post_id
+		group by p.id
+	</select>
+
+	<select id="getPostDetailByName" resultType="cn.hxy.bbs.dto.PostDetail">
+		SELECT
+		p.id id,
+		p.post post,
+		p.user_id userId,
+		p.create_date createDate,
+		p.status,
+		u.nickname
+		author,
+		COUNT(r.post_id) replyAmount,
+		MAX(r.create_date) lastReply,
+		s.id sectionId,
+		s.section section
+		FROM
+		t_post p LEFT JOIN (t_user u,t_reply r,t_section s)
+		ON
+		p.user_id = u.id
+		AND
+		p.id = r.post_id
+		AND
+		p.section_id = s.id
+		where p.post like
+		'%${params}%'
+		GROUP BY p.id
+	</select>
+
+	<select id="getPostByUserId" resultType="cn.hxy.bbs.dto.PostDetail">
+		SELECT
+		p.id id,
+		p.post post,
+		p.user_id userId,
+		p.create_date createDate,
+		p.status,
+		u.nickname
+		author,
+		COUNT(r.post_id) replyAmount,
+		MAX(r.create_date) lastReply,
+		s.id sectionId,
+		s.section section
+		FROM
+		t_post p LEFT JOIN (t_user u,t_reply r,t_section s)
+		ON
+		p.user_id = u.id
+		AND
+		p.id = r.post_id
+		AND
+		p.section_id = s.id
+		where p.post like
+		'%${params}%'
+		and
+		p.user_id = #{userId}
+		GROUP BY p.id
+		order by p.create_date desc
+	</select>
+
+	<select id="findAllAdminPost" resultType="cn.hxy.bbs.dto.PostDetail">
+		SELECT
+		p.id id,
+		p.post
+		post,
+		p.user_id userId,
+		p.create_date createDate,
+		p.status,
+		u.nickname
+		author,
+		COUNT(r.post_id) replyAmount,
+		MAX(r.create_date) lastReply,
+		s.id
+		sectionId,
+		s.section section
+		FROM
+		t_post p LEFT JOIN (t_user u,t_reply
+		r,t_section s)
+		ON
+		p.user_id = u.id
+		AND
+		p.id = r.post_id
+		AND
+		p.section_id =
+		s.id
+		GROUP BY p.id
+	</select>
+
+	<select id="getHotPostDetailBySectionId" resultType="cn.hxy.bbs.dto.PostDetail">
+		select
+		p.id
+		id,
+		p.post post,
+		p.user_id userId,
+		p.create_date createDate,
+		u.nickname
+		author,
+		count(r.post_id) replyAmount,
+		max(r.create_date) lastReply
+		from
+		t_post p,t_user u,t_reply r
+		where
+		p.section_id =
+		#{sectionId,jdbcType=INTEGER}
+		and
+		p.status = 0
+		and
+		p.user_id = u.id
+		and
+		p.id = r.post_id
+		group by p.id
+		order by replyAmount desc
+	</select>
+
+	<select id="getLastPostDetailBySectionId" resultType="cn.hxy.bbs.dto.PostDetail">
+		select
+		p.id
+		id,
+		p.post post,
+		p.user_id userId,
+		p.create_date createDate,
+		u.nickname
+		author,
+		count(r.post_id) replyAmount,
+		max(r.create_date) lastReply
+		from
+		t_post p,t_user u,t_reply r
+		where
+		p.section_id =
+		#{sectionId,jdbcType=INTEGER}
+		and
+		p.status = 0
+		and
+		p.user_id = u.id
+		and
+		p.id = r.post_id
+		group by p.id
+		order by createDate
+	</select>
+
+	<select id="findHotPost" resultType="cn.hxy.bbs.dto.HotPost">
+		SELECT DISTINCT
+		p.id id,
+		p.post post,
+		p.create_date createDate,
+		p.user_id userId,
+		p.section_id
+		sectionId,
+		u.nickname author,
+		s.section section,
+		(SELECT
+		MAX(t_reply.create_date) FROM t_reply,t_post WHERE t_reply.post_id =
+		p.id) lastReply,
+		(SELECT COUNT(t_reply.id) FROM t_reply WHERE
+		t_reply.post_id = p.id )
+		replyAmount
+		FROM
+		t_post p,
+		t_user u,
+		t_section s,
+		t_reply r
+		WHERE
+		p.section_id = s.id
+		AND
+		p.user_id = u.id
+		AND
+		p.id =
+		r.post_id
+		and
+		s.status = 0
+		and
+		p.status = 0
+		order by replyAmount desc
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_post
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.hxy.bbs.model.Post">
+		insert into t_post (id, post,
+		create_date,
+		status, section_id, user_id
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{post,jdbcType=CHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=TINYINT},
+		#{sectionId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.Post"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_post
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="post != null">
+				post,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="sectionId != null">
+				section_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="post != null">
+				#{post,jdbcType=CHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="sectionId != null">
+				#{sectionId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hxy.bbs.model.Post">
+		update t_post
+		<set>
+			<if test="post != null">
+				post = #{post,jdbcType=CHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="sectionId != null">
+				section_id = #{sectionId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hxy.bbs.model.Post">
+		update t_post
+		set
+		post = #{post,jdbcType=CHAR},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=TINYINT},
+		section_id = #{sectionId,jdbcType=INTEGER},
+		user_id =
+		#{userId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="hidePostById">
+		update t_post
+		set status = #{status}
+		where id = #{id}
+	</update>
+</mapper>

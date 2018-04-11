@@ -5,60 +5,64 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
+import cn.hxy.bbs.dto.SectionSize;
 import cn.hxy.bbs.mapper.SectionMapper;
-import cn.hxy.bbs.mapper.TitleMapper;
 import cn.hxy.bbs.model.Section;
 import cn.hxy.bbs.service.SectionService;
 
 @Service
 public class SectionServiceImpl implements SectionService {
+
 	@Autowired
 	private SectionMapper sectionMapper;
 	
-	@Autowired
-	private TitleMapper titleMapper;
+	@Override
+	public List<SectionSize> findAllSection() {
+		return sectionMapper.findAllSection() ;
+	}
+
+	@Override
+	public Section getSectionById(int id) {
+		return sectionMapper.selectByPrimaryKey(id);
+	}
+
 	
+	
+
 	@Override
-	public List<Section> getSections(int pageNum,int pageSize) {
+	public int deleteSection(int sectionId) {
 		// TODO Auto-generated method stub
-		PageHelper.startPage(pageNum, pageSize);
-		List<Section> list = sectionMapper.getSections();
-		for(Section section : list){
-			PageHelper.startPage(1, 5);
-			section.setTitles(titleMapper.getAll(section.getId()));
-		}
-		return list;
+		return 0;
 	}
 
 	@Override
-	public Section getSection(int id) {
-		Section section = sectionMapper.selectByPrimaryKey(id);
-		section.setTitles(titleMapper.getAll(id));
-		return section;
+	public Section getSectionByPostId(int postId) {
+		return sectionMapper.getSectionByPostId(postId);
 	}
 
 	@Override
-	public Section getSection(String name) {
-		Section section = sectionMapper.getSectionByName(name);
-		section.setTitles(titleMapper.getAll(section.getId()));
-		return section;
+	public int hideSectionById(int id,int status) {
+		return sectionMapper.hideSectionById(id,status);
 	}
 
 	@Override
-	public String getSectionNameById(int id) {
-		return sectionMapper.getNameById(id);
+	public List<SectionSize> findAllAdminSection() {
+		return sectionMapper.findAllAdminSection();
 	}
 
 	@Override
-	public List<Section> getSections() {
-		return sectionMapper.getSections();
+	public Section getSectionByName(String section) {
+		return sectionMapper.getSectionByName(section);
 	}
 
 	@Override
-	public List<Section> findSectionByName(String name) {
-		return sectionMapper.findSectionByName(name);
+	public int addSection(String section) {
+		return sectionMapper.addSection(section);
+	}
+
+	@Override
+	public List<SectionSize> getAdminSectionByParam(String param) {
+		return sectionMapper.getAdminSectionByParam(param);
 	}
 
 }

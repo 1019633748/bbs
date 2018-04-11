@@ -18,18 +18,23 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<!-- 身份认证失败，则跳转到登录页面的配置 -->
-		<property name="loginUrl" value="/login.jsp" />
+		<property name="loginUrl" value="/get/login" />
 		<!-- 权限认证失败，则跳转到指定页面 -->
 		<property name="unauthorizedUrl" value="/unauthorized.jsp" />
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
+				/get/post=authc
 				/login=anon
 				/home/get/home=anon
+				/attention/users/**=authc
+				/report/**=authc
 				/user/get/user/**=authc
 				/user/get/users/**=authc
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
+				/get/advice=roles[管理员]
+				/get/admin/**=roles[管理员]
 				/user/teacher*/**=perms["user:create"]
 			</value>
 		</property>

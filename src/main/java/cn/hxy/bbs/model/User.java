@@ -7,34 +7,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class User {
     private Integer id;
 
-    private String name;
+    private String nickname;
 
-    private String sex;
+    private String password;
+
+    private Byte sex;
 
     private String email;
 
-    private String phone;
+    private String sign;
+
+    private Byte status;
     
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss") 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date createDate;
     
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss") 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date updateDate;
-    
-    private String sign;
-    
-    private String password;
- 
-    
-	public String getSign() {
-		return sign;
-	}
 
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
-
-	public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -42,20 +33,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
     }
 
-    public String getSex() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public Byte getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setSex(Byte sex) {
+        this.sex = sex;
     }
 
     public String getEmail() {
@@ -66,12 +65,20 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getPhone() {
-        return phone;
+    public String getSign() {
+        return sign;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setSign(String sign) {
+        this.sign = sign == null ? null : sign.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public Date getCreateDate() {
@@ -90,20 +97,11 @@ public class User {
         this.updateDate = updateDate;
     }
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", sex=" + sex + ", email=" + email + ", phone=" + phone
-				+ ", createDate=" + createDate + ", updateDate=" + updateDate + ", sign=" + sign + ", password="
-				+ password + "]";
+		return "User [id=" + id + ", nickname=" + nickname + ", password=" + password + ", sex=" + sex + ", email="
+				+ email + ", sign=" + sign + ", status=" + status + ", createDate=" + createDate + ", updateDate="
+				+ updateDate + "]";
 	}
     
-	
 }

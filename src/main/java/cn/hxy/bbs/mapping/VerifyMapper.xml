@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hxy.bbs.mapper.VerifyMapper">
+	<resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Verify">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="reply_id" property="replyId" jdbcType="INTEGER" />
+		<result column="post_id" property="postId" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, reply_id, post_id, create_date, status
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_verify
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getRecordByUserIdAndPostId" resultType="int">
+		select
+		count(*)
+		from t_verify
+		where user_id = #{userId,jdbcType=INTEGER}
+		and
+		post_id = #{postId} and reply_id =0
+
+	</select>
+
+	<select id="getAuditPostByParams" resultType="cn.hxy.bbs.dto.VerifyPost">
+		SELECT
+		v.id,
+		v.user_id,
+		v.status,
+		v.post_id postId,
+		p.post post,
+		p.status postStatus,
+		s.section section,
+		s.id sectionId
+		FROM
+		t_verify v,
+		t_post p,
+		t_section s
+		WHERE
+		reply_id = 0
+		AND
+		v.`post_id`=p.`id`
+		AND
+		p.`section_id`=s.`id`
+		AND
+		post
+		LIKE '%${params}%'
+	</select>
+
+	<select id="getAuditReplyByParams" resultType="cn.hxy.bbs.dto.VerifyReply">
+		SELECT
+		v.id,
+		v.user_id,
+		v.status,
+		s.section section,
+		s.id sectionId,
+		v.post_id postId,
+		p.post post,
+		v.`reply_id` replyId,
+		r.reply reply,
+		r.`status` replyStatus
+		FROM
+		t_verify v,
+		t_post p,
+		t_section s,
+		t_reply r
+		WHERE
+		reply_id != 0
+		AND
+		v.`post_id`=p.`id`
+		AND
+		p.`section_id`=s.`id`
+		AND
+		v.`reply_id` = r.`id`
+		AND
+		reply LIKE '%${params}%'
+	</select>
+
+	<select id="getRecordByUserIdAndReplyId" resultType="int">
+		select
+		count(*)
+		from t_verify
+		where user_id = #{userId,jdbcType=INTEGER}
+		and
+		reply_id = #{replyId}
+
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_verify
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.hxy.bbs.model.Verify">
+		insert into t_verify (id,
+		user_id, reply_id,
+		post_id, create_date, status
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+		#{replyId,jdbcType=INTEGER},
+		#{postId,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.Verify">
+		insert into t_verify
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="replyId != null">
+				reply_id,
+			</if>
+			<if test="postId != null">
+				post_id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="replyId != null">
+				#{replyId,jdbcType=INTEGER},
+			</if>
+			<if test="postId != null">
+				#{postId,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.hxy.bbs.model.Verify">
+		update t_verify
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="replyId != null">
+				reply_id = #{replyId,jdbcType=INTEGER},
+			</if>
+			<if test="postId != null">
+				post_id = #{postId,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.hxy.bbs.model.Verify">
+		update t_verify
+		set user_id = #{userId,jdbcType=INTEGER},
+		reply_id =
+		#{replyId,jdbcType=INTEGER},
+		post_id = #{postId,jdbcType=INTEGER},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		status =
+		#{status,jdbcType=TINYINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="hideVerifyById">
+		update t_verify
+		set status = #{status}
+		where id = #{id}
+	</update>
+
+</mapper>

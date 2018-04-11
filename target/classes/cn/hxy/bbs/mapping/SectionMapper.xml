@@ -3,109 +3,126 @@
 <mapper namespace="cn.hxy.bbs.mapper.SectionMapper">
 	<resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Section">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="section_name" property="sectionName" jdbcType="VARCHAR" />
-		<!-- <collection property="titles" ofType="cn.hxy.bbs.model.Title">
-			<id column="t_id" property="id" />
-			<result column="name" property="name" />
-			<result column="author" property="author" />
-			<result column="create_date" property="createDate" />
-			<result column="update_date" property="updateDate" />
-			<result column="section_id" property="sectionId" />
-		</collection> -->
+		<result column="section" property="section" jdbcType="CHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, section_name
+		id, section, status
 	</sql>
-	
-	<select id="findSectionByName" resultMap="BaseResultMap">
-	select * from t_section where section_name like "%"#{name}"%"
-	</select>
-	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		<!-- select
+		select
 		<include refid="Base_Column_List" />
 		from t_section
-		where id = #{id,jdbcType=INTEGER} -->
-		<!-- select
-		s.id s_id,
-		s.section_name,
-		t.id t_id,
-		t.name,
-		t.author,
-		t.create_date,
-		t.update_date,
-		t.section_id
-		from (t_section s,t_title t) where
-		s.id=t.section_id
-		and
-		s.id=#{id,jdbcType=INTEGER} -->
-		select * from t_section where id = #{id,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
 	</select>
-	<select id="getSectionByName" resultMap="BaseResultMap" parameterType="java.lang.String">
-	select * from t_section where section_name = #{name,jdbcType=VARCHAR}
+	
+	<select id="getSectionByPostId" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from t_section
+	where
+	id = (select section_id from t_post where id = #{postId})
 	</select>
-	<select id="getNameById" resultType="java.lang.String" parameterType="java.lang.Integer">
-	select section_name from t_section
-	where id = #{id,jdbcType=INTEGER}
+	
+
+	<select id="findAllSection" resultType="cn.hxy.bbs.dto.SectionSize">
+		SELECT
+		s.id id ,s.status,s.section section,
+		(SELECT COUNT(p.id) FROM t_post p WHERE p.section_id = s.id AND p.status = 0) postAmount
+		FROM t_section s
+		WHERE s.status = 0
 	</select>
+	
+	<select id="getAdminSectionByParam" resultType="cn.hxy.bbs.dto.SectionSize">
+		SELECT
+		s.id id ,s.status,s.section section ,COUNT(p.section_id) postAmount
+		FROM t_section s LEFT JOIN t_post p
+		ON 
+		s.id = p.`section_id`
+		WHERE
+		section LIKE '%${params}%'
+		GROUP BY s.id
+	</select>
+	
+	<select id="findAllAdminSection" resultType="cn.hxy.bbs.dto.SectionSize">
+		SELECT
+		s.id id ,s.status,s.section section ,COUNT(p.section_id) postAmount
+		FROM t_section s LEFT JOIN t_post p
+		ON 
+		s.id = p.`section_id`
+		GROUP BY s.id
+	</select>
+	
+	<select id="getSectionByName" resultMap="BaseResultMap">
+		select * from t_section
+		where section = #{section}
+	</select>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from
-		t_section
+		delete from t_section
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="cn.hxy.bbs.model.Section">
-		insert into t_section (id,
-		section_name)
-		values (#{id,jdbcType=INTEGER},
-		#{sectionName,jdbcType=VARCHAR})
+		insert into t_section (id, section, status
+		)
+		values (#{id,jdbcType=INTEGER}, #{section,jdbcType=CHAR},
+		#{status,jdbcType=TINYINT}
+		)
 	</insert>
+	
+	<insert id="addSection">
+		insert into t_section (section) value( #{section})
+	</insert>
+	
 	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.Section">
 		insert into t_section
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
 			</if>
-			<if test="sectionName != null">
-				section_name,
+			<if test="section != null">
+				section,
+			</if>
+			<if test="status != null">
+				status,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
 			</if>
-			<if test="sectionName != null">
-				#{sectionName,jdbcType=VARCHAR},
+			<if test="section != null">
+				#{section,jdbcType=CHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
 			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="cn.hxy.bbs.model.Section">
 		update t_section
 		<set>
-			<if test="sectionName != null">
-				section_name = #{sectionName,jdbcType=VARCHAR},
+			<if test="section != null">
+				section = #{section,jdbcType=CHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="cn.hxy.bbs.model.Section">
 		update t_section
-		set section_name = #{sectionName,jdbcType=VARCHAR}
-		where id =
-		#{id,jdbcType=INTEGER}
+		set section = #{section,jdbcType=CHAR},
+		status = #{status,jdbcType=TINYINT}
+		where id = #{id,jdbcType=INTEGER}
 	</update>
-	<select id="getSections" resultMap="BaseResultMap">
-		<!-- select
-		s.id s_id,
-		s.section_name,
-		t.id t_id ,
-		t.name,
-		t.author,
-		t.create_date,
-		t.update_date,
-		t.section_id
-		from (t_section s) inner join (t_title t) on
-		s.id=t.section_id -->
-		select * from t_section
-	</select>
+	
+	<update id="hideSectionById">
+		update t_section
+		set status = #{status}
+		where id = #{id}
+	</update>
+	
 </mapper>

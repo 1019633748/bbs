@@ -26,9 +26,9 @@ public class UserRealm extends AuthorizingRealm {
 	
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
-		//User user = (User) SecurityUtils.getSubject().getSession().getAttribute(SESSION_USER_KEY);
+		User user = (User) SecurityUtils.getSubject().getSession().getAttribute(SESSION_USER_KEY);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		info.addRole("");
+		info.addRole(userService.getRoleByUserId(user.getId()));
 		return info;
 	}
 	
@@ -37,7 +37,7 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		User userLogin = tokenToUser((UsernamePasswordToken) authcToken);
-		User ui = userService.doUserLogin(userLogin.getName(), userLogin.getPassword());
+		User ui = userService.doLogin(userLogin.getNickname(), userLogin.getPassword());
 		if(ui == null){
 			return null;
 		}
@@ -58,7 +58,7 @@ public class UserRealm extends AuthorizingRealm {
 	
 	private User tokenToUser(UsernamePasswordToken authcToken) {
 		User user = new User();
-		user.setName(authcToken.getUsername());
+		user.setNickname(authcToken.getUsername());
 		user.setPassword(String.valueOf(authcToken.getPassword()));
 		return user;
 	}

@@ -1,45 +1,31 @@
 package cn.hxy.bbs.service;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import cn.hxy.bbs.model.Content;
+import cn.hxy.bbs.dto.UserDetail;
 import cn.hxy.bbs.model.User;
 
 public interface UserService {
-
-	User getUserByID(int id);
 	
-	Set<String> getRolesByUsername(String username);
+	//µÇÂ¼
+	User doLogin(String nickname,String password);
 	
-	List<Content> getAllContentByUserId(int id,int pageNum,int pageSize);
+	//×¢²á
+	int register(User user);
 	
-	List<User> findUserByName(String name);
+	int addAdmin(User user);
+		
+	List<User> getCheckUser();
 	
-	List<User> getUsers();
+	List<UserDetail> getAdminUserDetailByName(String params);
 	
-	int getUserIdByName(String name);
+	int hideUserById(int id,int status);
 	
-	User doUserLogin(String name,String password);
+	int verifyName(String name);
 	
-	Boolean verifyUsername(String username);
+	UserDetail getUserDetailByUserId(int userId);
 	
-	int addUser(User user);
+	int updateUser(User user);
 	
-	void uploadAvatar(MultipartFile avatar,HttpSession session)throws IllegalStateException, IOException;
-	
-	void modifyUser(User user);
-	
-	String getCode(String nameOrEmail,HttpSession session);
-	
-	String verifyCode(String code,HttpSession session);
-	
-	String getNameByEmail(String email);
-	
-	String modifyPassword(String password,HttpSession session);
+	String getRoleByUserId(int userId);
 }

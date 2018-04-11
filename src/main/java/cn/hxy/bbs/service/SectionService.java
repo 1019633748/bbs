@@ -2,18 +2,26 @@ package cn.hxy.bbs.service;
 
 import java.util.List;
 
+import cn.hxy.bbs.dto.SectionSize;
 import cn.hxy.bbs.model.Section;
 
 public interface SectionService {
-	public List<Section> getSections(int pageNum, int pageSize);
 
-	public Section getSection(int id);
-
-	public Section getSection(String name);
-
-	String getSectionNameById(int id);
+	List<SectionSize> findAllSection();
 	
-	public List<Section> getSections();
+	List<SectionSize> findAllAdminSection();
 	
-	List<Section> findSectionByName(String name);
+	Section getSectionById(int id);
+	
+	int deleteSection(int sectionId);
+	
+	Section getSectionByPostId(int postId);
+	
+	int hideSectionById(int id,int status);
+	
+	Section getSectionByName(String section);
+	
+	int addSection(String  section);
+	
+	List<SectionSize> getAdminSectionByParam(String param);
 }
