@@ -1,5 +1,7 @@
 package cn.hxy.bbs.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 
 import cn.hxy.bbs.dto.PostDetail;
 import cn.hxy.bbs.dto.ReplyDetail;
 import cn.hxy.bbs.dto.TableData;
+import cn.hxy.bbs.dto.UserDetail;
 import cn.hxy.bbs.model.User;
 import cn.hxy.bbs.realm.UserRealm;
 import cn.hxy.bbs.service.impl.AttentionServiceImpl;
@@ -89,9 +93,40 @@ public class PersonalController {
 		return td;
 	}
 	
+	@PostMapping("/get/follow/{userId}")
+	@ResponseBody
+	public TableData<UserDetail> getFollowListByUserId(@PathVariable("userId")int userId,int pageIndex,int pageSize,String param){
+		TableData<UserDetail> td = new TableData<UserDetail>();
+		PageHelper.startPage(pageIndex, pageSize);
+		td.setRows(userService.getFollowListByUserId(userId, param));
+		td.setTotal(userService.getFollowListByUserId(userId, param).size());
+		return td;
+	}
 	
-	public String getUserList(Model model){
-		model.addAttribute("userList", "取list的方法");
-	return null;
+	@PostMapping("/get/fans/{userId}")
+	@ResponseBody
+	public TableData<UserDetail> getFansListByUserId(@PathVariable("userId")int userId,int pageIndex,int pageSize,String param){
+		TableData<UserDetail> td = new TableData<UserDetail>();
+		PageHelper.startPage(pageIndex, pageSize);
+		td.setRows(userService.getFansListByUserId(userId, param));
+		td.setTotal(userService.getFansListByUserId(userId, param).size());
+		return td;
+	}
+	
+	@GetMapping("get/avatar")
+	public String alterAvatar(){
+		return "alter_avatar";
+	}
+	
+	@PostMapping("post/avatar")
+	@ResponseBody
+	public String uploadAvatar(MultipartFile avatar,HttpSession session) throws IllegalStateException, IOException{
+		userService.uploadAvatar(avatar, session);
+		return"SUC";
+	}
+	
+	@GetMapping("alter/password")
+	public String toAlterPassword(){
+		return "password";
 	}
 }

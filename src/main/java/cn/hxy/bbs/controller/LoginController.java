@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,7 @@ public class LoginController {
 	    } catch (Exception ex) {  
 	        ex.printStackTrace();  
 	        return "ƒ⁄≤ø¥ÌŒÛ£¨«Î÷ÿ ‘£°";  
-	    }  
-		
+	    }
 		return "SUCC";
 	}
 

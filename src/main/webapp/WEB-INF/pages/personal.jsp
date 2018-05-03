@@ -36,9 +36,10 @@
 
 #basic-info {
 	display: flex;
-	border: 1px solid black;
 	justify-content: space-around;
 	align-items: center;
+	margin-top:20px;
+	margin-bottom:20px
 }
 
 #basic-info-div {
@@ -47,7 +48,7 @@
 
 #post-reply-attention {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 }
 
 .logined {
@@ -58,19 +59,28 @@
 	display: none
 }
 
+#fans-div{
+display:none
+}
+
+body{
+background:#F8F8F8
+}
+
+
 </style>
 </head>
 <body>
 
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-default" style="border:none" role="navigation">
 	<div class="container-fluid">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="#">网络论坛</a>
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
-			<li class=""><a href="/bbs/get/home">主页</a></li>
-			<li><a href="/bbs/get/post">发帖</a></li>
+			<li class=""><a href="/bbs/get/home"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+			<li><a href="/bbs/get/post"><span class="glyphicon glyphicon-pencil"></span>&nbsp;发帖</a></li>
 				<li class="nav-item active"><a class="nav-link active" href="#">${user.nickname }的个人信息</a>
 				<c:if test="${user.id!=bbs.id }">
 					<c:choose>
@@ -84,20 +94,26 @@
 							</c:otherwise>
 					</c:choose>
 				</c:if></li>
+				<li>
+				<c:if test="${user.id==bbs.id }">
+				<a class="nav-link active" href="/bbs/alter/password">修改密码</a>
+				</c:if>
+				</li>
 		</ul>
 	</div>
 	<div class="pull-right" id="user-info">
-			<img class="img-circle img-thumbnail logined"
-				src="/images/avatar/male.png"> <span id="username"
-				class="logined">${bbs.nickname }</span> <a class="logout"
+			<img class="img-circle logined"
+				src="/images/avatar/${bbs.url }"> <span id="username"
+				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
 				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
 	<div id="basic-info">
-		<img src="/images/avatar/male.png" class="img-thumbnail" id="avatar"
+		<img src="/images/avatar/${user.url }" class="" id="avatar"
 			alt="...">
 		<div id="basic-info-div">
 			<input id="user-id" hidden value="${user.id }">
+			<input id="current-user-id" hidden value="${bbs.id }">
 			<form action="/bbs/put/user" id="user-form" method="post">
 				<div class="form-group row">
 					<label for="nickname" class="col-sm-2 col-form-label">昵称</label>
@@ -150,17 +166,42 @@
 			<table id="table-reply" class="">
 			</table>
 		</div>
-		<div id="attention">关注(20)丨被关注(10)</div>
+		<div class="btn-group" style="margin-top:10px" role="group" aria-label="Basic example">
+  			<button id="follow-btn" type="button" class="btn-link">关注</button>
+  			<button id="fans-btn" type="button" class="btn-link">被关注</button>
+  			<div id="follow-div" style="width:200px">
+  				<table id="table-follow" class=""></table>
+  			</div>
+  			<div id="fans-div" style="width:200px">
+  				<table id="table-fans" class=""></table>
+  			</div>
+		</div>
 	</div>
 
-
+	<script src="/bbs/js/common.js"></script>
 	<script type="text/javascript">
-		if ($('#username').html() != "") {
-			$('.logined').show()
-			$('.logout').hide()
-		}
+		
+		$('#avatar').click(function(){
+			if($('#user-id').val()==$('#current-user-id').val())
+			window.open("/bbs/get/avatar")
+		})
+		
+		$('#follow-btn').css("border-bottom","1px solid black")
+		$('#follow-btn').click(function(){
+			$('#follow-div').show()
+			$('#fans-div').hide()
+			$('#follow-btn').css("border-bottom","1px solid black")
+			$('#fans-btn').css("border-bottom","none")
+		})
+		
+		$('#fans-btn').click(function(){
+			$('#follow-div').hide()
+			$('#fans-div').show()
+			$('#follow-btn').css("border-bottom","none")
+			$('#fans-btn').css("border-bottom","1px solid black")
+		})
 
-		if ($('#username').html() == $('#nickname').val()) {
+		if ($('#username').text() == $('#nickname').val()) {
 			$('.user-info').prop('disabled', false)
 			$('.user-sex-div').children().remove()
 			$('.user-sex-div')
@@ -206,6 +247,7 @@
 				pageSize : 5,
 				pageNumber : 1,
 				search : true,
+				showHeader:true,
 				queryParams : queryParamsPost,//请求服务器时所传的参数
 				sidePagination : 'server',//指定服务器端分页
 				pageList : [ 5, 10, 15],
@@ -217,18 +259,24 @@
 							title : '版块',
 							formatter:function(index,row,value){
 								return "<a href='/bbs/get/sections/"+row.sectionId+"'>"+row.section+"</a>";
-							}
+							},cellStyle:{  
+						        css:{"border":"none"}  
+						    }  
 						},
 						{
 							field : 'post',
 							title : '帖子',
 							formatter:function(index,row,value){
-								return "<a href='/bbs/get/posts/"+row.id+"'>"+row.post+"</a>";
-							}
+								return "<a href='/bbs/get/posts/"+row.id+"'>"+row.post.substring(0,10)+"</a>";
+							},cellStyle:{  
+						        css:{"border":"none"}  
+						    }  
 						},{
 							field : 'createDate',
-							title : '发帖日期'
-						}],
+							title : '发帖日期',cellStyle:{  
+						        css:{"border":"none"}  
+						    }  
+						}]
 			});
 	
 	//请求服务数据时所传参数
@@ -253,6 +301,7 @@
 				pagination : true,
 				pageSize : 5,
 				pageNumber : 1,
+				showHeader:true,
 				search : true,
 				queryParams : queryParamsPost,//请求服务器时所传的参数
 				sidePagination : 'server',//指定服务器端分页
@@ -260,26 +309,110 @@
 				silent : true, //刷新事件必须设置  
 				sidePagination : 'server',//指定服务器端分页
 				columns : [
-						{
+						{	title: '版块',
 							field : 'post',
-							title : '帖子',
 							formatter:function(index,row,value){
-								return "<a href='/bbs/get/posts/"+row.postId+"'>"+row.post+"</a>";
-							}
-						},{
+								return "<a href='/bbs/get/posts/"+row.postId+"'>"+row.post.substring(0,10)+"</a>";
+							},cellStyle:{  
+						        css:{"border":"none"}  
+						    }  
+						},{title: '回复',
 							field : 'reply',
-							title : '回复',
 							formatter:function(index,row,value){
 								var reTag = /<(?:.|\s)*?>/g;
-								return row.reply.replace(reTag,'').substring(0,15)+'...'
-							}
-						},{
+								return "<a href='/bbs/get/posts/"+row.postId+"/"+row.id+"'><span title='"+row.text+"'>"+row.reply.replace(reTag,'').substring(0,20)+"...</span></a>"
+							},cellStyle:{  
+						        css:{"border":"none"}  
+						    }  
+						},{title: '日期',
 							field : 'createDate',
-							title : '回复日期'
+							cellStyle:{  
+						        css:{"border":"none"}  
+						    }  
 						}],
 			})
 	//请求服务数据时所传参数
 	function queryParamsPost(params) {
+		return {
+			pageSize : params.limit, //每一页的数据行数，默认是上面设置的10(pageSize)
+			pageIndex : params.offset / params.limit + 1, //当前页面,默认是上面设置的1(pageNumber)
+			param : params.search //这里是其他的参数，根据自己的需求定义，可以是多个
+		}
+	}
+	
+	</script>
+	
+	
+	
+		<script type="text/javascript">
+	$('#table-follow')
+	.bootstrapTable(
+			{
+				url : '/bbs/get/follow/'+$('#user-id').val(),
+				method : 'post',
+				contentType : "application/x-www-form-urlencoded",
+				pagination : true,
+				pageSize : 5,
+				pageNumber : 1,
+				search : true,
+				showHeader:false,
+				queryParams : queryParamsFollow,//请求服务器时所传的参数
+				sidePagination : 'server',//指定服务器端分页
+				pageList : [ 5, 10, 15],
+				silent : true, //刷新事件必须设置  
+				sidePagination : 'server',//指定服务器端分页
+				columns : [
+						{
+							field : 'url',
+							title : '关注的人',
+							formatter:function(index,row,value){
+								return "<img style='height:30px;width:30px;border-radius:50%' src='/images/avatar/"+row.url+"'>&emsp;&emsp;"+"<a href='/bbs/get/users/"+row.id+"'>"+row.nickname+"</a>";
+							},cellStyle:{  
+						        css:{"width":"100px","height":"30px","border":"none"}  
+						    }  
+						}],
+			})
+	//请求服务数据时所传参数
+	function queryParamsFollow(params) {
+		return {
+			pageSize : params.limit, //每一页的数据行数，默认是上面设置的10(pageSize)
+			pageIndex : params.offset / params.limit + 1, //当前页面,默认是上面设置的1(pageNumber)
+			param : params.search //这里是其他的参数，根据自己的需求定义，可以是多个
+		}
+	}
+	
+	</script>
+	
+	<script type="text/javascript">
+	$('#table-fans')
+	.bootstrapTable(
+			{
+				url : '/bbs/get/fans/'+$('#user-id').val(),
+				method : 'post',
+				contentType : "application/x-www-form-urlencoded",
+				pagination : true,
+				pageSize : 5,
+				pageNumber : 1,
+				search : true,
+				showHeader:false,
+				queryParams : queryParamsFans,//请求服务器时所传的参数
+				sidePagination : 'server',//指定服务器端分页
+				pageList : [ 5, 10, 15],
+				silent : true, //刷新事件必须设置  
+				sidePagination : 'server',//指定服务器端分页
+				columns : [
+						{
+							field : 'url',
+							title : '关注的人',
+							formatter:function(index,row,value){
+								return "<img style='height:30px;width:30px' src='/images/avatar/"+row.url+"'>&emsp;&emsp;"+"<a href='/bbs/get/users/"+row.id+"'>"+row.nickname+"</a>";
+							},cellStyle:{  
+						        css:{"width":"100px","height":"30px","border":"none"}  
+						    }  
+						}],
+			})
+	//请求服务数据时所传参数
+	function queryParamsFans(params) {
 		return {
 			pageSize : params.limit, //每一页的数据行数，默认是上面设置的10(pageSize)
 			pageIndex : params.offset / params.limit + 1, //当前页面,默认是上面设置的1(pageNumber)

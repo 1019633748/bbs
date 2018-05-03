@@ -23,6 +23,9 @@
 		where word = #{sensitive}
 	</select>
   
+  <select id="getAllWord" resultType="String">
+  select word from t_sensitive where status = 0
+  </select>
   
   <select id="getSensitiveByWord" resultMap="BaseResultMap">
     select 

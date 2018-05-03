@@ -89,9 +89,9 @@ color:#333
 		</ul>
 	</div>
 	<div class="pull-right" id="user-info">
-			<img class="img-circle img-thumbnail logined"
-				src="/images/avatar/male.png"> <span id="username"
-				class="logined">${bbs.nickname }</span> <a class="logout"
+			<img class="img-circle logined"
+				src="/images/avatar/${bbs.url}"> <span id="username"
+				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
 				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
@@ -104,7 +104,7 @@ color:#333
 				<div class="left-second">
 					<ul>
 						<li><a href="/bbs/get/chart/user">用户</a></li>
-						<li><a href="/bbs/chart/content">内容</a></li>
+						<li><a href="/bbs/get/chart/content">内容</a></li>
 					</ul>
 				</div>
 				<div id="admin-div" class="left-first">&emsp;📇管理</div>
@@ -140,13 +140,11 @@ color:#333
 			</div>
 		</div>
 	</div>
+	
+	<script src="/bbs/js/common.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
 	
-		if ($('#username').html() != "") {
-			$('.logined').show()
-			$('.logout').hide()
-		}
 		
 		$('#admin-div').css('background','#EEE')
 		$('#admin-div').next().show()
@@ -208,7 +206,7 @@ color:#333
 												+ row.id
 												+ ","
 												+ row.status
-												+ ")' type='button' value='隐藏'>"
+												+ ")' type='button' value='删除'>"
 									}
 
 									return element;

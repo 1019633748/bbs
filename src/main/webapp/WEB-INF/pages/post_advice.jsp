@@ -64,9 +64,9 @@
 			</ul>
 		</div>
 		<div class="pull-right" id="user-info">
-			<img class="img-circle img-thumbnail logined"
-				src="/images/avatar/male.png"> <span id="username"
-				class="logined">${bbs.nickname }</span> <a class="logout"
+			<img class="img-circle logined"
+				src="/images/avatar/${bbs.url}"> <span id="username"
+				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
 				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
@@ -82,10 +82,10 @@
 
 
 
-
+	<script src="/bbs/js/common.js"></script>
 	<script type="text/javascript">
 		function isLogin() {
-			if ($('#username').html() == "") {
+			if ($('#username').text().length==0) {
 				return false
 			} else {
 				return true

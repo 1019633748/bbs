@@ -30,4 +30,6 @@ public interface VerifyMapper {
     List<VerifyReply> getAuditReplyByParams(@Param("params")String params);
     
     int hideVerifyById(@Param("id")int id, @Param("status")int status);
+    
+    int getAmount();
 }

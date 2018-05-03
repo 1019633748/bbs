@@ -2,6 +2,7 @@ package cn.hxy.bbs.mapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -36,4 +37,8 @@ public interface ReplyMapper {
     List<ReplyDetail> findHotReply();
     
     int hideReplyById(@Param("id")int id,@Param("status") int status);
+    
+    int getFollor(@Param("postId")int postId,@Param("replyId")int replyId);
+    
+    List<Map> getReplyCreate();
 }

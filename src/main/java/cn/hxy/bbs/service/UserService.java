@@ -1,6 +1,12 @@
 package cn.hxy.bbs.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.hxy.bbs.dto.UserDetail;
 import cn.hxy.bbs.model.User;
@@ -28,4 +34,22 @@ public interface UserService {
 	int updateUser(User user);
 	
 	String getRoleByUserId(int userId);
+	
+	List<UserDetail> getFollowListByUserId(int userId,String params);
+	
+	List<UserDetail> getFansListByUserId(int userId,String params);
+	
+	void uploadAvatar(MultipartFile avatar,HttpSession session)throws IllegalStateException, IOException;
+	
+	 User getUserByNameOrEmail(String nameOrEmail);
+
+	String getCode(String nameOrEmail, HttpSession session);
+
+	String modifyPassword(String password, HttpSession session);
+
+	String verifyCode(String code, HttpSession session);
+	
+	List<Map> getMaleFemaleAmount();
+	
+	List<Map> getCreateDate();
 }

@@ -95,7 +95,7 @@
 	  var formData = new FormData();
 	  formData.append("avatar", uploadFile,filename);//后台的file名，需要上传的文件，后缀名
 	  var request = new XMLHttpRequest();
-	  request.open("POST", "/bbs/user/post/avatar");
+	  request.open("POST", "/bbs/post/avatar");
 	  request.send(formData);
 	  request.onreadystatechange = function(){
 		    //若响应完成且请求成功

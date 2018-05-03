@@ -1,6 +1,7 @@
 package cn.hxy.bbs.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -82,6 +83,16 @@ public class ReplyServiceImpl implements ReplyService {
 		reply.setUserId(user.getId());
 		replyMapper.insertSelective(reply);
 		return "SUC";
+	}
+
+	@Override
+	public int getFollor(int postId, int replyId) {
+		return replyMapper.getFollor(postId, replyId);
+	}
+
+	@Override
+	public List<Map> getReplyCreate() {
+		return replyMapper.getReplyCreate();
 	}
 
 }

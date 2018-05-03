@@ -42,7 +42,7 @@ public class UserRealm extends AuthorizingRealm {
 			return null;
 		}
 		Session session = SecurityUtils.getSubject().getSession();
-		session.setAttribute(SESSION_USER_KEY, ui);
+		session.setAttribute(SESSION_USER_KEY, userService.getUserDetailByUserId(ui.getId()));
 		String realName = getName();
 		Object principal = authcToken.getPrincipal();
 		return new SimpleAuthenticationInfo(principal,userLogin.getPassword(),realName);

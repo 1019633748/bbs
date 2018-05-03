@@ -20,6 +20,21 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 
+	<select id="getAdviceById">
+
+	</select>
+
+	<select id="getPostCreate" resultType="Map">
+		SELECT
+		DATE(create_date) cd,
+		COUNT(create_date) amount
+		FROM
+		t_post
+		GROUP BY
+		DATE(create_date)
+		order by DATE(create_date)
+	</select>
+
 	<select id="getPostDetailBySectionId" resultType="cn.hxy.bbs.dto.PostDetail">
 		select
 		p.id id,
@@ -42,6 +57,7 @@
 		and
 		p.id = r.post_id
 		group by p.id
+		order by lastReply desc
 	</select>
 
 	<select id="getPostDetailByName" resultType="cn.hxy.bbs.dto.PostDetail">
@@ -54,11 +70,13 @@
 		u.nickname
 		author,
 		COUNT(r.post_id) replyAmount,
-		MAX(r.create_date) lastReply,
+		MAX(r.create_date)
+		lastReply,
 		s.id sectionId,
 		s.section section
 		FROM
-		t_post p LEFT JOIN (t_user u,t_reply r,t_section s)
+		t_post p LEFT JOIN
+		(t_user u,t_reply r,t_section s)
 		ON
 		p.user_id = u.id
 		AND
@@ -73,7 +91,8 @@
 	<select id="getPostByUserId" resultType="cn.hxy.bbs.dto.PostDetail">
 		SELECT
 		p.id id,
-		p.post post,
+		p.post
+		post,
 		p.user_id userId,
 		p.create_date createDate,
 		p.status,
@@ -81,21 +100,25 @@
 		author,
 		COUNT(r.post_id) replyAmount,
 		MAX(r.create_date) lastReply,
-		s.id sectionId,
+		s.id
+		sectionId,
 		s.section section
 		FROM
-		t_post p LEFT JOIN (t_user u,t_reply r,t_section s)
+		t_post p LEFT JOIN (t_user u,t_reply
+		r,t_section s)
 		ON
 		p.user_id = u.id
 		AND
 		p.id = r.post_id
 		AND
-		p.section_id = s.id
+		p.section_id =
+		s.id
 		where p.post like
 		'%${params}%'
 		and
 		p.user_id = #{userId}
-		GROUP BY p.id
+		GROUP BY
+		p.id
 		order by p.create_date desc
 	</select>
 

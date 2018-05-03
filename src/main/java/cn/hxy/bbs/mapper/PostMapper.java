@@ -1,6 +1,7 @@
 package cn.hxy.bbs.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +17,8 @@ public interface PostMapper {
     int insertSelective(Post record);
 
     Post selectByPrimaryKey(Integer id);
+    
+    Post getAdviceById(Integer id);
 
     int updateByPrimaryKeySelective(Post record);
 
@@ -37,4 +40,5 @@ public interface PostMapper {
     
     List<PostDetail> getPostByUserId(@Param("userId")int userId,@Param("params")String params);
     
+    List<Map> getPostCreate();
 }

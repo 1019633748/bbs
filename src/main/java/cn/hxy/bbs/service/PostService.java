@@ -1,6 +1,7 @@
 package cn.hxy.bbs.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,9 +32,13 @@ public interface PostService {
 	
 	Post getPostById(int id);
 	
+	Post getAdviceById(int id);
+	
 	List<PostDetail> findAllAdminPost();
 	
 	int hidePostById(int id,int status);
 	
 	List<PostDetail> getPostByUserId(int userId,String params);
+	
+	List<Map> getPostCreate();
 }

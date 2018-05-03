@@ -54,7 +54,7 @@ form {
 		</div>
 		<fieldset class="form-group">
 			<div class="row">
-				<legend class="col-form-label col-sm-2 pt-0">性别</legend>
+			<label for="inputPassword3" class="col-sm-2 col-form-label">性别</label>
 				<div class="col-sm-10">
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="sex"
@@ -69,7 +69,7 @@ form {
 		</fieldset>
 		<div class="form-group row">
 			<div class="col-sm-10">
-				<button type="submit" class="btn btn-primary">注册</button>
+				<button type="submit" class="btn btn-primary" onclick="alert('注册成功')">注册</button>
 			</div>
 		</div>
 	</form>

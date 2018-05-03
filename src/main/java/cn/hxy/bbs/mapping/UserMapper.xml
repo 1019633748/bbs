@@ -18,10 +18,39 @@
 		update_date
 	</sql>
 
+	<select id="getMaleFemaleAmount" resultType="Map">
+		SELECT
+		sex,
+		COUNT(sex) amount
+		FROM
+		t_user
+		GROUP BY
+		sex
+	</select>
+
+	<select id="getCreateDate" resultType="Map">
+		SELECT
+		DATE(create_date) cd,
+		COUNT(create_date) amount
+		FROM
+		t_user
+		GROUP BY
+		DATE(create_date)
+		order by DATE(create_date)
+	</select>
+
 	<select id="getRoleByUserId" resultType="String">
-		select r.role from t_role r,t_user_role c
+		select r.role from
+		t_role r,t_user_role c
 		where c.user_id = #{userId}
 		and r.id = c.role_id
+	</select>
+
+	<select id="getUserByNameOrEmail" resultType="cn.hxy.bbs.model.User">
+		select
+		id,nickname,email from t_user where nickname = #{nameOrEmail} or
+		email
+		= #{nameOrEmail}
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -50,6 +79,43 @@
 		<include refid="Base_Column_List" />
 		from t_user
 		where nickname = #{name}
+	</select>
+
+	<select id="getFollowListByUserId" resultType="cn.hxy.bbs.dto.UserDetail">
+		SELECT
+		u.id,
+		u.nickname,
+		a.url
+		FROM
+		(t_avatar a) RIGHT JOIN
+		(t_user u,t_friend f)
+		ON
+		u.id = a.user_id
+		WHERE
+		f.user_id= #{userId}
+		AND
+		f.friend_id = u.`id`
+		AND
+		nickname LIKE '%${params}%'
+	</select>
+
+	<select id="getFansListByUserId" resultType="cn.hxy.bbs.dto.UserDetail">
+		SELECT
+		u.id,
+		u.nickname,
+		a.url
+		FROM
+		(t_avatar a) RIGHT JOIN
+		(t_user u,t_friend f)
+		ON
+		u.id = a.user_id
+		WHERE
+		f.friend_id= #{userId}
+		AND
+		f.user_id = u.`id`
+		AND
+		nickname
+		LIKE '%${params}%'
 	</select>
 
 	<select id="getUserDetailByUserId" resultType="cn.hxy.bbs.dto.UserDetail">
@@ -247,5 +313,9 @@
 		update t_user
 		set status = #{status}
 		where id = #{id}
+	</update>
+	<update id="updatePassword">
+		update t_user set password = #{newPassword} where id
+		= #{id}
 	</update>
 </mapper>

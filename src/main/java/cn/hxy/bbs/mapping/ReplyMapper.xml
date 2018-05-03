@@ -33,6 +33,17 @@
 		MAX(create_date) FROM t_reply WHERE post_id = #{id}
 	</select>
 
+	<select id="getReplyCreate" resultType="Map">
+		SELECT
+		DATE(create_date) cd,
+		COUNT(create_date) amount
+		FROM
+		t_reply
+		GROUP BY
+		DATE(create_date)
+		ORDER BY DATE(create_date)
+	</select>
+
 	<select id="getReplyDetailByPostId" resultType="cn.hxy.bbs.dto.ReplyDetail">
 		SELECT
 		r.id id,
@@ -63,21 +74,39 @@
 		#{postId}
 	</select>
 
+	<select id="getFollor" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		t_reply
+		WHERE
+		post_id = #{postId}
+		AND
+		STATUS = 0
+		AND
+		id &lt;=
+		(SELECT id FROM
+		t_reply WHERE post_id = #{postId} AND id=#{replyId})
+	</select>
+
 	<select id="getReplyDetailByName" resultType="cn.hxy.bbs.dto.ReplyDetail">
 		SELECT
 		r.id id,
 		r.reply reply,
 		r.create_date createDate,
 		r.user_id userId,
-		r.status STATUS,
+		r.status
+		STATUS,
 		u.nickname author,
 		a.url avatarUrl,
 		p.post post,
 		p.id
 		postId,
 		(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id AND
-		STATUS = 0)-(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id
-		AND STATUS = 1) top
+		STATUS =
+		0)-(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id
+		AND STATUS =
+		1) top
 		FROM
 		t_reply r,
 		t_user u,
@@ -91,11 +120,12 @@
 		AND r.reply
 		LIKE '%${params}%'
 	</select>
-	
-	<select id="findHotReply" resultType="cn.hxy.bbs.dto.ReplyDetail">	
+
+	<select id="findHotReply" resultType="cn.hxy.bbs.dto.ReplyDetail">
 		SELECT
 		r.id id,
-		r.reply reply,
+		r.reply
+		reply,
 		r.create_date createDate,
 		r.user_id userId,
 		r.status STATUS,
@@ -104,8 +134,10 @@
 		p.post post,
 		p.id
 		postId,
-		(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id AND
-		STATUS = 0)-(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id
+		(SELECT
+		COUNT(reply_id)FROM t_top WHERE r.id = reply_id AND
+		STATUS = 0)-(SELECT
+		COUNT(reply_id)FROM t_top WHERE r.id = reply_id
 		AND STATUS = 1) top
 		FROM
 		t_reply r,
@@ -117,13 +149,15 @@
 		AND
 		u.id = a.user_id
 		AND p.id = r.post_id
-		ORDER BY top DESC
-		</select>
-	
+		ORDER BY top
+		DESC
+	</select>
+
 	<select id="getAdviceByName" resultType="cn.hxy.bbs.dto.ReplyDetail">
 		SELECT
 		r.id id,
-		r.reply reply,
+		r.reply
+		reply,
 		r.create_date createDate,
 		r.user_id userId,
 		r.status STATUS,
@@ -134,21 +168,24 @@
 		FROM
 		t_reply r,
 		t_user u,
-		t_post p
+		t_post
+		p
 		WHERE
 		r.user_id = u.id
 		AND p.id = r.post_id
 		AND r.status IN (8,9)
-		AND r.reply
+		AND
+		r.reply
 		LIKE '%${params}%'
 		order by r.create_date desc
 	</select>
-	
+
 
 	<select id="getReplyByUserId" resultType="cn.hxy.bbs.dto.ReplyDetail">
 		SELECT
 		r.id id,
-		r.reply reply,
+		r.reply
+		reply,
 		r.create_date createDate,
 		r.user_id userId,
 		r.status STATUS,
@@ -157,8 +194,10 @@
 		p.post post,
 		p.id
 		postId,
-		(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id AND
-		STATUS = 0)-(SELECT COUNT(reply_id)FROM t_top WHERE r.id = reply_id
+		(SELECT
+		COUNT(reply_id)FROM t_top WHERE r.id = reply_id AND
+		STATUS = 0)-(SELECT
+		COUNT(reply_id)FROM t_top WHERE r.id = reply_id
 		AND STATUS = 1) top
 		FROM
 		t_reply r,

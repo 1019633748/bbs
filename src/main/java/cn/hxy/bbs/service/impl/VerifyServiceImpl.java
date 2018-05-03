@@ -73,4 +73,9 @@ public class VerifyServiceImpl implements VerifyService{
 		return verifyMapper.hideVerifyById(id, status);
 	}
 
+	@Override
+	public int getAmount() {
+		return verifyMapper.getAmount();
+	}
+
 }

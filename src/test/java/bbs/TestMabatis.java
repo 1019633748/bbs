@@ -12,10 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.hxy.bbs.dto.SectionSize;
 import cn.hxy.bbs.service.impl.PostServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
+import cn.hxy.bbs.service.impl.SensitiveServiceImpl;
 import cn.hxy.bbs.service.impl.UserServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:application-mybatis.xml"})
+//@ContextConfiguration(locations = { "classpath:application-mybatis.xml"})
+@ContextConfiguration(locations = { "classpath:application-mybatis.xml", "classpath:application-mail.xml" }) 
 public class TestMabatis {
 	
 	@Autowired
@@ -27,6 +29,9 @@ public class TestMabatis {
 	@Autowired
 	private PostServiceImpl postService;
 	
+	@Autowired
+	private SensitiveServiceImpl sensitiveService;
+	
 	
 	public void loginTest() {
 		System.out.println(userService.doLogin("1","1" ));
@@ -37,12 +42,23 @@ public class TestMabatis {
 		System.out.println(new SimpleHash("MD5","1","1",2).toHex());
 	}
 
-	@Test
+	
 	public void findAllSectionTest(){
 		System.out.println(new SimpleHash("MD5","1","admin",2).toHex());
 	}
 	
+	//@Test
 	public void findHotPost(){
 		System.out.println(postService.findHotPost());
+	}
+	
+	//@Test
+	public void getMaleFemale(){
+		System.out.println(userService.getMaleFemaleAmount());
+	}
+	
+	@Test
+	public void getAllWord(){
+		System.out.println(sensitiveService.getAllWord());
 	}
 }

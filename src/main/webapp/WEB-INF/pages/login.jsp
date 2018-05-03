@@ -30,10 +30,9 @@
     <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="输入密码">
   </div>
   <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">记住密码</label>
-     丨<a href="/bbs/get/register">注册</a>丨<a href="#">忘记密码</a>
+    <a href="/bbs/get/register">注册</a>丨<a href="/bbs/alter/password">忘记密码</a>
   </div>
+  <br>
   <button type="submit" class="btn btn-primary">登录</button>
 </form>
   

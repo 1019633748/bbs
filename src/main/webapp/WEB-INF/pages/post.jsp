@@ -16,6 +16,10 @@
 <script type="text/javascript" src="/bbs/js/wangEditor.js"></script>
 <style type="text/css">
 
+body{
+background:#F7F7F7
+}
+
 .img-circle {
 	border-radius: 50%;
 	height: 40px;
@@ -27,7 +31,7 @@
 display:none
 }
 .container {
-	width: 70%;
+	width: 65%;
 }
 
 .replier, .floor {
@@ -37,15 +41,22 @@ display:none
 }
 
 .reply {
-	border: 1px solid black;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	margin-top:20px;
+	background:#FFF;
+	padding-top:15px;
+	padding-left:15px;
+	padding-right:15px
 }
 
 .reply-bottom {
 	display: flex;
 	justify-content: space-between;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding-top:10px
 }
 
 .top, .down, .reply-span, .click-span {
@@ -63,36 +74,36 @@ display:none
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="/bbs/get/home">主页</a></li>
+			<li class=""><a href="/bbs/get/home"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+			<li><a href="/bbs/get/post"><span class="glyphicon glyphicon-pencil"></span>&nbsp;发帖</a></li>
 		</ul>
 	</div>
 	<div class="pull-right" id="user-info">
-			<img class="img-circle img-thumbnail logined"
-				src="/images/avatar/male.png"> <span id="username"
-				class="logined">${bbs.nickname }</span> <a class="logout"
+			<img class="img-circle logined"
+				src="/images/avatar/${bbs.url}"> <span id="username"
+				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
 				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
 	</nav>
-	
 	<nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a
 			href="/bbs/get/sections/${section.id }">${section.section }版块</a></li>
-		<li class="breadcrumb-item active" aria-current="page">${post.post } <a class="breadcrumb-item report-a" href="/bbs/report/posts/${post.id }">举报</a></li>
+		<li class="breadcrumb-item active" aria-current="page">${post.post } （${total }）<a class="breadcrumb-item report-a" href="/bbs/report/posts/${post.id }">举报</a></li>
 	</ol>
 	</nav>
 	<input hidden id="post-id" value="${post.id }">
 	<div class="container">
 		<c:forEach items="${reply}" var="item">
-			<c:if test="${item.status==0 }">
+			<c:if test="${item.status==0 || item.status == 9 }">
 			<div class="reply">
 				<p>${item.reply}</p>
 				<div class="reply-bottom">
 					<div class="floor">
-						#${item.no }&emsp;<span class="click-span"
-							onclick="clickUp(${item.id},this)">顶</span>&nbsp;<span>${item.top }</span>&nbsp;<span
-							class="click-span" onclick="clickDown(${item.id},this)">踩</span>
+						#${item.no }&emsp;<span class="click-span glyphicon glyphicon-thumbs-up"
+							onclick="clickUp(${item.id},this)"></span>&nbsp;<span>${item.top }</span>&nbsp;<span
+							class="click-span glyphicon glyphicon-thumbs-down" onclick="clickDown(${item.id},this)"></span>
 							&emsp;<a class="report-a" href="/bbs/report/replys/${item.id }/${item.postId}">举报</a>
 					</div>
 					<div class="replier">
@@ -100,7 +111,7 @@ display:none
 							src="/images/avatar/male.png"> <a
 							href="/bbs/get/users/${item.userId }"><span>${item.author }</span></a>&emsp;
 						<span><fmt:formatDate value="${item.createDate }"
-								type="both" /></span> &emsp;<span class="reply-span" onclick="reply(${item.no})">回复</span>
+								type="both" /></span> &emsp;<span class="glyphicon glyphicon-comment" onclick="reply(${item.no})"></span>
 					</div>
 				</div>
 			</div>
@@ -109,7 +120,7 @@ display:none
 		</c:forEach>
 		
 		<div class="container" style="width:400px">
-		<input type="button"  class='btn btn-link' value="上一页" onclick="prevPage(${pageNum-1 })"/> <span>共&nbsp;${total }&nbsp;条回复，当前&nbsp;<select>
+		<input type="button"  class='btn btn-link' value="上一页" onclick="prevPage(${pageNum-1 })"/> <span>共&nbsp;${totalPage }&nbsp;页，当前&nbsp;<select>
 			<c:forEach begin="1" end="${totalPage }" var="i">
 				<c:choose>
 					<c:when test="${pageNum==i }">
@@ -132,7 +143,7 @@ display:none
 	</div>
 
 
-
+	<script src="/bbs/js/common.js"></script>
 	<script type="text/javascript">
 	var total=${total}
 	var url = '/bbs/get/posts/'+$('#post-id').val()
@@ -153,7 +164,7 @@ display:none
 	    }
 	
 		function isLogin(){
-			if($('#username').html()==""){
+			if($('#username').text().length==0){
 				return false
 			}else{
 				return true

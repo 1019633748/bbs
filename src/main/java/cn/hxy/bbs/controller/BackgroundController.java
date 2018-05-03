@@ -1,22 +1,18 @@
 package cn.hxy.bbs.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageHelper;
-
-import cn.hxy.bbs.dto.PostDetail;
-import cn.hxy.bbs.dto.SectionSize;
-import cn.hxy.bbs.dto.TableData;
-import cn.hxy.bbs.model.Section;
 import cn.hxy.bbs.service.impl.PostServiceImpl;
 import cn.hxy.bbs.service.impl.ReplyServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
 import cn.hxy.bbs.service.impl.UserServiceImpl;
+import cn.hxy.bbs.service.impl.VerifyServiceImpl;
 
 @Controller
 public class BackgroundController {
@@ -29,11 +25,25 @@ public class BackgroundController {
 	private ReplyServiceImpl replyService;
 	@Autowired
 	private UserServiceImpl userService;
+	@Autowired
+	private VerifyServiceImpl verifyService;
+	//@ExceptionHandler
+	public String error(Exception ex){
+		System.out.println(ex);
+		return"error";
+	}
 	
+	//@RequiresRoles("π‹¿Ì‘±")
 	@GetMapping("get/bg")
-	public String toBgPage(){
+	public String toBgPage(Model model){
+		model.addAttribute("auditAmount",verifyService.getAmount());
+		model.addAttribute("userAmount", userService.getAdminUserDetailByName("").size());
+		model.addAttribute("sectionAmount", sectionService.getAdminSectionByParam("").size());
+		model.addAttribute("postAmount", postService.getAdminPostDetailByName("").size());
+		model.addAttribute("replyAmount",replyService.getReplyDetailByName("").size());
 		return "bg";
 	}
+	
 	
 	@GetMapping("admin/section")
 	public String toAdminSection(){
@@ -70,6 +80,20 @@ public class BackgroundController {
 		return "admin_advice";
 	}
 	
+	@GetMapping("audit/avatar")
+	public String toAdminAvater(){
+		return "admin_avatar";
+	}
+	
+	@GetMapping("get/chart/user")
+	public String toUserChart(){
+		return "user_chart";
+	}
+	
+	@GetMapping("get/chart/content")
+	public String toContentChart(){
+		return "content_chart";
+	}
 	
 	/*@PostMapping("admin/section")
 	@ResponseBody

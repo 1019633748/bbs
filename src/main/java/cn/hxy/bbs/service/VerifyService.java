@@ -13,4 +13,5 @@ List<VerifyReply> getAuditReplyByParams(String params);
 int hideVerifyPostById(int id,int status,int postId);
 int hideVerifyReplyById(int id,int status,int replyId);
 int deleteReportPost(int id);
+int getAmount();
 }

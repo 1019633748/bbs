@@ -40,7 +40,7 @@
 $(document).ready(function(){
 	//
 	$('#noe-submit').click(function(){
-		$.post('/bbs/user/post/nameoremail','nameOrEmail='+$('#name-or-email').val(),function(data){
+		$.post('/bbs/post/nameoremail','nameOrEmail='+$('#name-or-email').val(),function(data){
 			if(data=="SUC"){
 				$('#input-name-or-email-div').hide()
 				$('#input-code-div').show()
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	
 	//
 	$('#code-submit').click(function(){
-		$.post('/bbs/user/post/code','code='+$('#code-input').val(),function(data){
+		$.post('/bbs/post/code','code='+$('#code-input').val(),function(data){
 			if(data=="correct"){
 				$('#input-code-div').hide()
 				$('#input-password-div').show()
@@ -64,8 +64,9 @@ $(document).ready(function(){
 	
 	//
 	$('#password-submit').click(function(){
-		$.post('/bbs/user/post/password','password='+$('#password-input').val(),function(data){
+		$.post('/bbs/post/password','password='+$('#password-input').val(),function(data){
 			alert(data+"的密码修改成功")
+			location.href="/bbs/get/home"
 		})
 	})
 	

@@ -26,5 +26,9 @@ public class SensitiveServiceImpl implements SensitiveService{
 	public Sensitive getSensitiveByName(String sensitive) {
 		return sensitiveMapper.getSensitiveByName(sensitive);
 	}
+	@Override
+	public List<String> getAllWord() {
+		return sensitiveMapper.getAllWord();
+	}
 
 }

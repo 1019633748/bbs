@@ -1,6 +1,7 @@
 package cn.hxy.bbs.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -70,6 +71,8 @@ public class PostServiceImpl implements PostService {
 	public Post getPostById(int id) {
 		return postMapper.selectByPrimaryKey(id);
 	}
+	
+	
 
 	@Override
 	public List<PostDetail> findAllAdminPost() {
@@ -89,6 +92,16 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<PostDetail> getPostByUserId(int userId, String params) {
 		return postMapper.getPostByUserId(userId, params);
+	}
+
+	@Override
+	public Post getAdviceById(int id) {
+		return postMapper.getAdviceById(id);
+	}
+
+	@Override
+	public List<Map> getPostCreate() {
+		return postMapper.getPostCreate();
 	}
 
 

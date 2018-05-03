@@ -26,4 +26,6 @@ public interface SensitiveMapper {
     Sensitive getSensitiveByName(@Param("sensitive") String sensitive);
     
     int addSensitive(@Param("sensitive")String sensitive);
+    
+    List<String> getAllWord();
 }

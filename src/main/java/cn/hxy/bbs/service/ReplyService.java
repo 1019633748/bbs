@@ -1,6 +1,7 @@
 package cn.hxy.bbs.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,4 +29,8 @@ public interface ReplyService {
 	List<ReplyDetail> findHotReply();
 	
 	String reply(Reply reply,HttpSession session);
+	
+	int getFollor(int postId,int replyId);
+	
+	List<Map> getReplyCreate();
 }

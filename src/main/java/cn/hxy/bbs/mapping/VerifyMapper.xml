@@ -30,6 +30,14 @@
 
 	</select>
 
+	<select id="getAmount" resultType="int"> 
+		SELECT
+		COUNT(*)
+		FROM
+		t_verify
+		WHERE STATUS = 0
+	</select>
+
 	<select id="getAuditPostByParams" resultType="cn.hxy.bbs.dto.VerifyPost">
 		SELECT
 		v.id,

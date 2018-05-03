@@ -33,8 +33,12 @@
 				/user/get/users/**=authc
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
-				/get/advice=roles[管理员]
-				/get/admin/**=roles[管理员]
+				<!-- /get/admin/**=roles[管理员]
+				/hide/**=roles[管理员]
+				/show/**=roles[管理员]
+				/get/audit/**=roles[管理员]
+				/**/advice=roles[管理员]
+				/admin/**=roles[管理员] -->
 				/user/teacher*/**=perms["user:create"]
 			</value>
 		</property>
@@ -43,11 +47,11 @@
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 
 	<!-- 开启Shiro注解 -->
-	<bean
+	<!-- <bean
 		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		depends-on="lifecycleBeanPostProcessor" />
 	<bean
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
-	</bean>
+	</bean> -->
 </beans>

@@ -12,7 +12,6 @@
 <link href="/bbs/css/bootstrap.min.css" rel="stylesheet">
 <link href="/bbs/css/common.css" rel="stylesheet">
 <script src="/bbs/js/jquery-3.2.1.min.js"></script>
-<script src="/bbs/js/common.js"></script>
 <script src="/bbs/js/bootstrap.min.js"></script>
 <style type="text/css">
 
@@ -70,14 +69,14 @@ td {
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="/bbs/get/home">主页</a></li>
-			<li><a href="/bbs/get/post">发帖</a></li>
+			<li class="active"><a href="/bbs/get/home"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+			<li><a href="/bbs/get/post"><span class="glyphicon glyphicon-pencil"></span>&nbsp;发帖</a></li>
 		</ul>
 	</div>
 	<div class="pull-right" id="user-info">
-			<img class="img-circle img-thumbnail logined"
-				src="/images/avatar/male.png"> <span id="username"
-				class="logined">${bbs.nickname }</span> <a class="logout"
+			<img class="img-circle logined"
+				src="/images/avatar/${bbs.url}"> <span id="username"
+				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
 				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
@@ -113,7 +112,7 @@ td {
 								<a href="/bbs/get/sections/${item.sectionId }"><span class="badge badge-pill badge-secondary">${item.section }</span></a>&emsp;
 								<a href="/bbs/get/posts/${item.id }">${item.post }</a>	
 							</td>
-							<td><a href="/bbs/get/users/${item.userId }">${item.author }</a></td>
+							<td><a href="/bbs/get/users/${item.userId }">${item.author }</a> </td>
 							<td><fmt:formatDate value="${item.createDate }" type="both" /></td>
 							<td><fmt:formatDate value="${item.lastReply }" type="both" /></td>
 							<td>${item.replyAmount}</td>
@@ -141,7 +140,7 @@ td {
 							<td>
 								<a href="/bbs/get/posts/${item.id }">${item.post }</a>	
 							</td>
-							<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="${item.text }">${item.text }</td>
+							<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="${item.text }"><a href="/bbs/get/posts/${item.postId }/${item.id}">${item.text }</a></td>
 							<td><a href="/bbs/get/users/${item.userId }">${item.author }</a></td>
 							<td><fmt:formatDate value="${item.createDate }" type="both" /></td>
 							<td style="text-align:center">${item.top}</td>
@@ -164,7 +163,7 @@ td {
 					<c:forEach items="${advice }" var="item">
 						<c:if test="${item.status==9 }">
 							<tr>
-							<td><a href="">${item.post }</a></td>
+							<td><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;<a href="/bbs/get/posts/${item.postId }">${item.post }</a></td>
 							<td><fmt:formatDate value="${item.createDate }" type="both" /></td>
 						</tr>						
 						</c:if>
@@ -179,10 +178,8 @@ td {
 
 
 	<script type="text/javascript">
-	if ($('#username').html() != "") {
-		$('.logined').show()
-		$('.logout').hide()
-	}
+	
 	</script>
+	<script src="/bbs/js/common.js"></script>
 </body>
 </html>

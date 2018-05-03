@@ -36,5 +36,32 @@ public class SectionController {
 		model.addAttribute("pageNum", pageNum);
 		return "post";
 	}
+	
+	@GetMapping("get/advices/{id}")
+	public String getAdviceById(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,Model model){
+		model.addAttribute("section",sectionService.getSectionByPostId(id));
+		model.addAttribute("post", postService.getPostById(id));
+		PageHelper.startPage(pageNum, pageSize);
+		model.addAttribute("reply", replyService.getReplyDetailByPostId(id));
+		int total = replyService.getReplyDetailByPostId(id).size();
+		model.addAttribute("total",total );
+		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
+		model.addAttribute("pageNum", pageNum);
+		return "post";
+	}
+	
+	@GetMapping("get/posts/{id}/{replyId}")
+	public String getPostsbyReplyId(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,@PathVariable("replyId")int replyId,Model model){
+		model.addAttribute("section",sectionService.getSectionByPostId(id));
+		model.addAttribute("post", postService.getPostById(id));
+		int pageIndex = (int) Math.ceil((double)replyService.getFollor(id, replyId)/pageSize);
+		PageHelper.startPage(pageIndex, pageSize);
+		model.addAttribute("reply", replyService.getReplyDetailByPostId(id));
+		int total = replyService.getReplyDetailByPostId(id).size();
+		model.addAttribute("total",total );
+		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
+		model.addAttribute("pageNum", pageIndex);
+		return "post";
+	}
 
 }

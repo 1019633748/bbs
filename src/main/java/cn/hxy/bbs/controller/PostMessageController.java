@@ -17,6 +17,7 @@ import cn.hxy.bbs.model.Reply;
 import cn.hxy.bbs.service.impl.PostServiceImpl;
 import cn.hxy.bbs.service.impl.ReplyServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
+import cn.hxy.bbs.service.impl.SensitiveServiceImpl;
 
 @Controller
 public class PostMessageController {
@@ -30,15 +31,23 @@ public class PostMessageController {
 	@Autowired
 	private SectionServiceImpl sectionServicce;
 	
+	@Autowired
+	private SensitiveServiceImpl sensitiveService;
+	
 	@PostMapping("get/sections")
 	@ResponseBody
 	public List<SectionSize> getSections(){
 		return sectionServicce.findAllSection();
 	}
 	
+	//·¢Ìû
 	@PostMapping("post/post")
 	@ResponseBody
 	public String post(Post post,Reply reply,HttpSession session){
+		for(String word:sensitiveService.getAllWord()){
+			post.setPost(post.getPost().replace(word,"***"));
+			reply.setReply(reply.getReply().replace(word, "***"));
+		}
 		postService.addPost(post, session);
 		if(post.getId()>0){
 			replyService.addReply(reply, post.getId(), session);
@@ -48,9 +57,13 @@ public class PostMessageController {
 		return "SUC";
 	}
 	
+	//»Ø¸´
 	@PostMapping("post/reply")
 	@ResponseBody
 	public String reply(Reply reply,HttpSession session){
+		for(String word:sensitiveService.getAllWord()){
+			reply.setReply(reply.getReply().replace(word, "***"));
+		}
 		return replyService.reply(reply, session);
 	}
 	

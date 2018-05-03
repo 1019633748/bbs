@@ -1,5 +1,9 @@
 package cn.hxy.bbs.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import cn.hxy.bbs.model.Avatar;
 
 public interface AvatarMapper {
@@ -14,4 +18,10 @@ public interface AvatarMapper {
     int updateByPrimaryKeySelective(Avatar record);
 
     int updateByPrimaryKey(Avatar record);
+    
+    int updateByUserId(@Param("userId")int userId,@Param("url")String url);
+    
+    List<Avatar> findAll();
+    
+    int banAvatarById(@Param("id") int id);
 }

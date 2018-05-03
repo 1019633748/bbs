@@ -25,6 +25,10 @@
 	id = (select section_id from t_post where id = #{postId})
 	</select>
 	
+	
+	<select id="getAmount" resultType="int">
+	select count(*) from t_section
+	</select>
 
 	<select id="findAllSection" resultType="cn.hxy.bbs.dto.SectionSize">
 		SELECT

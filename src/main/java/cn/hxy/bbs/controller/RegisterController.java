@@ -16,7 +16,7 @@ public class RegisterController {
 	@PostMapping("register")
 	public String register(User user){
 		userService.register(user);
-		return "";
+		return "login";
 	}
 	
 	@PostMapping("verify/name")
