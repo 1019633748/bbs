@@ -71,6 +71,7 @@ td {
 		<ul class="nav navbar-nav">
 			<li class="active"><a href="/bbs/get/home"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
 			<li><a href="/bbs/get/post"><span class="glyphicon glyphicon-pencil"></span>&nbsp;发帖</a></li>
+			<li><a href="/bbs/get/search"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a></li>
 		</ul>
 	</div>
 	<div class="pull-right" id="user-info">

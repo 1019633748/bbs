@@ -23,8 +23,7 @@ public class TopServiceImpl implements TopService {
 				top.setStatus(0);
 				updateStatus(top);
 			} else {
-				top.setStatus(3);
-				updateStatus(top);
+				topMapper.deleteByUserIdAndReplyId(userId, replyId);
 			}	
 		} else {
 			top.setUserId(userId);
@@ -45,8 +44,7 @@ public class TopServiceImpl implements TopService {
 				top.setStatus(1);
 				updateStatus(top);
 			} else {
-				top.setStatus(3);
-				updateStatus(top);
+				topMapper.deleteByUserIdAndReplyId(userId, replyId);
 			}	
 		} else {
 			top.setUserId(userId);
@@ -71,6 +69,11 @@ public class TopServiceImpl implements TopService {
 	@Override
 	public int getStatus(int userId, int replyId) {
 		return topMapper.getStatus(userId, replyId);
+	}
+
+	@Override
+	public int deleteByUserIdAndReplyId(int userId, int replyId) {
+		return topMapper.deleteByUserIdAndReplyId(userId, replyId);
 	}
 
 	

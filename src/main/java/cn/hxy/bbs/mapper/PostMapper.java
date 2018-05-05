@@ -40,5 +40,6 @@ public interface PostMapper {
     
     List<PostDetail> getPostByUserId(@Param("userId")int userId,@Param("params")String params);
     
-    List<Map> getPostCreate();
+    @SuppressWarnings("rawtypes")
+	List<Map> getPostCreate();
 }

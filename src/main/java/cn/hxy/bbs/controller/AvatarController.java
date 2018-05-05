@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 
 import cn.hxy.bbs.dto.TableData;
+import cn.hxy.bbs.log.adminLog;
 import cn.hxy.bbs.model.Avatar;
 import cn.hxy.bbs.service.impl.AvatarServiceImpl;
 
 @Controller
-public class AvatarAdminController {
+public class AvatarController {
 	@Autowired
 	private AvatarServiceImpl avatarService;
 
@@ -27,9 +28,10 @@ public class AvatarAdminController {
 		return td;
 	}
 	
+	@adminLog
 	@PostMapping("hide/avatars/{id}")
 	@ResponseBody
-	public String hideReplyById(@PathVariable("id")int id){
+	public String hideAvatarById(@PathVariable("id")int id){
 		avatarService.banAvatarById(id);
 		return null;
 	}

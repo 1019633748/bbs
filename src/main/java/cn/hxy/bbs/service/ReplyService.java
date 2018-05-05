@@ -32,5 +32,6 @@ public interface ReplyService {
 	
 	int getFollor(int postId,int replyId);
 	
+	@SuppressWarnings("rawtypes")
 	List<Map> getReplyCreate();
 }

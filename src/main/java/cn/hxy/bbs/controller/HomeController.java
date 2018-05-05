@@ -1,7 +1,6 @@
 package cn.hxy.bbs.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageHelper;
 
-import cn.hxy.bbs.dto.PostDetail;
-import cn.hxy.bbs.model.Post;
 import cn.hxy.bbs.service.impl.PostServiceImpl;
 import cn.hxy.bbs.service.impl.ReplyServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
@@ -36,6 +33,7 @@ public class HomeController {
 	@Autowired
 	private ReplyServiceImpl replyService;
 	// 跳转主页
+	
 	@GetMapping("get/home")
 	public String toHomePage(Model model) {
 		model.addAttribute("sectionSize",sectionService.findAllSection());
@@ -46,7 +44,7 @@ public class HomeController {
 		model.addAttribute("hotReply",replyService.findHotReply());
 		return "home";
 	}
-
+	
 	// 跳转登录页面
 	@GetMapping("get/login")
 	public String toLoginPage() {
@@ -97,6 +95,12 @@ public class HomeController {
 		model.addAttribute("totalPage",(int)Math.ceil((double)pageSizes/pageSize) );
 		model.addAttribute("pageNum", pageNum);
 		return "post_list";
+	}
+	
+	//进入搜索界面
+	@GetMapping("get/search")
+	public String toSearchPage(){
+		return "search";
 	}
 	
 }

@@ -7,6 +7,7 @@ public class ReplyDetail extends Reply{
 	private String author;
 	private String avatarUrl;
 	private int top;
+	private String topOrDown;
 	public String getAuthor() {
 		return author;
 	}
@@ -30,6 +31,12 @@ public class ReplyDetail extends Reply{
 	}
 	public void setPost(String post) {
 		this.post = post;
+	}
+	public String getTopOrDown() {
+		return topOrDown;
+	}
+	public void setTopOrDown(String topOrDown) {
+		this.topOrDown = topOrDown;
 	}
 	
 }

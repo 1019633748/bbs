@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
-
 import cn.hxy.bbs.dto.HotPost;
 import cn.hxy.bbs.dto.PostDetail;
 import cn.hxy.bbs.model.Post;
@@ -40,5 +38,6 @@ public interface PostService {
 	
 	List<PostDetail> getPostByUserId(int userId,String params);
 	
+	@SuppressWarnings("rawtypes")
 	List<Map> getPostCreate();
 }

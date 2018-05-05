@@ -8,8 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
 import cn.hxy.bbs.dto.ReplyDetail;
 import cn.hxy.bbs.mapper.ReplyMapper;
 import cn.hxy.bbs.model.Reply;
@@ -90,6 +88,7 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyMapper.getFollor(postId, replyId);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> getReplyCreate() {
 		return replyMapper.getReplyCreate();

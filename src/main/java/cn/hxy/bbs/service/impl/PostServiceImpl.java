@@ -99,6 +99,7 @@ public class PostServiceImpl implements PostService {
 		return postMapper.getAdviceById(id);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> getPostCreate() {
 		return postMapper.getPostCreate();

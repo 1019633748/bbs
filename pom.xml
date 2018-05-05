@@ -97,7 +97,7 @@
 			<!-- <version>5.1.46</version> -->
 			<version>6.0.6</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
@@ -137,6 +137,13 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.13</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,91 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.hxy.bbs.mapper.TopMapper" >
-  <resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Top" >
-    <result column="reply_id" property="replyId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-  </resultMap>
-  
-  <select id="getStatus" resultType="int">
-   select
-   status
-   from
-   t_top
-   where
-   user_id=#{userId}
-   and
-   reply_id=#{replyId}
-  </select>
-  
-  <select id="findTop" resultType="int">
-  select
-  count(status)
-  from 
-  t_top
-  where
-  status = 0
-  and
-  reply_id = #{replyId}
-  </select>
-  
-    <select id="findDown" resultType="int">
-  select
-  count(status)
-  from 
-  t_top
-  where
-  status = 1
-  and
-  reply_id = #{replyId}
-  </select>
-  
-    <select id="isClick" resultType="boolean">
-   select
-   count(status)
-   from
-   t_top
-   where
-   user_id=${userId}
-   and
-   reply_id=${replyId}
-  </select>
-  
-  <update id="updateStatus" parameterType="cn.hxy.bbs.model.Top">
-  update
-  t_top
-  set
-  status = #{status}
-  where
-  user_id=#{userId}
-  and
-  reply_id=#{replyId}
-  </update>
-  
-  <insert id="insert" parameterType="cn.hxy.bbs.model.Top" >
-    insert into t_top (reply_id, user_id,status)
-    values (#{replyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{status})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.hxy.bbs.model.Top" >
-    insert into t_top
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="replyId != null" >
-        reply_id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="replyId != null" >
-        #{replyId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+<mapper namespace="cn.hxy.bbs.mapper.TopMapper">
+	<resultMap id="BaseResultMap" type="cn.hxy.bbs.model.Top">
+		<result column="reply_id" property="replyId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getStatus" resultType="int">
+		select
+		ifnull(max(status),9)
+		from
+		t_top
+		where
+		user_id=#{userId}
+		and
+		reply_id=#{replyId}
+	</select>
+
+	<select id="findTop" resultType="int">
+		select
+		count(status)
+		from
+		t_top
+		where
+		status = 0
+		and
+		reply_id = #{replyId}
+	</select>
+
+	<select id="findDown" resultType="int">
+		select
+		count(status)
+		from
+		t_top
+		where
+		status = 1
+		and
+		reply_id = #{replyId}
+	</select>
+
+	<select id="isClick" resultType="boolean">
+		select
+		count(status)
+		from
+		t_top
+		where
+		user_id=${userId}
+		and
+		reply_id=${replyId}
+	</select>
+
+
+
+	<update id="updateStatus" parameterType="cn.hxy.bbs.model.Top">
+		update
+		t_top
+		set
+		status = #{status}
+		where
+		user_id=#{userId}
+		and
+		reply_id=#{replyId}
+	</update>
+
+	<delete id="deleteByUserIdAndReplyId">
+		delete from t_top
+		where
+		user_id = #{userId}
+		and
+		reply_id = #{replyId}
+	</delete>
+
+	<insert id="insert" parameterType="cn.hxy.bbs.model.Top">
+		insert into t_top (reply_id, user_id,status)
+		values (#{replyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{status})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.hxy.bbs.model.Top">
+		insert into t_top
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="replyId != null">
+				reply_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="replyId != null">
+				#{replyId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
 </mapper>

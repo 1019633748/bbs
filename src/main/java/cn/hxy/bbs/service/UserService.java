@@ -49,7 +49,9 @@ public interface UserService {
 
 	String verifyCode(String code, HttpSession session);
 	
+	@SuppressWarnings("rawtypes")
 	List<Map> getMaleFemaleAmount();
 	
+	@SuppressWarnings("rawtypes")
 	List<Map> getCreateDate();
 }

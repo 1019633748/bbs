@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 
 import cn.hxy.bbs.dto.TableData;
-import cn.hxy.bbs.model.Sensitive;
+import cn.hxy.bbs.log.adminLog;
 import cn.hxy.bbs.model.Sensitive;
 import cn.hxy.bbs.service.impl.SensitiveServiceImpl;
 
 @Controller
-public class SensitiveAdminController {
+public class SensitiveController {
 	@Autowired
 	private SensitiveServiceImpl sensitiveService;
 	
@@ -28,12 +28,15 @@ public class SensitiveAdminController {
 		return tableData;
 	}
 	
+	@adminLog
 	@PostMapping("hide/sensitives/{id}")
 	@ResponseBody
 	public String hideSensitiveById(@PathVariable("id")int id){
 		sensitiveService.hideSensitiveById(id,1);
 		return null;
 	}
+	
+	@adminLog
 	@PostMapping("show/sensitives/{id}")
 	@ResponseBody
 	public String showSensitiveById(@PathVariable("id")int id){
@@ -49,6 +52,7 @@ public class SensitiveAdminController {
 		return 1;
 	}
 	
+	@adminLog
 	@PostMapping("post/sensitive")
 	@ResponseBody
 	public void addSensitive(Sensitive sensitive){

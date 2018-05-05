@@ -34,8 +34,9 @@
   </div>
   <br>
   <button type="submit" class="btn btn-primary">登录</button>
+    ${failMsg }
 </form>
-  
+
 
 </body>
 </html>

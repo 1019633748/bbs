@@ -40,5 +40,6 @@ public interface ReplyMapper {
     
     int getFollor(@Param("postId")int postId,@Param("replyId")int replyId);
     
-    List<Map> getReplyCreate();
+    @SuppressWarnings("rawtypes")
+	List<Map> getReplyCreate();
 }

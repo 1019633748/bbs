@@ -18,4 +18,6 @@ public interface TopMapper {
     int findTop(@Param("replyId")int replyId);
     
     int findDown(@Param("replyId")int replyId);
+    
+    int deleteByUserIdAndReplyId(@Param("userId")int userId,@Param("replyId")int replyId);
 }

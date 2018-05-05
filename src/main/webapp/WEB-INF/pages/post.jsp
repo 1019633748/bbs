@@ -59,7 +59,7 @@ display:none
 	padding-top:10px
 }
 
-.top, .down, .reply-span, .click-span {
+.top, .down, .reply-span, .click-span,.thumb {
 	cursor: pointer;
 	user-select: none;
 }
@@ -101,9 +101,29 @@ display:none
 				<p>${item.reply}</p>
 				<div class="reply-bottom">
 					<div class="floor">
-						#${item.no }&emsp;<span class="click-span glyphicon glyphicon-thumbs-up"
-							onclick="clickUp(${item.id},this)"></span>&nbsp;<span>${item.top }</span>&nbsp;<span
-							class="click-span glyphicon glyphicon-thumbs-down" onclick="clickDown(${item.id},this)"></span>
+						#${item.no }&emsp;
+						<c:choose>
+						
+							<c:when test="${item.topOrDown == 0 }">
+							<span class="thumb"
+								onclick="clickUp(${item.id},this)">已顶</span>&nbsp;<span>${item.top }</span>&nbsp;<span
+								class="thumb" onclick="clickDown(${item.id},this)">踩</span>
+							</c:when>
+							
+							<c:when test="${item.topOrDown == 1 }">
+							<span class="thumb" 
+								onclick="clickUp(${item.id},this)">顶</span>&nbsp;<span>${item.top }</span>&nbsp;<span
+								class="thumb" onclick="clickDown(${item.id},this)">已踩</span>
+							</c:when>
+							
+							<c:otherwise>
+							<span class="thumb" 
+								onclick="clickUp(${item.id},this)">顶</span>&nbsp;<span>${item.top }</span>&nbsp;<span
+								class="thumb" onclick="clickDown(${item.id},this)">踩</span>
+							</c:otherwise>
+						</c:choose>	
+							
+							
 							&emsp;<a class="report-a" href="/bbs/report/replys/${item.id }/${item.postId}">举报</a>
 					</div>
 					<div class="replier">
@@ -231,7 +251,12 @@ display:none
 			$.post('/bbs/put/top/'+replyId,function success(data){
 			
 					$(obj).next().html(data)
-					
+					if($(obj).html()=="顶"){
+						$(obj).html("已顶")
+						$(obj).next().next().html('踩')
+					}else{
+						$(obj).html("顶")
+					}
 			})
 			
 			}else{
@@ -247,7 +272,12 @@ display:none
 				
 					$(obj).prev().html(data)
 					//$(obj).html("已顶")
-				
+					if($(obj).html()=="踩"){
+						$(obj).html("已踩")
+						$(obj).prev().prev().html('顶')
+					}else{
+						$(obj).html("踩")
+					}
 			})
 			
 			}else{

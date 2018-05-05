@@ -169,11 +169,13 @@ public class UserServiceImpl implements UserService {
 		return user.getNickname();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> getMaleFemaleAmount() {
 		return userMapper.getMaleFemaleAmount();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> getCreateDate() {
 		return userMapper.getCreateDate();

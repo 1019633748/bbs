@@ -1,67 +1,75 @@
 package cn.hxy.bbs.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 
-import cn.hxy.bbs.service.impl.PostServiceImpl;
-import cn.hxy.bbs.service.impl.ReplyServiceImpl;
+import cn.hxy.bbs.dto.SectionSize;
+import cn.hxy.bbs.dto.TableData;
+import cn.hxy.bbs.log.adminLog;
+import cn.hxy.bbs.model.Section;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
 
 @Controller
 public class SectionController {
-	@Autowired
-	private PostServiceImpl postService;
+	
 	
 	@Autowired
 	private SectionServiceImpl sectionService;
 	
-	@Autowired
-	private ReplyServiceImpl replyService;
-	
-	@GetMapping("get/posts/{id}")
-	public String getPostsById(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,Model model){
-		model.addAttribute("section",sectionService.getSectionByPostId(id));
-		model.addAttribute("post", postService.getPostById(id));
-		PageHelper.startPage(pageNum, pageSize);
-		model.addAttribute("reply", replyService.getReplyDetailByPostId(id));
-		int total = replyService.getReplyDetailByPostId(id).size();
-		model.addAttribute("total",total );
-		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
-		model.addAttribute("pageNum", pageNum);
-		return "post";
-	}
-	
-	@GetMapping("get/advices/{id}")
-	public String getAdviceById(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,Model model){
-		model.addAttribute("section",sectionService.getSectionByPostId(id));
-		model.addAttribute("post", postService.getPostById(id));
-		PageHelper.startPage(pageNum, pageSize);
-		model.addAttribute("reply", replyService.getReplyDetailByPostId(id));
-		int total = replyService.getReplyDetailByPostId(id).size();
-		model.addAttribute("total",total );
-		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
-		model.addAttribute("pageNum", pageNum);
-		return "post";
-	}
-	
-	@GetMapping("get/posts/{id}/{replyId}")
-	public String getPostsbyReplyId(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,@PathVariable("replyId")int replyId,Model model){
-		model.addAttribute("section",sectionService.getSectionByPostId(id));
-		model.addAttribute("post", postService.getPostById(id));
-		int pageIndex = (int) Math.ceil((double)replyService.getFollor(id, replyId)/pageSize);
+	//管理版块
+	@PostMapping("get/admin/section")
+	@ResponseBody
+	public TableData<SectionSize> adminSection(int pageSize,int pageIndex,String param){
+		TableData<SectionSize> tableData = new TableData<SectionSize>();
 		PageHelper.startPage(pageIndex, pageSize);
-		model.addAttribute("reply", replyService.getReplyDetailByPostId(id));
-		int total = replyService.getReplyDetailByPostId(id).size();
-		model.addAttribute("total",total );
-		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
-		model.addAttribute("pageNum", pageIndex);
-		return "post";
+		tableData.setRows(sectionService.getAdminSectionByParam(param));
+		tableData.setTotal(sectionService.getAdminSectionByParam(param).size());
+		return tableData;
 	}
-
+	
+	@adminLog
+	@PostMapping("hide/sections/{id}")
+	@ResponseBody
+	public String hideSectionById(@PathVariable("id")int id){
+		sectionService.hideSectionById(id,1);
+		return null;
+	}
+	
+	@adminLog
+	@PostMapping("show/sections/{id}")
+	@ResponseBody
+	public String showSectionById(@PathVariable("id")int id){
+		sectionService.hideSectionById(id,0);
+		return null;
+	}
+	
+	@PostMapping("verify/section/{section}")
+	@ResponseBody
+	public int verifySection(@PathVariable("section")String section){
+		if(sectionService.getSectionByName(section)==null){
+			return 0;
+		}
+		return 1;
+	}
+	
+	@adminLog
+	@PostMapping("post/section")
+	@ResponseBody
+	public void addSection(Section section){
+		sectionService.addSection(section.getSection());
+	}
+	
+	//版块列表
+	@PostMapping("get/sections")
+	@ResponseBody
+	public List<SectionSize> getSections(){
+		return sectionService.findAllSection();
+	}
 }
