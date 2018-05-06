@@ -54,4 +54,6 @@ public interface UserService {
 	
 	@SuppressWarnings("rawtypes")
 	List<Map> getCreateDate();
+	
+	int getEmail(String email);
 }

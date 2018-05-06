@@ -16,18 +16,18 @@ import cn.hxy.bbs.service.impl.TopServiceImpl;
 public class TopController {
 	@Autowired
 	private TopServiceImpl topService;
-	
-	//¶¥²È
+
+	// ¶¥²È
 	@PostMapping("put/top/{replyId}")
 	@ResponseBody
-	public int clickTop(@PathVariable("replyId")int replyId,HttpSession session) {
+	public int clickTop(@PathVariable("replyId") int replyId, HttpSession session) {
 		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
 		return topService.clickTop(user.getId(), replyId);
 	}
-	
+
 	@PostMapping("put/down/{replyId}")
 	@ResponseBody
-	public int clickDown(@PathVariable("replyId")int replyId,HttpSession session) {
+	public int clickDown(@PathVariable("replyId") int replyId, HttpSession session) {
 		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
 		return topService.clickDown(user.getId(), replyId);
 	}

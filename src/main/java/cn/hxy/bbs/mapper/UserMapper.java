@@ -36,6 +36,8 @@ public interface UserMapper {
 	int hideUserById(@Param("id") int id, @Param("status") int status);
 
 	User getUserByName(@Param("name") String name);
+	
+	int getEmail(@Param("email")String email);
 
 	// Personal
 	UserDetail getUserDetailByUserId(@Param("userId") int userId);

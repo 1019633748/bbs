@@ -40,30 +40,32 @@ public class ReplyController {
 	private TopServiceImpl topService;
 	@Autowired
 	private PostServiceImpl postService;
-	
+
 	//
 	@GetMapping("get/posts/{id}/{replyId}")
-	public String getPostsbyReplyId(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,@PathVariable("replyId")int replyId,Model model,HttpSession session){
+	public String getPostsbyReplyId(@PathVariable("id") int id, @RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "5") int pageSize, @PathVariable("replyId") int replyId, Model model,
+			HttpSession session) {
 		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
-		model.addAttribute("section",sectionService.getSectionByPostId(id));
+		model.addAttribute("section", sectionService.getSectionByPostId(id));
 		model.addAttribute("post", postService.getPostById(id));
-		int pageIndex = (int) Math.ceil((double)replyService.getFollor(id, replyId)/pageSize);
+		int pageIndex = (int) Math.ceil((double) replyService.getFollor(id, replyId) / pageSize);
 		PageHelper.startPage(pageIndex, pageSize);
 		List<ReplyDetail> replyDetails = replyService.getReplyDetailByPostId(id);
-		if(user != null){
-			for(ReplyDetail replyDetail:replyDetails){
-				replyDetail.setTopOrDown(topService.getStatus(user.getId(), replyDetail.getId())+"");
+		if (user != null) {
+			for (ReplyDetail replyDetail : replyDetails) {
+				replyDetail.setTopOrDown(topService.getStatus(user.getId(), replyDetail.getId()) + "");
 			}
 		}
 		model.addAttribute("reply", replyDetails);
-		
+
 		int total = replyService.getReplyDetailByPostId(id).size();
-		model.addAttribute("total",total );
-		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
+		model.addAttribute("total", total);
+		model.addAttribute("totalPage", (int) Math.ceil((double) total / pageSize));
 		model.addAttribute("pageNum", pageIndex);
 		return "post";
 	}
-	
+
 	// 回复
 	@PostMapping("post/reply")
 	@ResponseBody
@@ -84,39 +86,39 @@ public class ReplyController {
 		td.setTotal(replyService.getReplyByUserId(userId, param).size());
 		return td;
 	}
-	
-	//chart
+
+	// chart
 	@SuppressWarnings("rawtypes")
 	@PostMapping("get/reply/create")
 	@ResponseBody
-	public List<Map> getReplyCreateDate(){
+	public List<Map> getReplyCreateDate() {
 		return replyService.getReplyCreate();
 	}
-	
-	//管理
+
+	// 管理
 	@PostMapping("get/admin/reply")
 	@ResponseBody
-	public  TableData<ReplyDetail> getReplydetail(int pageSize,int pageIndex,String param){
+	public TableData<ReplyDetail> getReplydetail(int pageSize, int pageIndex, String param) {
 		TableData<ReplyDetail> tableData = new TableData<ReplyDetail>();
 		PageHelper.startPage(pageIndex, pageSize);
 		tableData.setRows(replyService.getReplyDetailByName(param));
 		tableData.setTotal(replyService.getReplyDetailByName(param).size());
 		return tableData;
 	}
-	
+
 	@adminLog
 	@PostMapping("hide/replys/{id}")
 	@ResponseBody
-	public String hideReplyById(@PathVariable("id")int id){
-		replyService.hideReplyById(id,1);
+	public String hideReplyById(@PathVariable("id") int id) {
+		replyService.hideReplyById(id, 1);
 		return null;
 	}
-	
+
 	@adminLog
 	@PostMapping("show/replys/{id}")
 	@ResponseBody
-	public String showReplyById(@PathVariable("id")int id){
-		replyService.hideReplyById(id,0);
+	public String showReplyById(@PathVariable("id") int id) {
+		replyService.hideReplyById(id, 0);
 		return null;
 	}
 }

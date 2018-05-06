@@ -16,35 +16,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageHelper;
 
+import cn.hxy.bbs.model.User;
 import cn.hxy.bbs.service.impl.PostServiceImpl;
 import cn.hxy.bbs.service.impl.ReplyServiceImpl;
 import cn.hxy.bbs.service.impl.SectionServiceImpl;
 
 @Controller
 public class HomeController {
-	
-	
+
 	@Autowired
 	private SectionServiceImpl sectionService;
-	
+
 	@Autowired
 	private PostServiceImpl postService;
-	
+
 	@Autowired
 	private ReplyServiceImpl replyService;
 	// 跳转主页
-	
+
 	@GetMapping("get/home")
 	public String toHomePage(Model model) {
-		model.addAttribute("sectionSize",sectionService.findAllSection());
+		model.addAttribute("sectionSize", sectionService.findAllSection());
 		PageHelper.startPage(0, 5);
 		model.addAttribute("hotpost", postService.findHotPost());
-		model.addAttribute("advice",replyService.getAdviceByName(""));
+		model.addAttribute("advice", replyService.getAdviceByName(""));
 		PageHelper.startPage(0, 5);
-		model.addAttribute("hotReply",replyService.findHotReply());
+		model.addAttribute("hotReply", replyService.findHotReply());
 		return "home";
 	}
-	
+
 	// 跳转登录页面
 	@GetMapping("get/login")
 	public String toLoginPage() {
@@ -69,7 +69,7 @@ public class HomeController {
 		return "post";
 	}
 
-	//退出登录
+	// 退出登录
 	@GetMapping("logout")
 	public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Subject subject = SecurityUtils.getSubject();
@@ -81,26 +81,27 @@ public class HomeController {
 		}
 		response.sendRedirect("/bbs/get/home");
 	}
-	
-	//进入某板块
+
+	// 进入某板块
 	@GetMapping("get/sections/{id}")
-	public String getSectionById(@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="10")int pageSize,@PathVariable("id")int id,Model model){
-		model.addAttribute("section",sectionService.getSectionById(id));
+	public String getSectionById(@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "10") int pageSize, @PathVariable("id") int id, Model model) {
+		model.addAttribute("section", sectionService.getSectionById(id));
 		PageHelper.startPage(pageNum, pageSize);
-		model.addAttribute("post",postService.getPostDetailBySectionId(id));
+		model.addAttribute("post", postService.getPostDetailBySectionId(id));
 		model.addAttribute("hot", postService.getHotPostDetailBySectionId(id));
 		model.addAttribute("last", postService.getLastPostDetailBySectionId(id));
-		model.addAttribute("total",postService.getPostDetailBySectionId(id).size());
+		model.addAttribute("total", postService.getPostDetailBySectionId(id).size());
 		int pageSizes = postService.getPostDetailBySectionId(id).size();
-		model.addAttribute("totalPage",(int)Math.ceil((double)pageSizes/pageSize) );
+		model.addAttribute("totalPage", (int) Math.ceil((double) pageSizes / pageSize));
 		model.addAttribute("pageNum", pageNum);
 		return "post_list";
 	}
-	
-	//进入搜索界面
+
+	// 进入搜索界面
 	@GetMapping("get/search")
-	public String toSearchPage(){
+	public String toSearchPage() {
 		return "search";
 	}
-	
+
 }

@@ -27,13 +27,13 @@ public class AvatarController {
 		td.setTotal(avatarService.findAll().size());
 		return td;
 	}
-	
+
 	@adminLog
 	@PostMapping("hide/avatars/{id}")
 	@ResponseBody
-	public String hideAvatarById(@PathVariable("id")int id){
+	public String hideAvatarById(@PathVariable("id") int id) {
 		avatarService.banAvatarById(id);
 		return null;
 	}
-	
+
 }

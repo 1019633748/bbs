@@ -33,13 +33,14 @@
 				/user/get/users/**=authc
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
-				<!-- /get/admin/**=roles[管理员]
+				/get/bg=roles[管理员]
+				/get/admin/**=roles[管理员]
 				/hide/**=roles[管理员]
 				/show/**=roles[管理员]
 				/get/audit/**=roles[管理员]
 				/**/advice=roles[管理员]
-				/admin/**=roles[管理员] -->
-				/user/teacher*/**=perms["user:create"]
+				/admin/**=roles[管理员]
+				<!-- /user/teacher*/**=perms["user:create"] -->
 			</value>
 		</property>
 	</bean>

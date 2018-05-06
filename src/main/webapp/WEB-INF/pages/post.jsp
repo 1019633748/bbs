@@ -82,7 +82,7 @@ display:none
 			<img class="img-circle logined"
 				src="/images/avatar/${bbs.url}"> <span id="username"
 				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
-				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
+				href="/bbs/get/login" target="_blank">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
 	</nav>
@@ -207,7 +207,7 @@ display:none
 				}
 				scrollToEnd()
 			}else{
-				alert("Plz login")
+				alert("请登录")
 			}
 		}
 		
@@ -260,7 +260,7 @@ display:none
 			})
 			
 			}else{
-				alert("Plz login")
+				alert("请登录")
 			}
 		}
 		
@@ -281,7 +281,7 @@ display:none
 			})
 			
 			}else{
-				alert("Plz login")
+				alert("请登录")
 			}
 		}
 		$('.report-a').click(function(){

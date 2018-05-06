@@ -80,6 +80,13 @@
 		from t_user
 		where nickname = #{name}
 	</select>
+	
+	<select id="getEmail" resultType="int">
+		select
+	 	count(email)
+		from t_user
+		where email = #{email}
+	</select>
 
 	<select id="getFollowListByUserId" resultType="cn.hxy.bbs.dto.UserDetail">
 		SELECT

@@ -44,42 +44,43 @@ public class PostController {
 	private SectionServiceImpl sectionService;
 	@Autowired
 	private TopServiceImpl topService;
-	
+
 	//
 	@GetMapping("get/posts/{id}")
-	public String getPostsById(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,Model model,HttpSession session){
-		model.addAttribute("section",sectionService.getSectionByPostId(id));
+	public String getPostsById(@PathVariable("id") int id, @RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "5") int pageSize, Model model, HttpSession session) {
+		model.addAttribute("section", sectionService.getSectionByPostId(id));
 		model.addAttribute("post", postService.getPostById(id));
 		PageHelper.startPage(pageNum, pageSize);
 		User user = (User) session.getAttribute(UserRealm.SESSION_USER_KEY);
 		List<ReplyDetail> replyDetails = replyService.getReplyDetailByPostId(id);
-		if(user != null){
-			for(ReplyDetail replyDetail:replyDetails){
-				replyDetail.setTopOrDown(topService.getStatus(user.getId(), replyDetail.getId())+"");
+		if (user != null) {
+			for (ReplyDetail replyDetail : replyDetails) {
+				replyDetail.setTopOrDown(topService.getStatus(user.getId(), replyDetail.getId()) + "");
 			}
 		}
 		model.addAttribute("reply", replyDetails);
 		int total = replyService.getReplyDetailByPostId(id).size();
-		model.addAttribute("total",total );
-		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
+		model.addAttribute("total", total);
+		model.addAttribute("totalPage", (int) Math.ceil((double) total / pageSize));
 		model.addAttribute("pageNum", pageNum);
 		return "post";
 	}
-	
+
 	@GetMapping("get/advices/{id}")
-	public String getAdviceById(@PathVariable("id")int id,@RequestParam(defaultValue="1")int pageNum,@RequestParam(defaultValue="5")int pageSize,Model model){
-		model.addAttribute("section",sectionService.getSectionByPostId(id));
+	public String getAdviceById(@PathVariable("id") int id, @RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "5") int pageSize, Model model) {
+		model.addAttribute("section", sectionService.getSectionByPostId(id));
 		model.addAttribute("post", postService.getPostById(id));
 		PageHelper.startPage(pageNum, pageSize);
 		model.addAttribute("reply", replyService.getReplyDetailByPostId(id));
 		int total = replyService.getReplyDetailByPostId(id).size();
-		model.addAttribute("total",total );
-		model.addAttribute("totalPage",(int)Math.ceil((double)total/pageSize) );
+		model.addAttribute("total", total);
+		model.addAttribute("totalPage", (int) Math.ceil((double) total / pageSize));
 		model.addAttribute("pageNum", pageNum);
 		return "post";
 	}
-	
-	
+
 	// 发帖
 	@PostMapping("post/post")
 	@ResponseBody
@@ -98,7 +99,7 @@ public class PostController {
 	}
 
 	// 管理帖子
-	
+
 	@PostMapping("get/admin/post")
 	@ResponseBody
 	public TableData<PostDetail> getPostdetail(int pageSize, int pageIndex, String param) {
@@ -108,7 +109,7 @@ public class PostController {
 		tableData.setTotal(postService.getAdminPostDetailByName(param).size());
 		return tableData;
 	}
-	
+
 	@adminLog
 	@PostMapping("hide/posts/{id}")
 	@ResponseBody
@@ -116,7 +117,7 @@ public class PostController {
 		postService.hidePostById(id, 1);
 		return null;
 	}
-	
+
 	@adminLog
 	@PostMapping("show/posts/{id}")
 	@ResponseBody
@@ -136,12 +137,12 @@ public class PostController {
 		td.setTotal(postService.getPostByUserId(userId, param).size());
 		return td;
 	}
-	
-	//chart
+
+	// chart
 	@SuppressWarnings("rawtypes")
 	@PostMapping("get/post/create")
 	@ResponseBody
-	public List<Map> getPostCreateDate(){
+	public List<Map> getPostCreateDate() {
 		return postService.getPostCreate();
 	}
 
@@ -154,51 +155,49 @@ public class PostController {
 	public void replyBinder(WebDataBinder wenDataBinder) {
 		wenDataBinder.setFieldDefaultPrefix("reply.");
 	}
-	
-	//管理通知
+
+	// 管理通知
 	@GetMapping("get/advice")
 	public String toAdvice() {
 		return "post_advice";
 	}
-	
+
 	@adminLog
 	@PostMapping("post/advice")
 	@ResponseBody
-	public String postAdvice(Post post,Reply reply,HttpSession session){
+	public String postAdvice(Post post, Reply reply, HttpSession session) {
 		postService.addAdviceTitle(post, session);
-		if(post.getId()>0){
+		if (post.getId() > 0) {
 			replyService.addAdviceContent(reply, post.getId(), session);
-		}else{
+		} else {
 			return "FAIL";
 		}
 		return "SUC";
 	}
-	
 
-	
 	@PostMapping("get/admin/advice")
 	@ResponseBody
-	public TableData<ReplyDetail> getAdvice(int pageSize,int pageIndex,String param){
+	public TableData<ReplyDetail> getAdvice(int pageSize, int pageIndex, String param) {
 		TableData<ReplyDetail> td = new TableData<ReplyDetail>();
 		PageHelper.startPage(pageIndex, pageSize);
 		td.setRows(replyService.getAdviceByName(param));
 		td.setTotal(replyService.getAdviceByName(param).size());
 		return td;
 	}
-	
+
 	@adminLog
 	@PostMapping("hide/advices/{id}")
 	@ResponseBody
-	public String hideAdviceById(@PathVariable("id")int id){
-		replyService.hideReplyById(id,8);
+	public String hideAdviceById(@PathVariable("id") int id) {
+		replyService.hideReplyById(id, 8);
 		return null;
 	}
-	
+
 	@adminLog
 	@PostMapping("show/advices/{id}")
 	@ResponseBody
-	public String showReplyById(@PathVariable("id")int id){
-		replyService.hideReplyById(id,9);
+	public String showReplyById(@PathVariable("id") int id) {
+		replyService.hideReplyById(id, 9);
 		return null;
 	}
 }

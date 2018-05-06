@@ -21,13 +21,14 @@
  <body>
    <form action="/bbs/login" method="post">
     <h3 align="center">论坛登录</h3>
+    ${newUser }
   <div class="form-group">
     <label for="exampleInputEmail1">用户名</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" name="nickname" placeholder="用户名">
+    <input type="text" maxlength="20" class="form-control" id="exampleInputEmail1" name="nickname" placeholder="用户名">
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">密码</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="输入密码">
+    <input type="password" maxlength="20" class="form-control" id="exampleInputPassword1" name="password" placeholder="输入密码">
   </div>
   <div class="form-check">
     <a href="/bbs/get/register">注册</a>丨<a href="/bbs/alter/password">忘记密码</a>

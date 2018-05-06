@@ -67,7 +67,7 @@
 			<img class="img-circle logined"
 				src="/images/avatar/${bbs.url}"> <span id="username"
 				class="logined"><a href="/bbs/get/users/${bbs.id }">${bbs.nickname }</a></span> <a class="logout"
-				href="/bbs/get/login">登录</a><a class="logined" href="/bbs/logout">退出</a>
+				href="/bbs/get/login" target="_blank">登录</a><a class="logined" href="/bbs/logout">退出</a>
 		</div>
 	</div>
 	</nav>
@@ -77,10 +77,10 @@
 			<label class="input-group-text" for="inputGroupSelect01">版块</label>
 		</div>
 		<select name="sectionId" class="form-control" id="inputGroupSelect01">
-			<option selected>选择版块...</option>
+			<option value="0" selected>选择版块...</option>
 		</select>
 		
-			<input type="text" class="form-control" id="post-input"
+			<input type="text" class="form-control" id="post-input" maxlength="20"
 				placeholder="标题">
 		
 	</div>
@@ -124,16 +124,27 @@
 
 		$('#submit_btn').click(
 				function() {
-					var data = "post.sectionId=" + $('select').val()
-							+ "&post.post=" + $('#post-input').val()
-							+ "&reply.reply=" + $('.w-e-text').html()
-					$.post('/bbs/post/post', data, function(data) {
-						if (data == "SUC") {
-							alert("发帖成功")
-						} else {
-							alert("发帖失败")
-						}
-					})
+					if($('#inputGroupSelect01').val()==0){
+						alert("请选择版块")
+					}else if($('#post-input').val().length==0){
+						alert("请输入标题")
+					}else if( $('.w-e-text').html().length>20000){
+						alert("输入内容过多")
+					}
+					else{
+						var data = "post.sectionId=" + $('select').val()
+						+ "&post.post=" + $('#post-input').val()
+						+ "&reply.reply=" + $('.w-e-text').html()
+				$.post('/bbs/post/post', data, function(data) {
+					if (data == "SUC") {
+						alert("发帖成功")
+					} else {
+						alert("发帖失败")
+					}
+				})
+					}
+					
+					
 				})
 	</script>
 

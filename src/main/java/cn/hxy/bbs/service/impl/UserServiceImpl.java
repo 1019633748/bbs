@@ -180,4 +180,9 @@ public class UserServiceImpl implements UserService {
 	public List<Map> getCreateDate() {
 		return userMapper.getCreateDate();
 	}
+
+	@Override
+	public int getEmail(String email) {
+		return userMapper.getEmail(email);
+	}
 }
